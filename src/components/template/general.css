@@ -1,0 +1,21 @@
+.container {
+    margin-top: 60px;
+  }
+  
+  .App {
+    font-family: sans-serif;
+  }
+  
+  body {
+    background: url("doctor-asm.png") top center;
+    background-attachment: fixed;
+  }
+  
+  .navbar {
+    background: #3badee !important;
+  }
+  
+  .navbar-text {
+    color: white !important;
+  }
+  
