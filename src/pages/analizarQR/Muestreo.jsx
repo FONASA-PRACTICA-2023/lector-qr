@@ -173,7 +173,7 @@ const limpiarDatos = () => {
               }}
             >
               <i className="bi bi-phone-flip"></i>
-              GIRAR
+              GIRARrrrrrrrrrrr
             </button>
           </div>
         </div>
@@ -222,11 +222,10 @@ const limpiarDatos = () => {
           </>
         )}
 
-        <div className="card text-white">
-          <div className="card-header" style={{color: 'black'}}>Procesamiento</div>
+        <div className="card bg-dark">
+          <div className="card-header">Resultados</div>
           <div className="card-body">
-            <h5  style={{color: 'black'}}>Resultados</h5>
-            <table class="table text-light">
+            <table class="table table-dark table-striped">
                   <thead>
                     <tr>
                       <th scope="col"></th>
@@ -235,7 +234,7 @@ const limpiarDatos = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr style={{color: 'black'}}>
+                    <tr >
                       <th scope="row">Nombre: {datosPersonales.nombreCotizante}</th>
                       <th scope="row">Rut: {datosPersonales.rutCotizante}</th>
                       <th scope="row">Ciudad: {datosPersonales.glosaComuna}</th>
