@@ -77,39 +77,6 @@ const limpiarDatos = () => {
     }
   };
 
-  // Función para tomar una captura de la imagen
-  const tomarCaptura = useCallback(() => {
-    // Obtener el contexto de dibujo del elemento canvas
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-
-    // Obtener los datos de la imagen en formato ImageData
-    const imageData = ctx.getImageData(0, 0, width, height);
-
-    // Detectar el código QR en la imagen
-    const code = detectarCodigoQR(imageData, width);
-
-    if (code) {
-      console.log(code.data);
-    } else {
-      console.log("No se ha detectado ningún código QR.");
-    }
-  }, []);
-
-  // Referencia al elemento del video
-  const videoEl = useRef(null)
-
-
-  const cambiarCamara = () => {
-    if (camara === "TRASERA") {
-      setCamara("FRONTAL");
-      setModo(videoConstraintsFrontal);
-    } else {
-      setCamara("TRASERA");
-      setModo(videoConstraintsTrasera);
-    }
-  };
-
   let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5vbWJyZSI6Ik1pZ3VlbCBIZXJuXHUwMGUxbmRleiBHb256XHUwMGUxbGV6IiwicnVuIjoiTkEiLCJtYWlsIjoibWlndWVsLmhlcm5hbmRlekBmb25hc2EuZ292LmNsIiwidXNlcm5hbWUiOiJtaWd1ZWwuaGVybmFuZGV6IiwidGlwb191c3VhcmlvIjoiTkEiLCJydXRfcHJlc3RhZG9yIjoiIiwiaW5zdGl0dWNpb24iOiIiLCJyb2xlcyI6W119LCJpYXQiOjE2NzIzMjc0NjAsImV4cCI6MTY3MjMzMTA2MCwiaXNzIjoiRm9uZG8gTmFjaW9uYWwgZGUgU2FsdWQifQ.WKq6_MvycrMMd_I3gyvkjW0JeNV52IBEbIdaD2Kb5vA"
 
   // Estados para obtener la ubicación actual del dispositivo
@@ -197,7 +164,7 @@ const limpiarDatos = () => {
                 videoConstraints={modo}
                 autoFocus = {true}
                 focusDistance = {10}
-                zoom={3}
+                zoom={4}
                 
               ></Webcam>
               
