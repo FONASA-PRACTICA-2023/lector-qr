@@ -58,6 +58,7 @@ const limpiarDatos = () => {
   const [labels, setLabels] = useState([]);
   const [estado, setEstado] = useState("");
   const [datosPersonales, setDatosPersonales] = useState({});
+  const [rutBuscado, setRutBuscado] = useState("");
   // const [showElement, setShowElement] = useState(true);
 
   
@@ -102,6 +103,7 @@ const limpiarDatos = () => {
         setNombreArchivo(response.file_name);
         callDatosPersonales(response.decodificado.rut);
         console.log(response.decodificado.rut);
+        setRutBuscado(response.decodificado.rut);
         setLoading(false);
       })
       .catch(() => {
@@ -141,9 +143,9 @@ const limpiarDatos = () => {
             {!captura && (
               <Webcam
                 audio={false}
-                height={640}
+                
                 screenshotFormat="image/jpeg"
-                width={640}
+                
                 ref={webcamRef}
                 videoConstraints={modo}
               ></Webcam>
@@ -235,8 +237,8 @@ const limpiarDatos = () => {
                   </thead>
                   <tbody>
                     <tr >
-                      <th scope="row">Nombre: {datosPersonales.nombreCotizante}</th>
-                      <th scope="row">Rut: {datosPersonales.rutCotizante}</th>
+                      <th scope="row">Nombre: {datosPersonales.nombres}</th>
+                      <th scope="row">Rut: {rutBuscado}</th>
                       <th scope="row">Ciudad: {datosPersonales.glosaComuna}</th>
                       </tr>
                   </tbody>
