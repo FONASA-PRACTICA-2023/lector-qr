@@ -151,6 +151,7 @@ const limpiarDatos = () => {
                 videoConstraints={modo}
                 autoFocus = {true}
                 focusDistance = {100}
+                zoom={2}
               ></Webcam>
             )}
           </div>
