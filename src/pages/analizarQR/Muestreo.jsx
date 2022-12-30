@@ -59,8 +59,11 @@ const limpiarDatos = () => {
   const [estado, setEstado] = useState("");
   const [datosPersonales, setDatosPersonales] = useState({});
   const [rutBuscado, setRutBuscado] = useState("");
+  // const webcamRef = useRef(null);
+  const [capturas, setCapturas] = useState([]);
+  const [capturando, setCapturando] = useState(false);
   // const [showElement, setShowElement] = useState(true);
-
+  const webcamRef = useRef(null);
   
   
 
@@ -74,7 +77,7 @@ const limpiarDatos = () => {
 
   // Referencia al elemento de la cámara web
 
-  const webcamRef = useRef(null);
+  
 
   // Función para tomar una captura de la imagen mostrada en la cámara web
 
@@ -143,11 +146,11 @@ const limpiarDatos = () => {
             {!captura && (
               <Webcam
                 audio={false}
-                
                 screenshotFormat="image/jpeg"
-                
                 ref={webcamRef}
                 videoConstraints={modo}
+                autoFocus = {true}
+                focusDistance = {100}
               ></Webcam>
             )}
           </div>
