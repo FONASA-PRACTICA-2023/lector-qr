@@ -9,6 +9,7 @@
 import { useState, useRef, useCallback } from "react";
 
 import Webcam from "react-webcam";
+import jsQR from "jsqr";
 
 // Constantes con las configuraciones de video para la cámara trasera y fronta
 
@@ -88,7 +89,9 @@ const limpiarDatos = () => {
     setCaptura(imageSrc);
   }, [webcamRef]);
 
-
+  const detectarQR = (imageData, width) => {
+    return jsQR(imageData, width);
+  };
  // Función para enviar la imagen capturada al servidor para su procesamiento
 
   const callSubirImagen = () => {
@@ -143,6 +146,7 @@ const limpiarDatos = () => {
       <div className="container d-flex justify-content-center">
         <div className="row">
           <div className="col camera d-felx" style={{marginTop :"30px"}}>
+          {/* <canvas width={500} height={500} ref={canvasRef} /> */}
             {!captura && (
               <Webcam
                 audio={false}
@@ -150,9 +154,11 @@ const limpiarDatos = () => {
                 ref={webcamRef}
                 videoConstraints={modo}
                 autoFocus = {true}
-                focusDistance = {50}
-                zoom={2}
+                focusDistance = {30}
+                zoom={1}
+                
               ></Webcam>
+              
             )}
           </div>
         </div>
