@@ -20,8 +20,8 @@ const videoConstraintsTrasera = {
 };
 
 const videoConstraintsFrontal = {
-  width: 500,
-  height: 500,
+  width: 300,
+  height: 300,
   facingMode: "user",
 };
 
