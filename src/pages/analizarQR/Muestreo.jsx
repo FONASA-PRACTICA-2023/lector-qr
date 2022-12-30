@@ -1,6 +1,16 @@
+/**
+
+    En este componente se muestra una captura de video en tiempo real con una cámara web.
+    También se puede tomar una captura de la imagen y enviarla a un servidor para su procesamiento.
+    Además, se puede cambiar entre la cámara trasera y frontal del dispositivo.
+    También se pueden obtener datos personales de una persona a través de su RUT, utilizando una API externa.
+    */
+
 import { useState, useRef, useCallback } from "react";
 
 import Webcam from "react-webcam";
+
+// Constantes con las configuraciones de video para la cámara trasera y fronta
 
 const videoConstraintsTrasera = {
   width: 640,
@@ -9,14 +19,33 @@ const videoConstraintsTrasera = {
 };
 
 const videoConstraintsFrontal = {
-  width: 640,
-  height: 640,
+  width: 500,
+  height: 500,
   facingMode: "user",
 };
+
+
+
+// Componente para mostrar la imagen capturada
 
 const ImagenCapturada = ({ data }) => <img alt="hhh" src={`${data}`} />;
 
 function Muestreo() {
+
+const limpiarDatos = () => {
+  document.getElementById("botnCap").style.display="block";
+  document.getElementById("btnchico").style.display="block";
+  setUsuarios([]);
+  setCaptura("");
+  setLoading(false);
+  setPorcentaje("");
+  setEtiqueta("");
+  setLabels([]);
+  setEstado("");
+  setDatosPersonales({});
+}
+  // Estados para almacenar la información necesaria en el componente
+
   const [usuarios, setUsuarios] = useState([]);
   const [captura, setCaptura] = useState("");
   const [loading, setLoading] = useState(false);
@@ -28,74 +57,74 @@ function Muestreo() {
   const payload = { imagen: captura, file_name: "foto_evaluando.jpg" };
   const [labels, setLabels] = useState([]);
   const [estado, setEstado] = useState("");
+  const [datosPersonales, setDatosPersonales] = useState({});
+  // const [showElement, setShowElement] = useState(true);
 
-  const [latitude, setLatitude] = useState("");
-  const [longitude, setLongitude] = useState("");
-  const [linkMaps, setLinkMaps] = useState("");
+  
+  
+
+  let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5vbWJyZSI6Ik1pZ3VlbCBIZXJuXHUwMGUxbmRleiBHb256XHUwMGUxbGV6IiwicnVuIjoiTkEiLCJtYWlsIjoibWlndWVsLmhlcm5hbmRlekBmb25hc2EuZ292LmNsIiwidXNlcm5hbWUiOiJtaWd1ZWwuaGVybmFuZGV6IiwidGlwb191c3VhcmlvIjoiTkEiLCJydXRfcHJlc3RhZG9yIjoiIiwiaW5zdGl0dWNpb24iOiIiLCJyb2xlcyI6W119LCJpYXQiOjE2NzIzMjc0NjAsImV4cCI6MTY3MjMzMTA2MCwiaXNzIjoiRm9uZG8gTmFjaW9uYWwgZGUgU2FsdWQifQ.WKq6_MvycrMMd_I3gyvkjW0JeNV52IBEbIdaD2Kb5vA"
+
+  // Estados para obtener la ubicación actual del dispositivo
+
+  // const [latitude, setLatitude] = useState("");
+  // const [longitude, setLongitude] = useState("");
+  // const [linkMaps, setLinkMaps] = useState("");
+
+  // Referencia al elemento de la cámara web
 
   const webcamRef = useRef(null);
+
+  // Función para tomar una captura de la imagen mostrada en la cámara web
+
   const capture = useCallback(() => {
+    document.getElementById("botnCap").style.display="none";
+    document.getElementById("btnchico").style.display="none";
     const imageSrc = webcamRef.current.getScreenshot();
     setCaptura(imageSrc);
   }, [webcamRef]);
 
-  const buscarCordenadas = async () => {
-    await navigator.geolocation.getCurrentPosition(function (position) {
-      console.log("Latitude is :", position.coords.latitude);
-      console.log("Longitude is :", position.coords.longitude);
-      setLatitude(position.coords.latitude);
-      setLongitude(position.coords.longitude);
-      setLinkMaps(
-        "https://www.google.com/maps/search/?api=1&query=" +
-          position.coords.latitude +
-          "," +
-          position.coords.longitude
-      );
-      console.log("linkMaps is :", linkMaps);
-    });
-  };
+
+ // Función para enviar la imagen capturada al servidor para su procesamiento
 
   const callSubirImagen = () => {
     setLoading(true);
-    fetch("http://127.0.0.1:5000/recibir-imagen", {
+    fetch("https://api.fonasa.cl/LectorQR/recibir-imagen", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify(payload),
     })
       .then((res) => res.json())
       .then((response) => {
         setNombreArchivo(response.file_name);
-        buscarCordenadas();
-        callDescomponer(response.file_name);
+        callDatosPersonales(response.decodificado.rut);
+        console.log(response.decodificado.rut);
         setLoading(false);
       })
       .catch(() => {
-        console.log("error");
+        console.log("error")
+        window.alert("Imagen no reconocida");
         setLoading(false);
       });
   };
-
-  const callDescomponer = (img_file) => {
+  
+  const callDatosPersonales = (rut) => {
     setLoading(true);
-    let request = { img_file: img_file };
-    console.log("request", request);
-    fetch(process.env.REACT_APP_WS_DESCOMPONER, {
-      method: "POST",
+    let url = "https://api.fonasa.cl/FONASACertificacionTrabajadorREST/"
+    fetch(url + rut, {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
-      },
-      body: JSON.stringify(request),
+        'Authorization': 'Bearer ' + token
+      }
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log({ response });
-        setEstado(response.modelo);
-        setNombreArchivo(response.img_final);
-        setLabels(response.sub_imagenes);
-        setCaptura(response.img_final);
-        buscarCordenadas();
+        console.log({ response});
+        setDatosPersonales(response);
         setLoading(false);
       })
       .catch(() => {
@@ -103,11 +132,12 @@ function Muestreo() {
         setLoading(false);
       });
   };
+  
   return (
     <>
       <div className="container d-flex justify-content-center">
         <div className="row">
-          <div className="col camera d-felx">
+          <div className="col camera d-felx" style={{marginTop :"30px"}}>
             {!captura && (
               <Webcam
                 audio={false}
@@ -125,12 +155,13 @@ function Muestreo() {
       <div className="container">
         <div className="row mb-3">
           <div className="col d-flex justify-content-center">
-            <button className="btn btn-success btn-lg" onClick={capture}>
+            <button className="btn btn-success btn-lg" onClick={capture} id="botnCap">
               <i className="bi bi-camera"></i>
               Capturar
-            </button>{" "}
+            </button>
             <button
               className="btn btn-primary"
+              id="btnchico"
               onClick={() => {
                 if (camara === "TRASERA") {
                   setCamara("FRONTAL");
@@ -142,20 +173,21 @@ function Muestreo() {
               }}
             >
               <i className="bi bi-phone-flip"></i>
+              GIRAR
             </button>
           </div>
         </div>
 
         {captura && (
           <>
-            <div className="row">
-              <div className="col camera d-flex">
+            <div className="row" >
+              <div className="col camera d-flex justify-content-center">
                 <ImagenCapturada data={captura} />
               </div>
             </div>
 
             <div className="row">
-              <div className="col d-flex">
+              <div className="col d-flex justify-content-center" style={{margin:"20px 0"}}>
                 <div
                   className="btn-group "
                   role="group"
@@ -163,9 +195,7 @@ function Muestreo() {
                 >
                   <button
                     className="btn btn-success btn-lg"
-                    onClick={() => {
-                      setCaptura("");
-                    }}
+                    onClick={limpiarDatos} id="botnTomar"
                   >
                     <i className="bi bi-arrow-clockwise"></i>
                     Tomar Otra vez
@@ -193,21 +223,23 @@ function Muestreo() {
         )}
 
         <div className="card text-white">
-          <div className="card-header">Procesamiento</div>
+          <div className="card-header" style={{color: 'black'}}>Procesamiento</div>
           <div className="card-body">
-            <h5 className="card-title">Resultados</h5>
+            <h5  style={{color: 'black'}}>Resultados</h5>
             <table class="table text-light">
                   <thead>
                     <tr>
                       <th scope="col"></th>
                       <th scope="col"></th>
+                      <th scope="col"></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row">xxxxxx</th>
-                      <td>vvvvvv</td>
-                    </tr>
+                    <tr style={{color: 'black'}}>
+                      <th scope="row">Nombre: {datosPersonales.nombreCotizante}</th>
+                      <th scope="row">Rut: {datosPersonales.rutCotizante}</th>
+                      <th scope="row">Ciudad: {datosPersonales.glosaComuna}</th>
+                      </tr>
                   </tbody>
             </table>
           </div>

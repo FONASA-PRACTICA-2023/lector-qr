@@ -3,7 +3,9 @@
   "login": "/login",
   "logout": "/logout",
   "menu": [
+    
     { "label": "Crear Servicio", "path": "/servicio-crear" },
-    { "label": "Ver Servicios", "path": "/" }
+    { "label": "Ver Servicios", "path": "/" },
+    { "label": "LectorQR", "path": "/Muestreo" }
   ]
 }
