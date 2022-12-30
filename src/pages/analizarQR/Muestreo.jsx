@@ -154,7 +154,7 @@ const limpiarDatos = () => {
                 ref={webcamRef}
                 videoConstraints={modo}
                 autoFocus = {true}
-                focusDistance = {30}
+                focusDistance = {10}
                 zoom={1}
                 
               ></Webcam>
