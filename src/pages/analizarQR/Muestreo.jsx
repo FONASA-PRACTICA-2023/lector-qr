@@ -16,7 +16,7 @@ const videoConstraintsFrontal = {
   width: 500,
   height: 500,
   facingMode: "user",
-  // frameRate: 30,
+  frameRate: 30,
 };
 const videoConstraintsTrasera = {
   width: 500,
@@ -34,7 +34,7 @@ const videoConstraintsTrasera = {
 
 const ImagenCapturada = ({ data }) => <img alt="hhh" src={`${data}`} />;
 
-function Muestreo() {
+function                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Muestreo() {
 
 const limpiarDatos = () => {
   document.getElementById("botnCap").style.display="block";
