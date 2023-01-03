@@ -141,6 +141,7 @@ const limpiarDatos = () => {
                 ref={webcamRef}
                 videoConstraints={modo}
                 autoFocus = {true}
+                zoom = {2}
               ></Webcam>
             )}
           </div>
@@ -152,7 +153,7 @@ const limpiarDatos = () => {
           <div className="col d-flex justify-content-center">
             <button className="btn btn-success btn-lg" onClick={capture} id="botnCap">
               <i className="bi bi-camera"></i>
-              Capturarsssssz
+              Capturar
             </button>
             <button
               className="btn btn-primary"
