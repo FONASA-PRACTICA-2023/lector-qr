@@ -76,3 +76,8 @@ max_peticiones_diarias: "",
 fecha_creacion: "",
 fecha_actualizacion: "",
 };
+
+
+
+ yarn global add serve
+  serve -s build

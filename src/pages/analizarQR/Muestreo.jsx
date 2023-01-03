@@ -12,18 +12,21 @@ import Webcam from "react-webcam";
 import jsQR from "jsqr";
 
 // Constantes con las configuraciones de video para la cámara trasera y fronta
-
-const videoConstraintsTrasera = {
-  width: 640,
-  height: 640,
-  facingMode: { exact: "environment" },
-};
-
 const videoConstraintsFrontal = {
-  width: 300,
-  height: 300,
+  width: 500,
+  height: 500,
   facingMode: "user",
+  // frameRate: 30,
 };
+const videoConstraintsTrasera = {
+  width: 500,
+  height: 500,
+  facingMode: { exact: "environment" },
+  focusMode: "continuous",
+  // frameRate: 30,
+};
+
+
 
 
 
@@ -44,6 +47,7 @@ const limpiarDatos = () => {
   setLabels([]);
   setEstado("");
   setDatosPersonales({});
+  setRutBuscado("");
 }
   // Estados para almacenar la información necesaria en el componente
 
@@ -53,54 +57,28 @@ const limpiarDatos = () => {
   const [porcentaje, setPorcentaje] = useState("");
   const [etiqueta, setEtiqueta] = useState("");
   const [camara, setCamara] = useState("TRASERA");
-  const [modo, setModo] = useState(videoConstraintsTrasera);
+  const [modo, setModo] = useState(videoConstraintsFrontal);
   const [nombreArchivo, setNombreArchivo] = useState("");
   const payload = { imagen: captura, file_name: "foto_evaluando.jpg" };
   const [labels, setLabels] = useState([]);
   const [estado, setEstado] = useState("");
   const [datosPersonales, setDatosPersonales] = useState({});
   const [rutBuscado, setRutBuscado] = useState("");
-  // const webcamRef = useRef(null);
-  const [capturas, setCapturas] = useState([]);
-  const [capturando, setCapturando] = useState(false);
-  // const [showElement, setShowElement] = useState(true);
   const webcamRef = useRef(null);
-  
-  
-  const detectarCodigoQR = (imageData, width) => {
-    const code = jsQR(imageData, width);
-
-    if (code) {
-      return code;
-    } else {
-      return null;
-    }
-  };
+  const [datosMadicos, setDatosMedicos] = useState({});
 
   let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5vbWJyZSI6Ik1pZ3VlbCBIZXJuXHUwMGUxbmRleiBHb256XHUwMGUxbGV6IiwicnVuIjoiTkEiLCJtYWlsIjoibWlndWVsLmhlcm5hbmRlekBmb25hc2EuZ292LmNsIiwidXNlcm5hbWUiOiJtaWd1ZWwuaGVybmFuZGV6IiwidGlwb191c3VhcmlvIjoiTkEiLCJydXRfcHJlc3RhZG9yIjoiIiwiaW5zdGl0dWNpb24iOiIiLCJyb2xlcyI6W119LCJpYXQiOjE2NzIzMjc0NjAsImV4cCI6MTY3MjMzMTA2MCwiaXNzIjoiRm9uZG8gTmFjaW9uYWwgZGUgU2FsdWQifQ.WKq6_MvycrMMd_I3gyvkjW0JeNV52IBEbIdaD2Kb5vA"
-
-  // Estados para obtener la ubicación actual del dispositivo
-
-  // const [latitude, setLatitude] = useState("");
-  // const [longitude, setLongitude] = useState("");
-  // const [linkMaps, setLinkMaps] = useState("");
-
-  // Referencia al elemento de la cámara web
-
-  
-
-  // Función para tomar una captura de la imagen mostrada en la cámara web
 
   const capture = useCallback(() => {
     document.getElementById("botnCap").style.display="none";
     document.getElementById("btnchico").style.display="none";
     const imageSrc = webcamRef.current.getScreenshot();
     setCaptura(imageSrc);
+  
   }, [webcamRef]);
 
-  const detectarQR = (imageData, width) => {
-    return jsQR(imageData, width);
-  };
+
+  
  // Función para enviar la imagen capturada al servidor para su procesamiento
 
   const callSubirImagen = () => {
@@ -117,6 +95,7 @@ const limpiarDatos = () => {
       .then((response) => {
         setNombreArchivo(response.file_name);
         callDatosPersonales(response.decodificado.rut);
+        // callDatosMedicos(response.decodificado.rut);
         console.log(response.decodificado.rut);
         setRutBuscado(response.decodificado.rut);
         setLoading(false);
@@ -149,13 +128,12 @@ const limpiarDatos = () => {
         setLoading(false);
       });
   };
-  
+
   return (
     <>
       <div className="container d-flex justify-content-center">
         <div className="row">
           <div className="col camera d-felx" style={{marginTop :"30px"}}>
-          {/* <canvas width={500} height={500} ref={canvasRef} /> */}
             {!captura && (
               <Webcam
                 audio={false}
@@ -163,17 +141,13 @@ const limpiarDatos = () => {
                 ref={webcamRef}
                 videoConstraints={modo}
                 autoFocus = {true}
-                focusDistance = {10}
-                zoom={4}
-                
               ></Webcam>
-              
             )}
           </div>
         </div>
       </div>
 
-      <div className="container">
+      <div className="container d-felx">
         <div className="row mb-3">
           <div className="col d-flex justify-content-center">
             <button className="btn btn-success btn-lg" onClick={capture} id="botnCap">
@@ -194,7 +168,7 @@ const limpiarDatos = () => {
               }}
             >
               <i className="bi bi-phone-flip"></i>
-              GIRARrrrrrrrrrrr
+              GIRAR
             </button>
           </div>
         </div>
@@ -244,7 +218,7 @@ const limpiarDatos = () => {
         )}
 
         <div className="card bg-dark">
-          <div className="card-header">Resultados</div>
+          <div className="card-header" style={{color: "white"}}>Resultados</div>
           <div className="card-body">
             <table class="table table-dark table-striped">
                   <thead>
