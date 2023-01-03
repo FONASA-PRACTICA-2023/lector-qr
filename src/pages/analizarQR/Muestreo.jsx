@@ -16,14 +16,14 @@ const videoConstraintsFrontal = {
   width: 500,
   height: 500,
   facingMode: "user",
-  frameRate: 30,
+  frameRate: 60,
 };
 const videoConstraintsTrasera = {
   width: 500,
   height: 500,
   facingMode: { exact: "environment" },
   focusMode: "continuous",
-  // frameRate: 30,
+  frameRate: 60,
 };
 
 
