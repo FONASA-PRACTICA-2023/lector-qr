@@ -34,29 +34,35 @@ const videoConstraintsTrasera = {
 const ImagenCapturada = ({ data }) => <img alt="hhh" src={`${data}`} />;
 
 function Muestreo() {
+//   const obtenerImagen = () => {
+//     const imagen = webcamRef.current.getScreenshot();
+//     setCaptura(imagen);
+//   }
 
-  const handleScan = (result) => {
-    if (result) {
-      // Obtener la imagen de la cámara web
-      const imagen = webcamRef.current.getScreenshot();
+//   // Función que se encarga de invocar a la función `obtenerImagen` cada 3 segundos
+//   const obtenerImagenCada3Segundos = () => {
+//     setInterval(obtenerImagen, 3000);
+//   }
 
-      // Actualizar el estado de la imagen capturada
-      setCaptura(imagen);
-    }};
+  
 
-  const realizarCaptura = useCallback(() => {
-    // Obtener la imagen de la cámara web
-    const imagen = webcamRef.current.getScreenshot();
+//   // Usamos el hook de efecto de React para ejecutar la función `obtenerImagenCada3Segundos`
+//   // al inicio
+//   useEffect(() => {
+//     obtenerImagenCada3Segundos();
+//   }, []);
 
-    // Actualizar el estado de la imagen capturada
-    setCaptura(imagen);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(realizarCaptura, 5000);
-    return () => clearInterval(interval);
-  }, [realizarCaptura]);
-
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       // Código que se ejecutará cada 3 segundos
+//     }, 3000);
+  
+//     return () => clearInterval(interval);
+//   }, []);
+  
+// const updateCaptura = (newCaptura) => {
+//     setCaptura(newCaptura);
+//   }
 const limpiarDatos = () => {
   document.getElementById("botnCap").style.display="block";
   document.getElementById("btnchico").style.display="block";
@@ -96,6 +102,7 @@ const limpiarDatos = () => {
     document.getElementById("btnchico").style.display="none";
     const imageSrc = webcamRef.current.getScreenshot();
     setCaptura(imageSrc);
+    // updateCaptura(imageSrc);
   
   }, [webcamRef]);
 
