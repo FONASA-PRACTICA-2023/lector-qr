@@ -19,7 +19,10 @@ function AplicacionSnoopy() {
         <Routes>
           <Route element={<LayoutPublico />}>
             <Route path="/login" element={<FormularioLogin />} />
-
+            <Route
+              path="/"
+              element={<Muestreo />}
+            />
             <Route path="/logout" element={<Logout />} />
           </Route>
           <Route element={<LayoutFonasa />}>
@@ -27,10 +30,7 @@ function AplicacionSnoopy() {
               path="/servicio-crear"
               element={<FormularioServicioIntegracion />}
             />
-            <Route
-              path="/muestreo"
-              element={<Muestreo />}
-            />
+            
 
             
             <Route
@@ -45,7 +45,6 @@ function AplicacionSnoopy() {
               path="/registros"
               element={<ListadoServiciosIntegracion />}
             />
-            <Route path="/" element={<ListadoServiciosIntegracion />} />
           </Route>
 
           <Route path="*" element={() => "404 Not Found"} />

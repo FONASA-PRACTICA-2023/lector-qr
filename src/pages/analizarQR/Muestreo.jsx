@@ -6,10 +6,10 @@
     También se pueden obtener datos personales de una persona a través de su RUT, utilizando una API externa.
     */
 
-import { useState, useRef, useCallback } from "react";
-
+import { useState, useRef, useCallback,useEffect } from "react";
+import {Container, Card, CardContent, makeStyles, Grid, TextField, Button} from '@material-ui/core';
 import Webcam from "react-webcam";
-import jsQR from "jsqr";
+
 
 // Constantes con las configuraciones de video para la cámara trasera y fronta
 const videoConstraintsFrontal = {
@@ -29,12 +29,33 @@ const videoConstraintsTrasera = {
 
 
 
-
 // Componente para mostrar la imagen capturada
 
 const ImagenCapturada = ({ data }) => <img alt="hhh" src={`${data}`} />;
 
-function                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Muestreo() {
+function Muestreo() {
+
+  const handleScan = (result) => {
+    if (result) {
+      // Obtener la imagen de la cámara web
+      const imagen = webcamRef.current.getScreenshot();
+
+      // Actualizar el estado de la imagen capturada
+      setCaptura(imagen);
+    }};
+
+  const realizarCaptura = useCallback(() => {
+    // Obtener la imagen de la cámara web
+    const imagen = webcamRef.current.getScreenshot();
+
+    // Actualizar el estado de la imagen capturada
+    setCaptura(imagen);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(realizarCaptura, 3000);
+    return () => clearInterval(interval);
+  }, [realizarCaptura]);
 
 const limpiarDatos = () => {
   document.getElementById("botnCap").style.display="block";
@@ -66,6 +87,7 @@ const limpiarDatos = () => {
   const [rutBuscado, setRutBuscado] = useState("");
   const webcamRef = useRef(null);
   const [datosMadicos, setDatosMedicos] = useState({});
+  const qrRef = useRef(null);
 
   let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5vbWJyZSI6Ik1pZ3VlbCBIZXJuXHUwMGUxbmRleiBHb256XHUwMGUxbGV6IiwicnVuIjoiTkEiLCJtYWlsIjoibWlndWVsLmhlcm5hbmRlekBmb25hc2EuZ292LmNsIiwidXNlcm5hbWUiOiJtaWd1ZWwuaGVybmFuZGV6IiwidGlwb191c3VhcmlvIjoiTkEiLCJydXRfcHJlc3RhZG9yIjoiIiwiaW5zdGl0dWNpb24iOiIiLCJyb2xlcyI6W119LCJpYXQiOjE2NzIzMjc0NjAsImV4cCI6MTY3MjMzMTA2MCwiaXNzIjoiRm9uZG8gTmFjaW9uYWwgZGUgU2FsdWQifQ.WKq6_MvycrMMd_I3gyvkjW0JeNV52IBEbIdaD2Kb5vA"
 
@@ -77,7 +99,7 @@ const limpiarDatos = () => {
   
   }, [webcamRef]);
 
-
+  
   
  // Función para enviar la imagen capturada al servidor para su procesamiento
 
@@ -134,6 +156,7 @@ const limpiarDatos = () => {
       <div className="container d-flex justify-content-center">
         <div className="row">
           <div className="col camera d-felx" style={{marginTop :"30px"}}>
+          <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
             {!captura && (
               <Webcam
                 audio={false}
@@ -144,6 +167,7 @@ const limpiarDatos = () => {
                 zoom = {2}
               ></Webcam>
             )}
+            </Grid>
           </div>
         </div>
       </div>
