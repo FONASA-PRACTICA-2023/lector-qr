@@ -53,7 +53,7 @@ function Muestreo() {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(realizarCaptura, 3000);
+    const interval = setInterval(realizarCaptura, 5000);
     return () => clearInterval(interval);
   }, [realizarCaptura]);
 
@@ -78,7 +78,7 @@ const limpiarDatos = () => {
   const [porcentaje, setPorcentaje] = useState("");
   const [etiqueta, setEtiqueta] = useState("");
   const [camara, setCamara] = useState("TRASERA");
-  const [modo, setModo] = useState(videoConstraintsFrontal);
+  const [modo, setModo] = useState(videoConstraintsTrasera);
   const [nombreArchivo, setNombreArchivo] = useState("");
   const payload = { imagen: captura, file_name: "foto_evaluando.jpg" };
   const [labels, setLabels] = useState([]);
@@ -164,7 +164,7 @@ const limpiarDatos = () => {
                 ref={webcamRef}
                 videoConstraints={modo}
                 autoFocus = {true}
-                zoom = {2}
+                zoom = {8}
               ></Webcam>
             )}
             </Grid>
