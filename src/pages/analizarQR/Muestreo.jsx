@@ -152,7 +152,7 @@ const limpiarDatos = () => {
           <div className="col d-flex justify-content-center">
             <button className="btn btn-success btn-lg" onClick={capture} id="botnCap">
               <i className="bi bi-camera"></i>
-              Capturar
+              Capturarsssss
             </button>
             <button
               className="btn btn-primary"
