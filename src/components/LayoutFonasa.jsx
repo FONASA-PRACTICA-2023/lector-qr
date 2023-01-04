@@ -18,7 +18,7 @@ function LayoutFonasa() {
     <>
       <MenuSuperior user={usuario_jwt()} />
 
-      <main className="container h-100">{outlet}</main>
+      <main className="container h-100" >{outlet}</main>
     </>
   );
 }

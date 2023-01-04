@@ -1,17 +1,16 @@
 import { useState, useRef, useCallback,useEffect } from "react";
-import {Container, Card, CardContent, makeStyles, Grid, TextField, Button} from '@material-ui/core';
 import Webcam from "react-webcam";
 
 
 const videoConstraintsFrontal = {
-  width: 300,
-  height: 300,
+  width: 500,
+  height: 500,
   facingMode: "user",
   frameRate: 60,
 };
 const videoConstraintsTrasera = {
-  width: 200,
-  height: 200,
+  width: 400,
+  height: 400,
   facingMode: { exact: "environment" },
   focusMode: "auto",
   frameRate: 60,
@@ -42,7 +41,7 @@ const limpiarDatos = () => {
   const [porcentaje, setPorcentaje] = useState("");
   const [etiqueta, setEtiqueta] = useState("");
   const [camara, setCamara] = useState("TRASERA");
-  const [modo, setModo] = useState(videoConstraintsTrasera);
+  const [modo, setModo] = useState(videoConstraintsFrontal);
   const [nombreArchivo, setNombreArchivo] = useState("");
   const payload = { imagen: captura, file_name: "foto_evaluando.jpg" };
   const [labels, setLabels] = useState([]);
@@ -148,13 +147,10 @@ const limpiarDatos = () => {
 
 
   return (
-    <>
-      <div className=" d-flex justify-content-center">
-        <div className="row">
-          <div className="col camera d-felx justify-content-center" style={{marginTop :"30px"}}>
-          <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
+    <div >
+      <div className="container-camara">
           {showWebcam ? (
-        <Webcam
+            <Webcam
                 ref={webcamRef}
                 delay={300}
                 onError={handleError}
@@ -162,49 +158,33 @@ const limpiarDatos = () => {
                 autoFocus = {true}
                 zoom = {8}
                 // style = {{100%}}
-              ></Webcam>
-
-          ) : (
-        <button className="btn btn-success btn-lg" onClick={handleButtonClick} id="botnCap">Mostrar cámara</button>
-          )   }
-              
-          
-            </Grid>
-          </div>
-        </div>
+            ></Webcam>
+            ) : (
+              <button className="btn btn-success btn-lg" onClick={handleButtonClick} id="botnCap">Mostrar cámara</button>
+          )}
       </div>
-
-      <div className="container d-felx">
-        {/* <div className="row mb-3">
-          <div className="col d-flex justify-content-center">
-            
-          <button className="btn btn-success btn-lg" onClick={handleButtonClick} id="botnCap">Mostrar cámara</button>
-          </div>
-        </div> */}
-
-        <div className="card bg-dark">
-          <div className="card-header" style={{color: "white"}}>Resultados</div>
-          <div className="card-body">
-            <table class="table table-dark table-striped">
-                  <thead>
-                    <tr>
-                      <th scope="col"></th>
-                      <th scope="col"></th>
-                      <th scope="col"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr >
-                      <th scope="row">Nombre: {datosPersonales.nombres}</th>
-                      <th scope="row">Rut: {rutBuscado}</th>
-                      <th scope="row">Ciudad: {datosPersonales.glosaComuna}</th>
+      <div className="container-tabla">
+        <div className="card-header" style={{color: "white"}}>Resultados</div>
+            <div className="card-body">
+              <table class="table table-dark table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                       </tr>
-                  </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                      <tr >
+                        <th scope="row">Nombre: {datosPersonales.nombres}</th>
+                        <th scope="row">Rut: {rutBuscado}</th>
+                        <th scope="row">Ciudad: {datosPersonales.glosaComuna}</th>
+                        </tr>
+                    </tbody>
+              </table>
           </div>
-        </div>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -9,7 +9,7 @@ function LayoutFonasa() {
   return (
     <>
       <MenuSuperior />
-      <main className="container h-100">{outlet}</main>
+      <main className="container h-100" >{outlet}</main>
     </>
   );
 }
