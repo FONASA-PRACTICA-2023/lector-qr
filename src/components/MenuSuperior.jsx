@@ -5,9 +5,9 @@ import logoFonasa from "../assets/logo-fonasa.svg";
 import constantes from "./constantes.json";
 function MenuSuperior({ user }) {
   return (
-    <header className="sticky-top" style={{background:"red", width:"100%",margin:"0"}}>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={{background:"red", width:"100%",margin:"0"}}>
-        <div className="container" style={{background:"red", width:"100%",margin:"0"}}>
+    <header className="sticky-top" >
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark" >
+        <div className="container" >
           <Link className="navbar-brand" to="/">
             <img
               src={logoFonasa}

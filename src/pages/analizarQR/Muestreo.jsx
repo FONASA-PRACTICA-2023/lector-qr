@@ -41,7 +41,7 @@ const limpiarDatos = () => {
   const [porcentaje, setPorcentaje] = useState("");
   const [etiqueta, setEtiqueta] = useState("");
   const [camara, setCamara] = useState("TRASERA");
-  const [modo, setModo] = useState(videoConstraintsFrontal);
+  const [modo, setModo] = useState(videoConstraintsTrasera);
   const [nombreArchivo, setNombreArchivo] = useState("");
   const payload = { imagen: captura, file_name: "foto_evaluando.jpg" };
   const [labels, setLabels] = useState([]);
@@ -148,7 +148,7 @@ const limpiarDatos = () => {
 
   return (
     <div >
-      <div className="container-camara">
+      <div className="container-camara" style={{display:"flex", justifyContent:"center",alignItems:"center",width:"100%", marginTop:"20px"}}>
           {showWebcam ? (
             <Webcam
                 ref={webcamRef}
