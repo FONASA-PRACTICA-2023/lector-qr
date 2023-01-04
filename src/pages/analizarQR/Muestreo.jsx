@@ -42,7 +42,7 @@ const limpiarDatos = () => {
   const [porcentaje, setPorcentaje] = useState("");
   const [etiqueta, setEtiqueta] = useState("");
   const [camara, setCamara] = useState("TRASERA");
-  const [modo, setModo] = useState(videoConstraintsTrasera);
+  const [modo, setModo] = useState(videoConstraintsFrontal);
   const [nombreArchivo, setNombreArchivo] = useState("");
   const payload = { imagen: captura, file_name: "foto_evaluando.jpg" };
   const [labels, setLabels] = useState([]);
@@ -179,7 +179,7 @@ const limpiarDatos = () => {
 
   return (
     <div >
-      <div className="container-camara" style={{display:"flex", justifyContent:"center",alignItems:"center",width:"100%", marginTop:"20px"}}>
+      <div className="container-camara rounded" style={{display:"flex", justifyContent:"center",alignItems:"center",width:"100%", marginTop:"20px"}}>
           {showWebcam ? (
             <Webcam
                 ref={webcamRef}
@@ -188,34 +188,35 @@ const limpiarDatos = () => {
                 videoConstraints={modo}
                 autoFocus = {true}
                 zoom = {8}
+                className="rounded-5 border border-1"
             ></Webcam>
             ) : (
-              <button class="btn btn-primary" onClick={handleButtonClick} id="botnCap">Leer codeQR  <Camera/></button>
+              <button class="btn-outline-secondary rounded" onClick={handleButtonClick} id="botnCap">Leer codeQR  <Camera/></button>
               
           )}  
       </div>
       <div className="container-tabla" style={{marginTop:"20px",display:"none"}} id="fg">
         
             <div className="card-body">
-              <table class="table">
-                    <thead class="table-dark">
+              <table className="table table-dark" >
+                    <thead >
                       <tr>
-                        <th scope="col">Datos Afiliado</th>
+                        <th scope="col " style={{borderTopLeftRadius:"10px"}}>Datos Afiliado</th>
                         <th scope="col"></th>
-                        <th scope="col"></th>
+                        <th scope="col" style={{borderTopRightRadius:"10px"}}></th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr >
-                        <th scope="row">Nombre: {datosPersonales.nombres}</th>
+                        <th scope="row" >Nombre: {datosPersonales.nombres}</th>
                         <th scope="row">Rut: {rutBuscado}</th>
                         <th scope="row">Comuna: {datosPersonales.glosaComuna}</th>
                         
                         </tr>
                         <tr >
-                        <th scope="row">Apellidos: {datosPersonales.apellidoPaterno}<span>  </span>{datosPersonales.apellidoMaterno}</th>
+                        <th scope="row" style={{borderBottomLeftRadius:"10px"}}>Apellidos: {datosPersonales.apellidoPaterno}<span>  </span>{datosPersonales.apellidoMaterno}</th>
                         <th scope="row">Direccion: {datosPersonales.direccionPaciente}</th>
-                        <th scope="row">Grupo: {datosPersonales.grupoIngreso}</th>
+                        <th scope="row" style={{borderBottomRightRadius:"10px"}}>Grupo: {datosPersonales.grupoIngreso}</th>
                         </tr>
                         
                         
