@@ -136,7 +136,7 @@ const limpiarDatos = () => {
     const interval = setInterval(() => {
       capture();
       callSubirImagen();
-    }, 2000);
+    }, 500);
   
     return () => clearInterval(interval);
   }, [ capture, callSubirImagen]);
