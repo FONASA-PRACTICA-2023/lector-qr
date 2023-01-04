@@ -1,17 +1,7 @@
-/**
-
-    En este componente se muestra una captura de video en tiempo real con una cámara web.
-    También se puede tomar una captura de la imagen y enviarla a un servidor para su procesamiento.
-    Además, se puede cambiar entre la cámara trasera y frontal del dispositivo.
-    También se pueden obtener datos personales de una persona a través de su RUT, utilizando una API externa.
-    */
-
 import { useState, useRef, useCallback,useEffect } from "react";
-import {Container, Card, CardContent, makeStyles, Grid, TextField, Button} from '@material-ui/core';
 import Webcam from "react-webcam";
 
 
-// Constantes con las configuraciones de video para la cámara trasera y fronta
 const videoConstraintsFrontal = {
   width: 500,
   height: 500,
@@ -27,42 +17,10 @@ const videoConstraintsTrasera = {
 };
 
 
-
-
-// Componente para mostrar la imagen capturada
-
 const ImagenCapturada = ({ data }) => <img alt="hhh" src={`${data}`} />;
 
 function Muestreo() {
-//   const obtenerImagen = () => {
-//     const imagen = webcamRef.current.getScreenshot();
-//     setCaptura(imagen);
-//   }
 
-//   // Función que se encarga de invocar a la función `obtenerImagen` cada 3 segundos
-//   const obtenerImagenCada3Segundos = () => {
-//     setInterval(obtenerImagen, 3000);
-//   }
-
-  
-
-//   // Usamos el hook de efecto de React para ejecutar la función `obtenerImagenCada3Segundos`
-//   // al inicio
-//   useEffect(() => {
-//     obtenerImagenCada3Segundos();
-//   }, []);
-
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       // Código que se ejecutará cada 3 segundos
-//     }, 3000);
-  
-//     return () => clearInterval(interval);
-//   }, []);
-  
-// const updateCaptura = (newCaptura) => {
-//     setCaptura(newCaptura);
-//   }
 const limpiarDatos = () => {
   document.getElementById("botnCap").style.display="block";
   document.getElementById("btnchico").style.display="block";
@@ -76,7 +34,6 @@ const limpiarDatos = () => {
   setDatosPersonales({});
   setRutBuscado("");
 }
-  // Estados para almacenar la información necesaria en el componente
 
   const [usuarios, setUsuarios] = useState([]);
   const [captura, setCaptura] = useState("");
@@ -84,7 +41,7 @@ const limpiarDatos = () => {
   const [porcentaje, setPorcentaje] = useState("");
   const [etiqueta, setEtiqueta] = useState("");
   const [camara, setCamara] = useState("TRASERA");
-  const [modo, setModo] = useState(videoConstraintsTrasera);
+  const [modo, setModo] = useState(videoConstraintsFrontal);
   const [nombreArchivo, setNombreArchivo] = useState("");
   const payload = { imagen: captura, file_name: "foto_evaluando.jpg" };
   const [labels, setLabels] = useState([]);
@@ -92,7 +49,6 @@ const limpiarDatos = () => {
   const [datosPersonales, setDatosPersonales] = useState({});
   const [rutBuscado, setRutBuscado] = useState("");
   const webcamRef = useRef(null);
-  const [datosMadicos, setDatosMedicos] = useState({});
   const qrRef = useRef(null);
 
   let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5vbWJyZSI6Ik1pZ3VlbCBIZXJuXHUwMGUxbmRleiBHb256XHUwMGUxbGV6IiwicnVuIjoiTkEiLCJtYWlsIjoibWlndWVsLmhlcm5hbmRlekBmb25hc2EuZ292LmNsIiwidXNlcm5hbWUiOiJtaWd1ZWwuaGVybmFuZGV6IiwidGlwb191c3VhcmlvIjoiTkEiLCJydXRfcHJlc3RhZG9yIjoiIiwiaW5zdGl0dWNpb24iOiIiLCJyb2xlcyI6W119LCJpYXQiOjE2NzIzMjc0NjAsImV4cCI6MTY3MjMzMTA2MCwiaXNzIjoiRm9uZG8gTmFjaW9uYWwgZGUgU2FsdWQifQ.WKq6_MvycrMMd_I3gyvkjW0JeNV52IBEbIdaD2Kb5vA"
@@ -102,13 +58,15 @@ const limpiarDatos = () => {
     document.getElementById("btnchico").style.display="none";
     const imageSrc = webcamRef.current.getScreenshot();
     setCaptura(imageSrc);
-    // updateCaptura(imageSrc);
   
   }, [webcamRef]);
 
+  const handleError = (err) => {
+    console.error(err);
+  };
   
   
- // Función para enviar la imagen capturada al servidor para su procesamiento
+
 
   const callSubirImagen = () => {
     setLoading(true);
@@ -124,14 +82,12 @@ const limpiarDatos = () => {
       .then((response) => {
         setNombreArchivo(response.file_name);
         callDatosPersonales(response.decodificado.rut);
-        // callDatosMedicos(response.decodificado.rut);
         console.log(response.decodificado.rut);
         setRutBuscado(response.decodificado.rut);
         setLoading(false);
       })
       .catch(() => {
         console.log("error")
-        window.alert("Imagen no reconocida");
         setLoading(false);
       });
   };
@@ -158,23 +114,34 @@ const limpiarDatos = () => {
       });
   };
 
+useEffect(() => {
+  if (rutBuscado !== '') {
+    return;
+  }
+
+  const interval = setInterval(() => {
+    capture();
+    callSubirImagen();
+  }, 2000);
+
+  return () => clearInterval(interval);
+}, [rutBuscado, capture, callSubirImagen]);
+
   return (
     <>
       <div className="container d-flex justify-content-center">
         <div className="row">
           <div className="col camera d-felx" style={{marginTop :"30px"}}>
-          <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
-            {!captura && (
+            
+            
               <Webcam
-                audio={false}
-                screenshotFormat="image/jpeg"
-                ref={webcamRef}
-                videoConstraints={modo}
-                autoFocus = {true}
-                zoom = {8}
+              ref={webcamRef}
+              delay={300}
+              onError={handleError}
+              style={{ width: "100%" }}
               ></Webcam>
-            )}
-            </Grid>
+              
+            
           </div>
         </div>
       </div>
@@ -185,6 +152,7 @@ const limpiarDatos = () => {
             <button className="btn btn-success btn-lg" onClick={capture} id="botnCap">
               <i className="bi bi-camera"></i>
               Capturar
+              
             </button>
             <button
               className="btn btn-primary"
@@ -205,13 +173,9 @@ const limpiarDatos = () => {
           </div>
         </div>
 
-        {captura && (
+        {/* {captura && (
           <>
-            <div className="row" >
-              <div className="col camera d-flex justify-content-center">
-                <ImagenCapturada data={captura} />
-              </div>
-            </div>
+            
 
             <div className="row">
               <div className="col d-flex justify-content-center" style={{margin:"20px 0"}}>
@@ -247,7 +211,7 @@ const limpiarDatos = () => {
               </div>
             </div>
           </>
-        )}
+        )} */}
 
         <div className="card bg-dark">
           <div className="card-header" style={{color: "white"}}>Resultados</div>
