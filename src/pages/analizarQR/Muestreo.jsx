@@ -4,14 +4,14 @@ import Webcam from "react-webcam";
 
 
 const videoConstraintsFrontal = {
-  width: 500,
-  height: 500,
+  width: 300,
+  height: 300,
   facingMode: "user",
   frameRate: 60,
 };
 const videoConstraintsTrasera = {
-  width: 500,
-  height: 500,
+  width: 200,
+  height: 200,
   facingMode: { exact: "environment" },
   focusMode: "auto",
   frameRate: 60,
@@ -23,8 +23,7 @@ const ImagenCapturada = ({ data }) => <img alt="hhh" src={`${data}`} />;
 function Muestreo() {
 
 const limpiarDatos = () => {
-  document.getElementById("botnCap").style.display="block";
-  document.getElementById("btnchico").style.display="block";
+  
   setUsuarios([]);
   setCaptura("");
   setLoading(false);
@@ -53,12 +52,12 @@ const limpiarDatos = () => {
   const webcamRef = useRef(null);
   const [datosMadicos, setDatosMedicos] = useState({});
   const qrRef = useRef(null);
+  const [showWebcam, setShowWebcam] = useState(false);
 
   let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5vbWJyZSI6Ik1pZ3VlbCBIZXJuXHUwMGUxbmRleiBHb256XHUwMGUxbGV6IiwicnVuIjoiTkEiLCJtYWlsIjoibWlndWVsLmhlcm5hbmRlekBmb25hc2EuZ292LmNsIiwidXNlcm5hbWUiOiJtaWd1ZWwuaGVybmFuZGV6IiwidGlwb191c3VhcmlvIjoiTkEiLCJydXRfcHJlc3RhZG9yIjoiIiwiaW5zdGl0dWNpb24iOiIiLCJyb2xlcyI6W119LCJpYXQiOjE2NzIzMjc0NjAsImV4cCI6MTY3MjMzMTA2MCwiaXNzIjoiRm9uZG8gTmFjaW9uYWwgZGUgU2FsdWQifQ.WKq6_MvycrMMd_I3gyvkjW0JeNV52IBEbIdaD2Kb5vA"
 
   const capture = useCallback(() => {
-    document.getElementById("botnCap").style.display="none";
-    document.getElementById("btnchico").style.display="none";
+    
     const imageSrc = webcamRef.current.getScreenshot();
     setCaptura(imageSrc);
     // updateCaptura(imageSrc);
@@ -142,24 +141,33 @@ const limpiarDatos = () => {
     return () => clearInterval(interval);
   }, [ capture, callSubirImagen]);
 
-
+  const handleButtonClick = () => {
+    setShowWebcam(true);
+    setInterval(true)
+  };
 
 
   return (
     <>
-      <div className="container d-flex justify-content-center">
+      <div className=" d-flex justify-content-center">
         <div className="row">
-          <div className="col camera d-felx" style={{marginTop :"30px"}}>
+          <div className="col camera d-felx justify-content-center" style={{marginTop :"30px"}}>
           <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
-            
-              <Webcam
+          {showWebcam ? (
+        <Webcam
                 ref={webcamRef}
                 delay={300}
                 onError={handleError}
                 videoConstraints={modo}
                 autoFocus = {true}
                 zoom = {8}
+                // style = {{100%}}
               ></Webcam>
+
+          ) : (
+        <button className="btn btn-success btn-lg" onClick={handleButtonClick} id="botnCap">Mostrar cámara</button>
+          )   }
+              
           
             </Grid>
           </div>
@@ -167,30 +175,12 @@ const limpiarDatos = () => {
       </div>
 
       <div className="container d-felx">
-        <div className="row mb-3">
+        {/* <div className="row mb-3">
           <div className="col d-flex justify-content-center">
-            <button className="btn btn-success btn-lg" onClick={capture} id="botnCap">
-              <i className="bi bi-camera"></i>
-              Capturar
-            </button>
-            <button
-              className="btn btn-primary"
-              id="btnchico"
-              onClick={() => {
-                if (camara === "TRASERA") {
-                  setCamara("FRONTAL");
-                  setModo(videoConstraintsFrontal);
-                } else {
-                  setCamara("TRASERA");
-                  setModo(videoConstraintsTrasera);
-                }
-              }}
-            >
-              <i className="bi bi-phone-flip"></i>
-              GIRAR
-            </button>
+            
+          <button className="btn btn-success btn-lg" onClick={handleButtonClick} id="botnCap">Mostrar cámara</button>
           </div>
-        </div>
+        </div> */}
 
         <div className="card bg-dark">
           <div className="card-header" style={{color: "white"}}>Resultados</div>
