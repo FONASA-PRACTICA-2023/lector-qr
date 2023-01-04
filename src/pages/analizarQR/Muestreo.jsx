@@ -13,7 +13,7 @@ const videoConstraintsTrasera = {
   width: 400,
   height: 400,
   facingMode: { exact: "environment" },
-  focusMode: "auto",
+  focusMode: "continuous",
   frameRate: 60,
   zoom:3.0,
 };
@@ -42,7 +42,7 @@ const limpiarDatos = () => {
   const [porcentaje, setPorcentaje] = useState("");
   const [etiqueta, setEtiqueta] = useState("");
   const [camara, setCamara] = useState("TRASERA");
-  const [modo, setModo] = useState(videoConstraintsFrontal);
+  const [modo, setModo] = useState(videoConstraintsTrasera);
   const [nombreArchivo, setNombreArchivo] = useState("");
   const payload = { imagen: captura, file_name: "foto_evaluando.jpg" };
   const [labels, setLabels] = useState([]);
@@ -169,6 +169,8 @@ const limpiarDatos = () => {
 
 
   const handleButtonClick = () => {  
+    document.getElementById("fg").style.display="flex"
+    
     setShowWebcam(true);
     setInterval(true)
     limpiarDatos();
@@ -188,19 +190,17 @@ const limpiarDatos = () => {
                 zoom = {8}
             ></Webcam>
             ) : (
-              <button className="btn btn-success btn-lg" onClick={handleButtonClick} id="botnCap">Leer codeQR  <Camera/></button>
+              <button class="btn btn-primary" onClick={handleButtonClick} id="botnCap">Leer codeQR  <Camera/></button>
               
           )}  
       </div>
-
-     
-      <div className="container-tabla">
-        <div className="card-header" style={{color: "white"}}>Resultados</div>
+      <div className="container-tabla" style={{marginTop:"20px",display:"none"}} id="fg">
+        
             <div className="card-body">
-              <table class="table table-dark table-striped">
-                    <thead>
+              <table class="table">
+                    <thead class="table-dark">
                       <tr>
-                        <th scope="col"></th>
+                        <th scope="col">Datos Afiliado</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
                       </tr>
@@ -219,7 +219,6 @@ const limpiarDatos = () => {
                         </tr>
                         
                         
-                        
                     </tbody>
               </table>
           </div>
@@ -229,5 +228,4 @@ const limpiarDatos = () => {
 }
 
 export default Muestreo;
-
 
