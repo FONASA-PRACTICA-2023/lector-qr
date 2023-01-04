@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback,useEffect } from "react";
+// import {Container, Card, CardContent, makeStyles, Grid, TextField, Button} from '@material-ui/core';
 import Webcam from "react-webcam";
 
 
@@ -15,7 +16,6 @@ const videoConstraintsTrasera = {
   focusMode: "continuous",
   frameRate: 60,
 };
-
 
 const ImagenCapturada = ({ data }) => <img alt="hhh" src={`${data}`} />;
 
@@ -34,6 +34,7 @@ const limpiarDatos = () => {
   setDatosPersonales({});
   setRutBuscado("");
 }
+
 
   const [usuarios, setUsuarios] = useState([]);
   const [captura, setCaptura] = useState("");
@@ -58,14 +59,8 @@ const limpiarDatos = () => {
     document.getElementById("btnchico").style.display="none";
     const imageSrc = webcamRef.current.getScreenshot();
     setCaptura(imageSrc);
-  
   }, [webcamRef]);
 
-  const handleError = (err) => {
-    console.error(err);
-  };
-  
-  
 
 
   const callSubirImagen = () => {
@@ -82,6 +77,7 @@ const limpiarDatos = () => {
       .then((response) => {
         setNombreArchivo(response.file_name);
         callDatosPersonales(response.decodificado.rut);
+        // callDatosMedicos(response.decodificado.rut);
         console.log(response.decodificado.rut);
         setRutBuscado(response.decodificado.rut);
         setLoading(false);
@@ -114,34 +110,36 @@ const limpiarDatos = () => {
       });
   };
 
-useEffect(() => {
-  if (rutBuscado !== '') {
-    return;
-  }
-
-  const interval = setInterval(() => {
-    capture();
-    callSubirImagen();
-  }, 2000);
-
-  return () => clearInterval(interval);
-}, [rutBuscado, capture, callSubirImagen]);
+  useEffect(() => {
+    if (rutBuscado !== '') {
+      return;
+    }
+  
+    const interval = setInterval(() => {
+      capture();
+      callSubirImagen();
+    }, 2000);
+  
+    return () => clearInterval(interval);
+  }, [rutBuscado, capture, callSubirImagen]);
 
   return (
     <>
       <div className="container d-flex justify-content-center">
         <div className="row">
           <div className="col camera d-felx" style={{marginTop :"30px"}}>
-            
-            
+        
+            {!captura && (
               <Webcam
-              ref={webcamRef}
-              delay={300}
-              onError={handleError}
-              style={{ width: "100%" }}
+                audio={false}
+                screenshotFormat="image/jpeg"
+                ref={webcamRef}
+                videoConstraints={modo}
+                autoFocus = {true}
+                zoom = {8}
               ></Webcam>
-              
-            
+            )}
+     
           </div>
         </div>
       </div>
@@ -152,7 +150,6 @@ useEffect(() => {
             <button className="btn btn-success btn-lg" onClick={capture} id="botnCap">
               <i className="bi bi-camera"></i>
               Capturar
-              
             </button>
             <button
               className="btn btn-primary"
@@ -172,46 +169,6 @@ useEffect(() => {
             </button>
           </div>
         </div>
-
-        {/* {captura && (
-          <>
-            
-
-            <div className="row">
-              <div className="col d-flex justify-content-center" style={{margin:"20px 0"}}>
-                <div
-                  className="btn-group "
-                  role="group"
-                  aria-label="Basic example"
-                >
-                  <button
-                    className="btn btn-success btn-lg"
-                    onClick={limpiarDatos} id="botnTomar"
-                  >
-                    <i className="bi bi-arrow-clockwise"></i>
-                    Tomar Otra vez
-                  </button>
-
-                  <button className="btn btn-primary " onClick={callSubirImagen}>
-                  <i class="bi bi-check-lg"></i>
-                    Análizar Código
-                  </button>
-
-                  {loading && (
-                    <button className="btn btn-warning" type="button" disabled>
-                      <span
-                        className="spinner-border spinner-border-sm"
-                        role="status"
-                        aria-hidden="true"
-                      ></span>
-                      Procesando...
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
-          </>
-        )} */}
 
         <div className="card bg-dark">
           <div className="card-header" style={{color: "white"}}>Resultados</div>
