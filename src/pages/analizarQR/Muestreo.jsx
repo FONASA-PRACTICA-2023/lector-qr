@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback,useEffect } from "react";
-// import {Container, Card, CardContent, makeStyles, Grid, TextField, Button} from '@material-ui/core';
+import {Container, Card, CardContent, makeStyles, Grid, TextField, Button} from '@material-ui/core';
 import Webcam from "react-webcam";
 
 
@@ -50,6 +50,7 @@ const limpiarDatos = () => {
   const [datosPersonales, setDatosPersonales] = useState({});
   const [rutBuscado, setRutBuscado] = useState("");
   const webcamRef = useRef(null);
+  const [datosMadicos, setDatosMedicos] = useState({});
   const qrRef = useRef(null);
 
   let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5vbWJyZSI6Ik1pZ3VlbCBIZXJuXHUwMGUxbmRleiBHb256XHUwMGUxbGV6IiwicnVuIjoiTkEiLCJtYWlsIjoibWlndWVsLmhlcm5hbmRlekBmb25hc2EuZ292LmNsIiwidXNlcm5hbWUiOiJtaWd1ZWwuaGVybmFuZGV6IiwidGlwb191c3VhcmlvIjoiTkEiLCJydXRfcHJlc3RhZG9yIjoiIiwiaW5zdGl0dWNpb24iOiIiLCJyb2xlcyI6W119LCJpYXQiOjE2NzIzMjc0NjAsImV4cCI6MTY3MjMzMTA2MCwiaXNzIjoiRm9uZG8gTmFjaW9uYWwgZGUgU2FsdWQifQ.WKq6_MvycrMMd_I3gyvkjW0JeNV52IBEbIdaD2Kb5vA"
@@ -59,6 +60,8 @@ const limpiarDatos = () => {
     document.getElementById("btnchico").style.display="none";
     const imageSrc = webcamRef.current.getScreenshot();
     setCaptura(imageSrc);
+    // updateCaptura(imageSrc);
+  
   }, [webcamRef]);
 
 
@@ -110,6 +113,10 @@ const limpiarDatos = () => {
       });
   };
 
+  const handleError = (err) => {
+    console.error(err);
+  };
+
   useEffect(() => {
     if (rutBuscado !== '') {
       return;
@@ -128,8 +135,8 @@ const limpiarDatos = () => {
       <div className="container d-flex justify-content-center">
         <div className="row">
           <div className="col camera d-felx" style={{marginTop :"30px"}}>
-        
-            {!captura && (
+          <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
+            
               <Webcam
                 audio={false}
                 screenshotFormat="image/jpeg"
@@ -138,8 +145,8 @@ const limpiarDatos = () => {
                 autoFocus = {true}
                 zoom = {8}
               ></Webcam>
-            )}
-     
+          
+            </Grid>
           </div>
         </div>
       </div>
@@ -170,6 +177,50 @@ const limpiarDatos = () => {
           </div>
         </div>
 
+        {/* {captura && (
+          <>
+            <div className="row" >
+              <div className="col camera d-flex justify-content-center">
+                
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col d-flex justify-content-center" style={{margin:"20px 0"}}>
+                <div
+                  className="btn-group "
+                  role="group"
+                  aria-label="Basic example"
+                >
+                  <button
+                    className="btn btn-success btn-lg"
+                    onClick={limpiarDatos} id="botnTomar"
+                  >
+                    <i className="bi bi-arrow-clockwise"></i>
+                    Tomar Otra vez
+                  </button>
+
+                  <button className="btn btn-primary " onClick={callSubirImagen}>
+                  <i class="bi bi-check-lg"></i>
+                    Análizar Código
+                  </button>
+
+                  {loading && (
+                    <button className="btn btn-warning" type="button" disabled>
+                      <span
+                        className="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      Procesando...
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </>
+        )} */}
+
         <div className="card bg-dark">
           <div className="card-header" style={{color: "white"}}>Resultados</div>
           <div className="card-body">
@@ -197,3 +248,5 @@ const limpiarDatos = () => {
 }
 
 export default Muestreo;
+
+
