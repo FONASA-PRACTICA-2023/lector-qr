@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback,useEffect } from "react";
 import Webcam from "react-webcam";
+import { Camera } from 'react-feather';
 
 
 const videoConstraintsFrontal = {
@@ -14,7 +15,7 @@ const videoConstraintsTrasera = {
   facingMode: { exact: "environment" },
   focusMode: "auto",
   frameRate: 60,
-  zoom:2.0,
+  zoom:3.0,
 };
 
 const ImagenCapturada = ({ data }) => <img alt="hhh" src={`${data}`} />;
@@ -41,7 +42,7 @@ const limpiarDatos = () => {
   const [porcentaje, setPorcentaje] = useState("");
   const [etiqueta, setEtiqueta] = useState("");
   const [camara, setCamara] = useState("TRASERA");
-  const [modo, setModo] = useState(videoConstraintsTrasera);
+  const [modo, setModo] = useState(videoConstraintsFrontal);
   const [nombreArchivo, setNombreArchivo] = useState("");
   const payload = { imagen: captura, file_name: "foto_evaluando.jpg" };
   const [labels, setLabels] = useState([]);
@@ -52,6 +53,9 @@ const limpiarDatos = () => {
   const [datosMadicos, setDatosMedicos] = useState({});
   const qrRef = useRef(null);
   const [showWebcam, setShowWebcam] = useState(false);
+  const [antecedentesSigges,setAntecedentesSigges]= useState(null);
+  
+
 
   let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5vbWJyZSI6Ik1pZ3VlbCBIZXJuXHUwMGUxbmRleiBHb256XHUwMGUxbGV6IiwicnVuIjoiTkEiLCJtYWlsIjoibWlndWVsLmhlcm5hbmRlekBmb25hc2EuZ292LmNsIiwidXNlcm5hbWUiOiJtaWd1ZWwuaGVybmFuZGV6IiwidGlwb191c3VhcmlvIjoiTkEiLCJydXRfcHJlc3RhZG9yIjoiIiwiaW5zdGl0dWNpb24iOiIiLCJyb2xlcyI6W119LCJpYXQiOjE2NzIzMjc0NjAsImV4cCI6MTY3MjMzMTA2MCwiaXNzIjoiRm9uZG8gTmFjaW9uYWwgZGUgU2FsdWQifQ.WKq6_MvycrMMd_I3gyvkjW0JeNV52IBEbIdaD2Kb5vA"
 
@@ -62,7 +66,6 @@ const limpiarDatos = () => {
     // updateCaptura(imageSrc);
   
   }, [webcamRef]);
-
 
 
   const callSubirImagen = () => {
@@ -79,7 +82,7 @@ const limpiarDatos = () => {
       .then((response) => {
         setNombreArchivo(response.file_name);
         callDatosPersonales(response.decodificado.rut);
-        // callDatosMedicos(response.decodificado.rut);
+        callDatosMedicos(response.decodificado.rut);
         console.log(response.decodificado.rut);
         setRutBuscado(response.decodificado.rut);
         setLoading(false);
@@ -110,27 +113,51 @@ const limpiarDatos = () => {
         console.log("error");
         setLoading(false);
       });
+      callDatosMedicos(rut);
   };
+
+  const callDatosMedicos = (rut) => {
+    let rutDV = rut.split("-")[0]
+    let DV = rut.split("-")[1]
+    setLoading(true);
+    var raw = JSON.stringify({
+      "Rut": rutDV,
+      "DV": DV,
+      "Contrasena": "wssigges"
+    });
+    let url = "https://api.fonasa.cl/FonasaConsultaSigges"
+    fetch(url, {
+      method: "POST",
+      body: raw,
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer ' + token
+      }
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        console.log({ response});
+        setAntecedentesSigges(response.data);
+        setLoading(false);
+      })
+      .catch(() => {
+        console.log("error");
+        setLoading(false);
+      });
+  };
+
 
   const handleError = (err) => {
     console.error(err);
   };
 
 
-  // useEffect(() => {
-  //   if (rutBuscado !== '') {
-  //     return;
-  //   }
-  
-  //   const interval = setInterval(() => {
-  //     capture();
-  //     callSubirImagen();
-  //   }, 2000);
-  
-  //   return () => clearInterval(interval);
-  // }, [rutBuscado, capture, callSubirImagen]);
-
   useEffect(() => {
+    if (rutBuscado !== '') {
+      setShowWebcam(false)
+      
+      return;
+    }
   
     const interval = setInterval(() => {
       capture();
@@ -138,11 +165,13 @@ const limpiarDatos = () => {
     }, 500);
   
     return () => clearInterval(interval);
-  }, [ capture, callSubirImagen]);
+  }, [rutBuscado, capture, callSubirImagen]);
 
-  const handleButtonClick = () => {
+
+  const handleButtonClick = () => {  
     setShowWebcam(true);
     setInterval(true)
+    limpiarDatos();
   };
 
 
@@ -157,12 +186,14 @@ const limpiarDatos = () => {
                 videoConstraints={modo}
                 autoFocus = {true}
                 zoom = {8}
-                // style = {{100%}}
             ></Webcam>
             ) : (
-              <button className="btn btn-success btn-lg" onClick={handleButtonClick} id="botnCap">Mostrar cámara</button>
-          )}
+              <button className="btn btn-success btn-lg" onClick={handleButtonClick} id="botnCap">Leer codeQR  <Camera/></button>
+              
+          )}  
       </div>
+
+     
       <div className="container-tabla">
         <div className="card-header" style={{color: "white"}}>Resultados</div>
             <div className="card-body">
@@ -178,8 +209,17 @@ const limpiarDatos = () => {
                       <tr >
                         <th scope="row">Nombre: {datosPersonales.nombres}</th>
                         <th scope="row">Rut: {rutBuscado}</th>
-                        <th scope="row">Ciudad: {datosPersonales.glosaComuna}</th>
+                        <th scope="row">Comuna: {datosPersonales.glosaComuna}</th>
+                        
                         </tr>
+                        <tr >
+                        <th scope="row">Apellidos: {datosPersonales.apellidoPaterno}<span>  </span>{datosPersonales.apellidoMaterno}</th>
+                        <th scope="row">Direccion: {datosPersonales.direccionPaciente}</th>
+                        <th scope="row">Grupo: {datosPersonales.grupoIngreso}</th>
+                        </tr>
+                        
+                        
+                        
                     </tbody>
               </table>
           </div>
