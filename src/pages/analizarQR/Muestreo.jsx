@@ -117,10 +117,21 @@ const limpiarDatos = () => {
     console.error(err);
   };
 
+
+  // useEffect(() => {
+  //   if (rutBuscado !== '') {
+  //     return;
+  //   }
+  
+  //   const interval = setInterval(() => {
+  //     capture();
+  //     callSubirImagen();
+  //   }, 2000);
+  
+  //   return () => clearInterval(interval);
+  // }, [rutBuscado, capture, callSubirImagen]);
+
   useEffect(() => {
-    if (rutBuscado !== '') {
-      return;
-    }
   
     const interval = setInterval(() => {
       capture();
@@ -128,7 +139,10 @@ const limpiarDatos = () => {
     }, 2000);
   
     return () => clearInterval(interval);
-  }, [rutBuscado, capture, callSubirImagen]);
+  }, [ capture, callSubirImagen]);
+
+
+
 
   return (
     <>
@@ -138,9 +152,9 @@ const limpiarDatos = () => {
           <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
             
               <Webcam
-                audio={false}
-                screenshotFormat="image/jpeg"
                 ref={webcamRef}
+                delay={300}
+                onError={handleError}
                 videoConstraints={modo}
                 autoFocus = {true}
                 zoom = {8}
@@ -176,50 +190,6 @@ const limpiarDatos = () => {
             </button>
           </div>
         </div>
-
-        {/* {captura && (
-          <>
-            <div className="row" >
-              <div className="col camera d-flex justify-content-center">
-                
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col d-flex justify-content-center" style={{margin:"20px 0"}}>
-                <div
-                  className="btn-group "
-                  role="group"
-                  aria-label="Basic example"
-                >
-                  <button
-                    className="btn btn-success btn-lg"
-                    onClick={limpiarDatos} id="botnTomar"
-                  >
-                    <i className="bi bi-arrow-clockwise"></i>
-                    Tomar Otra vez
-                  </button>
-
-                  <button className="btn btn-primary " onClick={callSubirImagen}>
-                  <i class="bi bi-check-lg"></i>
-                    Análizar Código
-                  </button>
-
-                  {loading && (
-                    <button className="btn btn-warning" type="button" disabled>
-                      <span
-                        className="spinner-border spinner-border-sm"
-                        role="status"
-                        aria-hidden="true"
-                      ></span>
-                      Procesando...
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
-          </>
-        )} */}
 
         <div className="card bg-dark">
           <div className="card-header" style={{color: "white"}}>Resultados</div>
