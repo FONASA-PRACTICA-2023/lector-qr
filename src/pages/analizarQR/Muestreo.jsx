@@ -17,7 +17,7 @@ const videoConstraintsTrasera = {
   facingMode: { exact: "environment" },
   focusMode: "continuous",
   frameRate: 60,
-  // zoom:2.5,
+  zoom:2.5,
 };
 
 const ImagenCapturada = ({ data }) => <img alt="hhh" src={`${data}`} />;
@@ -44,7 +44,7 @@ const limpiarDatos = () => {
   const [porcentaje, setPorcentaje] = useState("");
   const [etiqueta, setEtiqueta] = useState("");
   const [camara, setCamara] = useState("TRASERA");
-  const [modo, setModo] = useState(videoConstraintsTrasera);
+  const [modo, setModo] = useState(videoConstraintsFrontal);
   const [nombreArchivo, setNombreArchivo] = useState("");
   const payload = { imagen: captura, file_name: "foto_evaluando.jpg" };
   const [labels, setLabels] = useState([]);
@@ -189,11 +189,11 @@ const limpiarDatos = () => {
                 delay={300}
                 onError={handleError}
                 videoConstraints={modo}
-                autoFocus = {true}
-                zoom = {8}
+                focusMode= "continuous"
+                
+
                 className="rounded-5 border border-1"
-                focusMode="continuous"
-                frameRate="60"
+                
                 
             ></Webcam>
             ) : (
@@ -216,7 +216,7 @@ const limpiarDatos = () => {
                     </thead>
                     <tbody>
                       <tr >
-                        <th scope="row" >Nombres: {datosPersonales.nombres}</th>
+                        <th scope="row" >Nombre: {datosPersonales.nombres}</th>
                         <th scope="row" style={{borderBottomLeftRadius:"10px"}}>Apellidos: {datosPersonales.apellidoPaterno}<span>  </span>{datosPersonales.apellidoMaterno}</th>
                         
 
@@ -227,7 +227,7 @@ const limpiarDatos = () => {
                         </tr>
                         <tr>
                           <th scope="row">Rut: {rutBuscado}</th>
-                          <th scope="row">Sexo: {datosPersonales.sexo}</th>
+                          <th scope="row">: {datosPersonales.sexo}</th>
                         </tr>
                         
                         
