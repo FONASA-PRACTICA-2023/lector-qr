@@ -17,7 +17,7 @@ const videoConstraintsTrasera = {
   facingMode: { exact: "environment" },
   focusMode: "continuous",
   frameRate: 60,
-  zoom:2.5,
+  // zoom:2.5,
 };
 
 const ImagenCapturada = ({ data }) => <img alt="hhh" src={`${data}`} />;
