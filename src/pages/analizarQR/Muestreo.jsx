@@ -192,7 +192,8 @@ const limpiarDatos = () => {
                 autoFocus = {true}
                 zoom = {8}
                 className="rounded-5 border border-1"
-                
+                focusMode="continuous"
+                frameRate="60"
                 
             ></Webcam>
             ) : (
