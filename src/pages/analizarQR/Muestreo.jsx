@@ -215,7 +215,7 @@ const limpiarDatos = () => {
                     </thead>
                     <tbody>
                       <tr >
-                        <th scope="row" >Nombre: {datosPersonales.nombres}</th>
+                        <th scope="row" >Nombres: {datosPersonales.nombres}</th>
                         <th scope="row" style={{borderBottomLeftRadius:"10px"}}>Apellidos: {datosPersonales.apellidoPaterno}<span>  </span>{datosPersonales.apellidoMaterno}</th>
                         
 
