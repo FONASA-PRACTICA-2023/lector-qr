@@ -17,6 +17,7 @@ const videoConstraintsTrasera = {
   facingMode: { exact: "environment" },
   focusMode: "continuous",
   frameRate: 60,
+  flashMode:"on",
   
 };
 
