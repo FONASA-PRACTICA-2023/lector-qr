@@ -1,6 +1,8 @@
 import { useState, useRef, useCallback,useEffect } from "react";
 import Webcam from "react-webcam";
 import { HiQrCode} from "react-icons/hi2";
+import { IoMdReverseCamera} from "react-icons/io";
+
 
 
 
@@ -18,6 +20,7 @@ const videoConstraintsTrasera = {
   focusMode: "continuous",
   frameRate: 60,
   flashMode:"on",
+  zoom:"2.5",
   
 };
 
@@ -148,6 +151,16 @@ const limpiarDatos = () => {
       });
   };
 
+  const cambiarCamara = () => {
+    if (camara === "TRASERA") {
+      setCamara("FRONTAL");
+      setModo(videoConstraintsFrontal);
+    } else {
+      setCamara("TRASERA");
+      setModo(videoConstraintsTrasera);
+    }
+  }
+
 
   const handleError = (err) => {
     console.error(err);
@@ -178,6 +191,7 @@ const limpiarDatos = () => {
     limpiarDatos();
   };
   
+ 
 
   return (
     <div >
@@ -191,7 +205,9 @@ const limpiarDatos = () => {
                 videoConstraints={modo}
                 focusMode= "continuous"
                 className="rounded-5 border border-1"
-            ></Webcam>
+                forceScreenshotSourceSize={{ width: 400, height: 400 }} 
+                      
+                ></Webcam>
             ) : (
               <button class="btn btn-outline-primary rounded " onClick={handleButtonClick} id="botnCap" style={{display:"flex", justifyContent:"center",alignItems:"center",width:"100%", marginTop:"20px"}}><HiQrCode/> ESCANEAR QR</button>
           )}
@@ -201,7 +217,8 @@ const limpiarDatos = () => {
         
             <div className="card-body"> 
             <div>
-            
+            <button class="btn btn-outline-primary rounded " onClick={cambiarCamara} id="botn" style={{display:"flex", justifyContent:"center",alignItems:"center",width:"5%", marginTop:"20px"}}><IoMdReverseCamera/></button>
+
             </div>
               <table class="table" style={{marginTop:"20px"}}>
                     <thead className="table table-dark">
