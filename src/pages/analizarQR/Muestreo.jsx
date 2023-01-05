@@ -129,8 +129,8 @@ function Muestreo() {
     let DV = rut.split("-")[1]
 
     var raw = JSON.stringify({
-      "Rut": "16932390",
-      "DV": "9",
+      "Rut": rutDV,
+      "DV": DV,
       "Contrasena": "wssigges"
     });
     let url = "https://api.fonasa.cl/FonasaConsultaSigges"
@@ -194,6 +194,7 @@ function Muestreo() {
     setInterval(true)
     limpiarDatos();
   };
+  
 
 
 

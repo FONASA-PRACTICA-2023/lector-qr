@@ -17,7 +17,11 @@ $font-family-sans-serif: "Roboto", sans-serif;
 $navbar-brand-margin-end: 30px;
 $enable-rounded: false;
 $enable-gradients: true;
-
+table {
+  width: 100%;
+  max-width: 600px;
+  overflow-x: auto;
+}
 .user-top p {
   margin: 0;
   font-size: 13px;
