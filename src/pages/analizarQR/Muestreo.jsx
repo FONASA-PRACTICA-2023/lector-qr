@@ -1,21 +1,23 @@
 import { useState, useRef, useCallback,useEffect } from "react";
 import Webcam from "react-webcam";
-import { Camera } from 'react-feather';
+import { HiQrCode} from "react-icons/hi2";
+
+
 
 
 const videoConstraintsFrontal = {
-  width: 500,
-  height: 500,
+  width: 350,
+  height: 350,
   facingMode: "user",
   frameRate: 60,
 };
 const videoConstraintsTrasera = {
-  width: 400,
-  height: 400,
+  width: 350,
+  height: 350,
   facingMode: { exact: "environment" },
   focusMode: "continuous",
   frameRate: 60,
-  zoom:3.0,
+  zoom:2.5,
 };
 
 const ImagenCapturada = ({ data }) => <img alt="hhh" src={`${data}`} />;
@@ -42,7 +44,7 @@ const limpiarDatos = () => {
   const [porcentaje, setPorcentaje] = useState("");
   const [etiqueta, setEtiqueta] = useState("");
   const [camara, setCamara] = useState("TRASERA");
-  const [modo, setModo] = useState(videoConstraintsTrasera);
+  const [modo, setModo] = useState(videoConstraintsFrontal);
   const [nombreArchivo, setNombreArchivo] = useState("");
   const payload = { imagen: captura, file_name: "foto_evaluando.jpg" };
   const [labels, setLabels] = useState([]);
@@ -50,10 +52,10 @@ const limpiarDatos = () => {
   const [datosPersonales, setDatosPersonales] = useState({});
   const [rutBuscado, setRutBuscado] = useState("");
   const webcamRef = useRef(null);
-  const [datosMadicos, setDatosMedicos] = useState({});
   const qrRef = useRef(null);
   const [showWebcam, setShowWebcam] = useState(false);
   const [antecedentesSigges,setAntecedentesSigges]= useState(null);
+  const videoElement = useRef(null);
   
 
 
@@ -175,12 +177,13 @@ const limpiarDatos = () => {
     setInterval(true)
     limpiarDatos();
   };
-
+  
 
   return (
     <div >
       <div className="container-camara rounded" style={{display:"flex", justifyContent:"center",alignItems:"center",width:"100%", marginTop:"20px"}}>
           {showWebcam ? (
+            
             <Webcam
                 ref={webcamRef}
                 delay={300}
@@ -189,41 +192,41 @@ const limpiarDatos = () => {
                 autoFocus = {true}
                 zoom = {8}
                 className="rounded-5 border border-1"
+                
+                
             ></Webcam>
-            
             ) : (
-              <button class="btn-outline-secondary rounded" onClick={handleButtonClick} id="botnCap">Leer codeQR  <Camera/></button>
-              
-
-          )} 
-
-         
+              <button class="btn btn-outline-primary rounded " onClick={handleButtonClick} id="botnCap" style={{display:"flex", justifyContent:"center",alignItems:"center",width:"100%", marginTop:"20px"}}><HiQrCode/> ESCANEAR QR</button>
+          )}
       </div>
+
       <div className="container-tabla" style={{marginTop:"20px",display:"none"}} id="fg">
         
             <div className="card-body"> 
             <div>
             
             </div>
-              <table className="table table-dark" style={{marginTop:"20px"}}>
-                    <thead >
+              <table class="table" style={{marginTop:"20px"}}>
+                    <thead className="table table-dark">
                       <tr>
                         <th scope="col " style={{borderTopLeftRadius:"10px"}}>Datos Afiliado</th>
-                        <th scope="col"></th>
                         <th scope="col" style={{borderTopRightRadius:"10px"}}></th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr >
                         <th scope="row" >Nombre: {datosPersonales.nombres}</th>
-                        <th scope="row">Rut: {rutBuscado}</th>
-                        <th scope="row">Comuna: {datosPersonales.glosaComuna}</th>
+                        <th scope="row" style={{borderBottomLeftRadius:"10px"}}>Apellidos: {datosPersonales.apellidoPaterno}<span>  </span>{datosPersonales.apellidoMaterno}</th>
                         
+
                         </tr>
                         <tr >
-                        <th scope="row" style={{borderBottomLeftRadius:"10px"}}>Apellidos: {datosPersonales.apellidoPaterno}<span>  </span>{datosPersonales.apellidoMaterno}</th>
                         <th scope="row">Direccion: {datosPersonales.direccionPaciente}</th>
-                        <th scope="row" style={{borderBottomRightRadius:"10px"}}>Grupo: {datosPersonales.grupoIngreso}</th>
+                        <th scope="row">Comuna: {datosPersonales.glosaComuna}</th>
+                        </tr>
+                        <tr>
+                          <th scope="row">Rut: {rutBuscado}</th>
+                          <th scope="row">Sexo: {datosPersonales.sexo}</th>
                         </tr>
                         
                         
