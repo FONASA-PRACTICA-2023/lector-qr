@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback,useEffect } from "react";
 import Webcam from "react-webcam";
 import { HiQrCode} from "react-icons/hi2";
-import { IoMdReverseCamera} from "react-icons/io";
+import { MdCameraswitch} from "react-icons/md";
 
 
 
@@ -57,8 +57,8 @@ const limpiarDatos = () => {
   const [rutBuscado, setRutBuscado] = useState("");
   const webcamRef = useRef(null);
   const [showWebcam, setShowWebcam] = useState(false);
-  const [antecedentesSigges,setAntecedentesSigges]= useState(null);
-  const videoElement = useRef(null);
+  const [antecedentesSigges,setAntecedentesSigges]= useState({});
+  
   
 
 
@@ -68,8 +68,7 @@ const limpiarDatos = () => {
     
     const imageSrc = webcamRef.current.getScreenshot();
     setCaptura(imageSrc);
-    // updateCaptura(imageSrc);
-  
+
   }, [webcamRef]);
 
 
@@ -118,13 +117,14 @@ const limpiarDatos = () => {
         console.log("error");
         setLoading(false);
       });
-      callDatosMedicos(rut);
+      // callDatosMedicos(rut);
   };
 
-  const callDatosMedicos = (rut) => {
+  const callDatosMedicos = (rut) => { 
+    setLoading(true);
     let rutDV = rut.split("-")[0]
     let DV = rut.split("-")[1]
-    setLoading(true);
+   
     var raw = JSON.stringify({
       "Rut": rutDV,
       "DV": DV,
@@ -142,7 +142,7 @@ const limpiarDatos = () => {
       .then((res) => res.json())
       .then((response) => {
         console.log({ response});
-        setAntecedentesSigges(response.data);
+        setAntecedentesSigges(response);
         setLoading(false);
       })
       .catch(() => {
@@ -190,8 +190,8 @@ const limpiarDatos = () => {
     setInterval(true)
     limpiarDatos();
   };
-  
- 
+
+   
 
   return (
     <div >
@@ -217,7 +217,7 @@ const limpiarDatos = () => {
         
             <div className="card-body"> 
             <div>
-            <button class="btn btn-outline-primary rounded " onClick={cambiarCamara} id="botn" style={{display:"flex", justifyContent:"center",alignItems:"center",width:"5%", marginTop:"20px"}}><IoMdReverseCamera/></button>
+            <button class="btn btn-outline-primary rounded " onClick={cambiarCamara} id="botn" style={{display:"flex",width:"8%"}}><MdCameraswitch style={{width:"100%"}}/></button>
 
             </div>
               <table class="table" style={{marginTop:"20px"}}>
@@ -240,7 +240,30 @@ const limpiarDatos = () => {
                         </tr>
                         <tr>
                           <th scope="row">Rut: {rutBuscado}</th>
-                          <th scope="row">: {datosPersonales.sexo}</th>
+                          <th scope="row">Sexo: {datosPersonales.sexo}</th>
+                        </tr>                     
+                        
+                    </tbody>
+              </table>
+              <table class="table" style={{marginTop:"20px"}}>
+                    <thead className="table table-dark">
+                      <tr>
+                        <th scope="col " >Datos AUGE</th>
+                        <th scope="col" ></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                          <th scope="row">Nombre establecimiento: {antecedentesSigges.CodigoSalida}</th>
+                          <th scope="row">Region: {antecedentesSigges.CodigoSalida}</th>
+                        </tr>
+                        <tr>
+                          <th scope="row">Caso: {antecedentesSigges.CodigoSalida}</th>
+                          <th scope="row">Estado de caso: {antecedentesSigges.CodigoSalida}</th>
+                        </tr>
+                        <tr>
+                          <th scope="row">Fecha de inicio: {antecedentesSigges.CodigoSalida}</th>
+                          <th scope="row">Fecha de termino: {antecedentesSigges.CodigoSalida}</th>
                         </tr>
                         
                         
