@@ -42,7 +42,7 @@ const limpiarDatos = () => {
   const [porcentaje, setPorcentaje] = useState("");
   const [etiqueta, setEtiqueta] = useState("");
   const [camara, setCamara] = useState("TRASERA");
-  const [modo, setModo] = useState(videoConstraintsFrontal);
+  const [modo, setModo] = useState(videoConstraintsTrasera);
   const [nombreArchivo, setNombreArchivo] = useState("");
   const payload = { imagen: captura, file_name: "foto_evaluando.jpg" };
   const [labels, setLabels] = useState([]);
@@ -190,15 +190,22 @@ const limpiarDatos = () => {
                 zoom = {8}
                 className="rounded-5 border border-1"
             ></Webcam>
+            
             ) : (
               <button class="btn-outline-secondary rounded" onClick={handleButtonClick} id="botnCap">Leer codeQR  <Camera/></button>
               
-          )}  
+
+          )} 
+
+         
       </div>
       <div className="container-tabla" style={{marginTop:"20px",display:"none"}} id="fg">
         
-            <div className="card-body">
-              <table className="table table-dark" >
+            <div className="card-body"> 
+            <div>
+            
+            </div>
+              <table className="table table-dark" style={{marginTop:"20px"}}>
                     <thead >
                       <tr>
                         <th scope="col " style={{borderTopLeftRadius:"10px"}}>Datos Afiliado</th>
