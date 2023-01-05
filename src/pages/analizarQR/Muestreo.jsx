@@ -17,7 +17,7 @@ const videoConstraintsTrasera = {
   facingMode: { exact: "environment" },
   focusMode: "continuous",
   frameRate: 60,
-  zoom:2.5,
+  
 };
 
 const ImagenCapturada = ({ data }) => <img alt="hhh" src={`${data}`} />;
@@ -44,7 +44,7 @@ const limpiarDatos = () => {
   const [porcentaje, setPorcentaje] = useState("");
   const [etiqueta, setEtiqueta] = useState("");
   const [camara, setCamara] = useState("TRASERA");
-  const [modo, setModo] = useState(videoConstraintsTrasera);
+  const [modo, setModo] = useState(videoConstraintsFrontal);
   const [nombreArchivo, setNombreArchivo] = useState("");
   const payload = { imagen: captura, file_name: "foto_evaluando.jpg" };
   const [labels, setLabels] = useState([]);
@@ -52,7 +52,6 @@ const limpiarDatos = () => {
   const [datosPersonales, setDatosPersonales] = useState({});
   const [rutBuscado, setRutBuscado] = useState("");
   const webcamRef = useRef(null);
-  const qrRef = useRef(null);
   const [showWebcam, setShowWebcam] = useState(false);
   const [antecedentesSigges,setAntecedentesSigges]= useState(null);
   const videoElement = useRef(null);
@@ -190,11 +189,7 @@ const limpiarDatos = () => {
                 onError={handleError}
                 videoConstraints={modo}
                 focusMode= "continuous"
-                
-
                 className="rounded-5 border border-1"
-                
-                
             ></Webcam>
             ) : (
               <button class="btn btn-outline-primary rounded " onClick={handleButtonClick} id="botnCap" style={{display:"flex", justifyContent:"center",alignItems:"center",width:"100%", marginTop:"20px"}}><HiQrCode/> ESCANEAR QR</button>
