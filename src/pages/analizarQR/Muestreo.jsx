@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import QrReader from "react-web-qr-reader";
-
+import { FaQrcode } from 'react-icons/fa';
+import Alert from 'react-bootstrap/Alert';
 
 
 const videoConstraintsFrontal = {
@@ -56,6 +57,8 @@ function Muestreo() {
   const [casosAUGE, setCasosAUGE] = useState([]);
   const qrReaderRef = useRef(null);
   const [showTaba, setShowTabla] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+
 
   let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5vbWJyZSI6Ik1pZ3VlbCBIZXJuXHUwMGUxbmRleiBHb256XHUwMGUxbGV6IiwicnVuIjoiTkEiLCJtYWlsIjoibWlndWVsLmhlcm5hbmRlekBmb25hc2EuZ292LmNsIiwidXNlcm5hbWUiOiJtaWd1ZWwuaGVybmFuZGV6IiwidGlwb191c3VhcmlvIjoiTkEiLCJydXRfcHJlc3RhZG9yIjoiIiwiaW5zdGl0dWNpb24iOiIiLCJyb2xlcyI6W119LCJpYXQiOjE2NzIzMjc0NjAsImV4cCI6MTY3MjMzMTA2MCwiaXNzIjoiRm9uZG8gTmFjaW9uYWwgZGUgU2FsdWQifQ.WKq6_MvycrMMd_I3gyvkjW0JeNV52IBEbIdaD2Kb5vA"
 
@@ -105,17 +108,12 @@ function Muestreo() {
     })
       .then((res) => res.json())
       .then((response) => {
-        try {
+
         console.log(response.Beneficiarios.Beneficiario[0].CasosAUGE.CasoAUGE);
         setCasosAUGE(response.Beneficiarios.Beneficiario[0].CasosAUGE.CasoAUGE);
-        } catch (error) {
-          console.error(error);
-          setCasosAUGE([]);
-        }
-        
-        
         setAntecedentesSigges(response);
         setLoading(false);
+
       })
       .catch(() => {
         console.log("error");
@@ -125,9 +123,11 @@ function Muestreo() {
 
   const handleButtonClick = () => {
     document.getElementById("fg").style.display = "flex"
+
     setShowWebcam(true);
     setInterval(true)
     limpiarDatos();
+
   };
 
 
@@ -135,6 +135,7 @@ function Muestreo() {
     if (result) {
       setCaptura(result);
       setShowWebcam(false);
+
     }
 
     console.log("QR result:", result.data);
@@ -147,6 +148,8 @@ function Muestreo() {
     setRutBuscado(rutd);
     callDatosPersonales(rutd);
     callDatosMedicos(rutd);
+
+
 
     return rutd;
   }
@@ -168,14 +171,14 @@ function Muestreo() {
             style={{ width: "100%", height: "100%" }}
           />
         ) : (
-          <button class="btn btn-outline-primary rounded " onClick={handleButtonClick} id="botnCap" style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%", marginTop: "20px" }}> ESCANEAR QR</button>
+          <button class="btn btn-outline-primary rounded " onClick={handleButtonClick} id="botnCap" style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%", marginTop: "20px" }}><FaQrcode /> ESCANEAR QR</button>
         )}
       </div>
 
       <div className="container-tabla" style={{ marginTop: "20px", display: "none", height: "450px", overflowX: "scroll" }} id="fg" >
 
         <div className="card-body">
-          <table class="table" style={{ marginTop: "20px"}}>
+          <table class="table" style={{ marginTop: "20px" }}>
             <tbody>
               <ul class="list-group" style={{ background: "$blue" }}>
                 <li class="list-group-item active" aria-current="true" >Datos Afiliado</li>
@@ -191,43 +194,41 @@ function Muestreo() {
             </tbody>
           </table>
 
-        {casosAUGE&& (
-          
-          
-          <table class="table" style={{ marginTop: "20px" }}>
-            <thead >
-              <tr style={{ background: "#0f69b4", color: "white" }}>
-                <th scope="row">Nombre establecimiento</th>
-                <th scope="row">Region</th>
-                <th scope="row">Caso</th>
-                <th scope="row" >Estado de caso </th>
-                <th scope="row">Fecha de inicio </th>
-                <th scope="row">Fecha de termino</th>
-              </tr>
-            </thead>
-            <tbody>
 
-            
-              
-              {casosAUGE.map(item => (
-                <tr key={item.FechaCreacion}>
-                  <td> {item.NombreEstablecimiento}</td>
-                  <td> {item.Region}</td>
-                  <td> {item.NombrePS}</td>
-                  <td style={{ color: item.EstadoCaso === "Caso Cerrado" ? "red" : "green" }}>{item.EstadoCaso}</td>
-                  <td> {item.FechaCreacion}</td>
-                  <td>{item.FechaCierre}</td>
+          {casosAUGE && casosAUGE.length > 0 && (
+
+            < table class="table table-borderless" style={{ marginTop: "20px" }}>
+              <thead >
+
+                <tr style={{ background: "#0f69b4", color: "white" }}>
+                  <td scope="row">Nombre establecimiento</td>
+                  <td scope="row">Region</td>
+                  <td scope="row">Caso</td>
+                  <td scope="row" >Estado de caso </td>
+                  <td scope="row">Fecha de inicio </td>
+                  <td scope="row">Fecha de termino</td>
                 </tr>
-              ))}
-            
-           
+              </thead>
 
-            </tbody>
-          </table>
-           )}
+              <tbody>
+
+                {casosAUGE.map(item => (
+                  <tr key={item.FechaCreacion}>
+                    <td> {item.NombreEstablecimiento}</td>
+                    <td> {item.Region}</td>
+                    <td> {item.NombrePS}</td>
+                    <td style={{ color: item.EstadoCaso === "Caso Cerrado" ? "red" : "green" }}>{item.EstadoCaso}</td>
+                    <td> {item.FechaCreacion}</td>
+                    <td>{item.FechaCierre}</td>
+                  </tr>
+                ))}
+
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
