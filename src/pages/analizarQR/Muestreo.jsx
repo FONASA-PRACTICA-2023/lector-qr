@@ -1,7 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import  QrReader  from "react-web-qr-reader";
-
-
+import QrReader from "react-web-qr-reader";
 
 
 
@@ -42,7 +40,6 @@ function Muestreo() {
     setCasosAUGE([]);
   }
 
-
   const [usuarios, setUsuarios] = useState([]);
   const [captura, setCaptura] = useState("");
   const [loading, setLoading] = useState(false);
@@ -50,7 +47,6 @@ function Muestreo() {
   const [etiqueta, setEtiqueta] = useState("");
   const [camara, setCamara] = useState("TRASERA");
   const [modo, setModo] = useState(videoConstraintsFrontal);
-  // const [nombreArchivo, setNombreArchivo] = useState("");
   const payload = { imagen: captura, file_name: "foto_evaluando.jpg" };
   const [labels, setLabels] = useState([]);
   const [estado, setEstado] = useState("");
@@ -61,15 +57,13 @@ function Muestreo() {
   const [casosAUGE, setCasosAUGE] = useState([]);
   const qrReaderRef = useRef(null);
 
-
-
   let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5vbWJyZSI6Ik1pZ3VlbCBIZXJuXHUwMGUxbmRleiBHb256XHUwMGUxbGV6IiwicnVuIjoiTkEiLCJtYWlsIjoibWlndWVsLmhlcm5hbmRlekBmb25hc2EuZ292LmNsIiwidXNlcm5hbWUiOiJtaWd1ZWwuaGVybmFuZGV6IiwidGlwb191c3VhcmlvIjoiTkEiLCJydXRfcHJlc3RhZG9yIjoiIiwiaW5zdGl0dWNpb24iOiIiLCJyb2xlcyI6W119LCJpYXQiOjE2NzIzMjc0NjAsImV4cCI6MTY3MjMzMTA2MCwiaXNzIjoiRm9uZG8gTmFjaW9uYWwgZGUgU2FsdWQifQ.WKq6_MvycrMMd_I3gyvkjW0JeNV52IBEbIdaD2Kb5vA"
-  
+
 
   const callDatosPersonales = (rutd) => {
     setLoading(true);
     let url = "https://api.fonasa.cl/FONASACertificacionTrabajadorREST/"
-    fetch(url+rutd, {
+    fetch(url + rutd, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +80,6 @@ function Muestreo() {
         console.log("error");
         setLoading(false);
       });
-    // callDatosMedicos(rut);
   };
 
   const callDatosMedicos = (rutd) => {
@@ -110,6 +103,7 @@ function Muestreo() {
     })
       .then((res) => res.json())
       .then((response) => {
+
         console.log(response.Beneficiarios.Beneficiario[0].CasosAUGE.CasoAUGE);
         setCasosAUGE(response.Beneficiarios.Beneficiario[0].CasosAUGE.CasoAUGE);
         setAntecedentesSigges(response);
@@ -121,23 +115,8 @@ function Muestreo() {
       });
   };
 
-  const cambiarCamara = () => {
-    if (camara === "TRASERA") {
-      setCamara("FRONTAL");
-      setModo(videoConstraintsFrontal);
-    } else {
-      setCamara("TRASERA");
-      setModo(videoConstraintsTrasera);
-    }
-  }
-
-
-  const handleError = (err) => {
-    console.error(err);
-  };
-
-
   const handleButtonClick = () => {
+
     document.getElementById("fg").style.display = "flex"
     setShowWebcam(true);
     setInterval(true)
@@ -146,6 +125,10 @@ function Muestreo() {
 
 
   function handleQrScan(result) {
+    if (result) {
+      setCaptura(result);
+      setShowWebcam(false);
+    }
     console.log("QR result:", result.data);
     let code = result.data.split("?")[1]
     console.log("rut :", code);
@@ -157,18 +140,12 @@ function Muestreo() {
     callDatosPersonales(rutd);
     callDatosMedicos(rutd);
 
-    return { rutd}
-    
-    
-    // Aquí puedes procesar el resultado del código QR
+    return { rutd }
   }
 
   function handleQrError(error) {
     console.error("QR error:", error);
-    // Aquí puedes manejar errores al leer el código QR
   }
-
-
 
 
   return (
@@ -191,10 +168,6 @@ function Muestreo() {
       <div className="container-tabla" style={{ marginTop: "20px", display: "none", height: "450px", overflowX: "scroll" }} id="fg" >
 
         <div className="card-body">
-          <div>
-            <button class="btn btn-outline-primary rounded " onClick={cambiarCamara} id="botn" style={{ display: "flex", width: "8%" }}></button>
-
-          </div>
           <table class="table" style={{ marginTop: "20px" }}>
             <tbody>
               <ul class="list-group" style={{ background: "$blue" }}>
