@@ -45,7 +45,6 @@ function Muestreo() {
   const [loading, setLoading] = useState(false);
   const [porcentaje, setPorcentaje] = useState("");
   const [etiqueta, setEtiqueta] = useState("");
-  const [camara, setCamara] = useState("TRASERA");
   const [modo, setModo] = useState(videoConstraintsFrontal);
   const payload = { imagen: captura, file_name: "foto_evaluando.jpg" };
   const [labels, setLabels] = useState([]);
@@ -56,6 +55,7 @@ function Muestreo() {
   const [antecedentesSigges, setAntecedentesSigges] = useState({});
   const [casosAUGE, setCasosAUGE] = useState([]);
   const qrReaderRef = useRef(null);
+  const [showTaba, setShowTabla] = useState(false);
 
   let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5vbWJyZSI6Ik1pZ3VlbCBIZXJuXHUwMGUxbmRleiBHb256XHUwMGUxbGV6IiwicnVuIjoiTkEiLCJtYWlsIjoibWlndWVsLmhlcm5hbmRlekBmb25hc2EuZ292LmNsIiwidXNlcm5hbWUiOiJtaWd1ZWwuaGVybmFuZGV6IiwidGlwb191c3VhcmlvIjoiTkEiLCJydXRfcHJlc3RhZG9yIjoiIiwiaW5zdGl0dWNpb24iOiIiLCJyb2xlcyI6W119LCJpYXQiOjE2NzIzMjc0NjAsImV4cCI6MTY3MjMzMTA2MCwiaXNzIjoiRm9uZG8gTmFjaW9uYWwgZGUgU2FsdWQifQ.WKq6_MvycrMMd_I3gyvkjW0JeNV52IBEbIdaD2Kb5vA"
 
@@ -92,7 +92,9 @@ function Muestreo() {
       "DV": DV,
       "Contrasena": "wssigges"
     });
+
     let url = "https://api.fonasa.cl/FonasaConsultaSigges"
+
     fetch(url, {
       method: "POST",
       body: raw,
@@ -103,9 +105,15 @@ function Muestreo() {
     })
       .then((res) => res.json())
       .then((response) => {
-
+        try {
         console.log(response.Beneficiarios.Beneficiario[0].CasosAUGE.CasoAUGE);
         setCasosAUGE(response.Beneficiarios.Beneficiario[0].CasosAUGE.CasoAUGE);
+        } catch (error) {
+          console.error(error);
+          setCasosAUGE([]);
+        }
+        
+        
         setAntecedentesSigges(response);
         setLoading(false);
       })
@@ -116,7 +124,6 @@ function Muestreo() {
   };
 
   const handleButtonClick = () => {
-
     document.getElementById("fg").style.display = "flex"
     setShowWebcam(true);
     setInterval(true)
@@ -129,6 +136,7 @@ function Muestreo() {
       setCaptura(result);
       setShowWebcam(false);
     }
+
     console.log("QR result:", result.data);
     let code = result.data.split("?")[1]
     console.log("rut :", code);
@@ -140,13 +148,12 @@ function Muestreo() {
     callDatosPersonales(rutd);
     callDatosMedicos(rutd);
 
-    return { rutd }
+    return rutd;
   }
 
   function handleQrError(error) {
     console.error("QR error:", error);
   }
-
 
   return (
     <div >
@@ -168,7 +175,7 @@ function Muestreo() {
       <div className="container-tabla" style={{ marginTop: "20px", display: "none", height: "450px", overflowX: "scroll" }} id="fg" >
 
         <div className="card-body">
-          <table class="table" style={{ marginTop: "20px" }}>
+          <table class="table" style={{ marginTop: "20px"}}>
             <tbody>
               <ul class="list-group" style={{ background: "$blue" }}>
                 <li class="list-group-item active" aria-current="true" >Datos Afiliado</li>
@@ -184,6 +191,9 @@ function Muestreo() {
             </tbody>
           </table>
 
+        {casosAUGE&& (
+          
+          
           <table class="table" style={{ marginTop: "20px" }}>
             <thead >
               <tr style={{ background: "#0f69b4", color: "white" }}>
@@ -197,6 +207,8 @@ function Muestreo() {
             </thead>
             <tbody>
 
+            
+              
               {casosAUGE.map(item => (
                 <tr key={item.FechaCreacion}>
                   <td> {item.NombreEstablecimiento}</td>
@@ -207,9 +219,12 @@ function Muestreo() {
                   <td>{item.FechaCierre}</td>
                 </tr>
               ))}
+            
+           
 
             </tbody>
           </table>
+           )}
         </div>
       </div>
     </div>
