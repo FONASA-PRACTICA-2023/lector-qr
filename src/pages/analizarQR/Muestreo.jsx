@@ -194,7 +194,7 @@ function Muestreo() {
     setInterval(true)
     limpiarDatos();
   };
-  
+
 
 
 
@@ -218,7 +218,7 @@ function Muestreo() {
         )}
       </div>
 
-      <div className="container-tabla" style={{ marginTop: "20px", display: "none" }} id="fg">
+      <div className="container-tabla" style={{ marginTop: "20px", display: "none", height: "450px", overflowX: "scroll" }} id="fg" >
 
         <div className="card-body">
           <div>
@@ -240,6 +240,7 @@ function Muestreo() {
 
             </tbody>
           </table>
+
           <table class="table" style={{ marginTop: "20px" }}>
             <thead >
               <tr style={{ background: "#0f69b4", color: "white" }}>
