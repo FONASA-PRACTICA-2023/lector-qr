@@ -5,7 +5,6 @@ import { BiUserCircle } from 'react-icons/bi';
 import useApiSnoopy from "../../hooks/useApiSnoopy";
 import swal from 'sweetalert';
 
-
 const videoConstraintsFrontal = {
   width: 350,
   height: 350,
@@ -92,8 +91,8 @@ function Muestreo() {
     let DV = rutd.split("-")[1]
 
     var raw = JSON.stringify({
-      "Rut": rutDV,
-      "DV": DV,
+      "Rut": "16932390",
+      "DV": "9",
       "Contrasena": "wssigges"
     });
 
@@ -115,16 +114,16 @@ function Muestreo() {
         setAntecedentesSigges(response);
         if (response.Beneficiarios.Beneficiario[0].CasosAUGE.CasoAUGE.NombrePS == "") {
           console.log("hfdsaj")
-        }else{
+        } else {
           swal({
-            buttons: [ false],
+            buttons: [false],
             icon: "success",
             timer: "2000",
-  
+
           });
           setLoading(false);
         }
-        
+
       })
       .catch(() => {
         console.log("error");
@@ -133,7 +132,7 @@ function Muestreo() {
           text: "Usuario no cuenta con datos AUGE",
           icon: "warning",
           timer: "2000",
-          buttons: [ false],
+          buttons: [false],
 
         });
         setLoading(false);
@@ -191,17 +190,17 @@ function Muestreo() {
           />
         ) : (
 
-          <button class="btn btn-outline-primary rounded " onClick={handleButtonClick} id="botnCap" style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%", marginTop: "20px" }}><FaQrcode /> ESCANEAR QR</button>
+          <button class="btn btn-outline-primary rounded " onClick={handleButtonClick} id="botnCap" style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%", marginTop: "20px" }}><FaQrcode style={{ marginRight: "10px" }} />ESCANEAR QR</button>
         )}
       </div>
-      <div className="container-tabla" style={{ marginTop: "20px", display: "none", height: "100%", overflowX: "scroll" }} id="fg" >
+      <div className="container-tabla" style={{ marginTop: "20px", display: "none", height: "100%" }} id="fg" >
 
         <div className="card-body">
           <table class="table" style={{ marginTop: "20px" }}>
             <tbody>
 
               <ul class="list-group" style={{ background: "$blue" }}>
-                <li class="list-group-item active" aria-current="true" ><BiUserCircle />Datos Afiliado</li>
+                <li class="list-group-item active" aria-current="true" ><BiUserCircle style={{ marginRight: "10px", fontSize: "20px" }} />Datos Afiliado</li>
                 <li class="list-group-item">Nombre: {datosPersonales.nombres}</li>
                 <li class="list-group-item">Apellidos: {datosPersonales.apellidoPaterno}<span>  </span>{datosPersonales.apellidoMaterno}</li>
                 <li class="list-group-item">Direccion: {datosPersonales.direccionPaciente}</li>
@@ -213,33 +212,36 @@ function Muestreo() {
               </ul>
             </tbody>
           </table>
-
+        </div>
+        </div>
+        <div
+        style={{overflow:"scroll"}}> 
 
           {casosAUGE && casosAUGE.length > 0 && (
 
-            < table class="table table-borderless" style={{ marginTop: "20px" }} id="xsx">
+            < table class="table" style={{ marginTop: "20px" }} id="xsx">
               <thead >
 
-                <tr style={{ background: "#0f69b4", color: "white" }}>
-                  <td scope="row">Nombre establecimiento</td>
-                  <td scope="row">Region</td>
-                  <td scope="row">Caso</td>
-                  <td scope="row" >Estado de caso </td>
-                  <td scope="row">Fecha de inicio </td>
+                <tr >
+                  <td scope="row">Problema de salud</td>
+                  <td scope="row" >Estado</td>
+                  <td scope="row">Responsable</td>
+                  <td scope="row">Región</td>
+                  <td scope="row">Fecha de inicio</td>
                   <td scope="row">Fecha de termino</td>
 
                 </tr>
               </thead>
 
-              <tbody>
+              <tbody class="table-group-divider">
 
 
                 {casosAUGE.map(item => (
                   <tr key={item.FechaCreacion}>
+                    <td> {item.NombrePS}</td>
+                    <td style={{ background: item.EstadoCaso === "Caso Cerrado" ? "#d18988" : "#c3e6cb" }}>{item.EstadoCaso}</td>
                     <td> {item.NombreEstablecimiento}</td>
                     <td> {item.Region}</td>
-                    <td> {item.NombrePS}</td>
-                    <td style={{ color: item.EstadoCaso === "Caso Cerrado" ? "red" : "green" }}>{item.EstadoCaso}</td>
                     <td> {item.FechaCreacion}</td>
                     <td>{item.FechaCierre}</td>
 
@@ -249,7 +251,10 @@ function Muestreo() {
               </tbody>
             </table>
           )}
-        </div>
+       
+
+
+
       </div>
     </div >
 
