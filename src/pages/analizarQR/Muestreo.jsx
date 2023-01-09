@@ -2,10 +2,8 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import QrReader from "react-web-qr-reader";
 import { FaQrcode } from 'react-icons/fa';
 import { BiUserCircle } from 'react-icons/bi';
-import Cargando from "../../components/Cargando";
 import useApiSnoopy from "../../hooks/useApiSnoopy";
-import MensajeError from "../../components/MensajeError";
-import MensajeExito from "../../components/MensajeExito";
+import swal from 'sweetalert';
 
 
 const videoConstraintsFrontal = {
@@ -115,17 +113,25 @@ function Muestreo() {
         console.log(response.Beneficiarios.Beneficiario[0].CasosAUGE.CasoAUGE);
         setCasosAUGE(response.Beneficiarios.Beneficiario[0].CasosAUGE.CasoAUGE);
         setAntecedentesSigges(response);
-        if(response.Beneficiarios.Beneficiario[0].CasosAUGE.CasoAUGE.NombrePS==""){
+        if (response.Beneficiarios.Beneficiario[0].CasosAUGE.CasoAUGE.NombrePS == "") {
           console.log("hfdsaj")
         }
         setLoading(false);
       })
       .catch(() => {
         console.log("error");
-        alert("EL USUARIO NO CUENTA CON DATOS AUGE O INTENTE NUEVAMENTE")
+
+        swal({
+
+          text: "Usuario no cuenta con datos AUGE",
+          icon: "warning",
+          timer: "2000",
+
+        });
         setLoading(false);
       });
   };
+
 
   const handleButtonClick = () => {
     document.getElementById("fg").style.display = "flex"
@@ -154,13 +160,13 @@ function Muestreo() {
     setRutBuscado(rutd);
     callDatosPersonales(rutd);
     callDatosMedicos(rutd);
-  
+
   }
 
   function handleQrError(error) {
     console.error("QR error:", error);
   }
-  
+  // 
 
 
   return (
@@ -176,6 +182,7 @@ function Muestreo() {
             style={{ width: "100%", height: "100%" }}
           />
         ) : (
+
           <button class="btn btn-outline-primary rounded " onClick={handleButtonClick} id="botnCap" style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%", marginTop: "20px" }}><FaQrcode /> ESCANEAR QR</button>
         )}
       </div>
@@ -193,7 +200,7 @@ function Muestreo() {
                 <li class="list-group-item">Comuna: {datosPersonales.glosaComuna}</li>
                 <li class="list-group-item">Rut: {rutBuscado}</li>
                 <li class="list-group-item">Sexo: {datosPersonales.sexo}</li>
-                
+
 
               </ul>
             </tbody>
@@ -212,7 +219,7 @@ function Muestreo() {
                   <td scope="row" >Estado de caso </td>
                   <td scope="row">Fecha de inicio </td>
                   <td scope="row">Fecha de termino</td>
-                
+
                 </tr>
               </thead>
 
@@ -227,7 +234,7 @@ function Muestreo() {
                     <td style={{ color: item.EstadoCaso === "Caso Cerrado" ? "red" : "green" }}>{item.EstadoCaso}</td>
                     <td> {item.FechaCreacion}</td>
                     <td>{item.FechaCierre}</td>
-                    
+
                   </tr>
 
                 ))}
