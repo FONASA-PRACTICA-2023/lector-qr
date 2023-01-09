@@ -115,17 +115,25 @@ function Muestreo() {
         setAntecedentesSigges(response);
         if (response.Beneficiarios.Beneficiario[0].CasosAUGE.CasoAUGE.NombrePS == "") {
           console.log("hfdsaj")
+        }else{
+          swal({
+            buttons: [ false],
+            icon: "success",
+            timer: "2000",
+  
+          });
+          setLoading(false);
         }
-        setLoading(false);
+        
       })
       .catch(() => {
         console.log("error");
 
         swal({
-
           text: "Usuario no cuenta con datos AUGE",
           icon: "warning",
           timer: "2000",
+          buttons: [ false],
 
         });
         setLoading(false);
