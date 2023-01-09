@@ -179,7 +179,7 @@ function Muestreo() {
           <button class="btn btn-outline-primary rounded " onClick={handleButtonClick} id="botnCap" style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%", marginTop: "20px" }}><FaQrcode /> ESCANEAR QR</button>
         )}
       </div>
-      <div className="container-tabla" style={{ marginTop: "20px", display: "none", height: "450px", overflowX: "scroll" }} id="fg" >
+      <div className="container-tabla" style={{ marginTop: "20px", display: "none", height: "100%", overflowX: "scroll" }} id="fg" >
 
         <div className="card-body">
           <table class="table" style={{ marginTop: "20px" }}>
