@@ -18,7 +18,10 @@ const videoConstraintsTrasera = {
   frameRate: 60,
 };
 
+
+
 function Muestreo() {
+
 
   const limpiarDatos = () => {
 
@@ -39,7 +42,7 @@ function Muestreo() {
   const [loading, setLoading] = useState(false);
   const [porcentaje, setPorcentaje] = useState("");
   const [etiqueta, setEtiqueta] = useState("");
-  const [modo, setModo] = useState(videoConstraintsFrontal);
+  const [modo, setModo] = useState(videoConstraintsTrasera);
   const payload = { imagen: captura, file_name: "foto_evaluando.jpg" };
   const [labels, setLabels] = useState([]);
   const [estado, setEstado] = useState("");
@@ -53,8 +56,8 @@ function Muestreo() {
   const url = "https://api.fonasa.cl/FONASACertificacionTrabajadorREST/"
   const urlsigges = "https://api.fonasa.cl/FonasaConsultaSigges"
 
-  const callDatosPersonales = (rut) => {
 
+  const callDatosPersonales = (rut) => {
     setLoading(true);
     fetch(url + rut, {
       method: "GET",
@@ -85,7 +88,6 @@ function Muestreo() {
       "DV": DV,
       "Contrasena": "wssigges"
     });
-
     fetch(urlsigges, {
       method: "POST",
       body: raw,
@@ -96,31 +98,24 @@ function Muestreo() {
     })
       .then((res) => res.json())
       .then((response) => {
-
         setCasosAUGE(response.Beneficiarios.Beneficiario[0].CasosAUGE.CasoAUGE);
         setAntecedentesSigges(response);
-
         if (response.Beneficiarios.Beneficiario[0].CasosAUGE.CasoAUGE.NombrePS == "") {
         } else {
           swal({
-
             buttons: [false],
             icon: "success",
             timer: "2000",
-
           });
           setLoading(false);
         }
-
       })
       .catch(() => {
         swal({
-
           text: "Usuario no cuenta con datos AUGE",
           icon: "warning",
           timer: "2000",
           buttons: [false],
-
         });
         setLoading(false);
       });
@@ -128,12 +123,10 @@ function Muestreo() {
 
 
   const handleButtonClick = () => {
-    document.getElementById("fg").style.display = "flex"
-
     setShowWebcam(true);
     setInterval(true)
     limpiarDatos();
-
+    document.getElementById("fg").style.display = "none"
   };
 
 
@@ -141,23 +134,30 @@ function Muestreo() {
     if (result) {
       setCaptura(result);
       setShowWebcam(false);
-
     }
 
     let rut = result.data.split("?")[1].split("&")[0].split("=")[1]
-
     setRutBuscado(rut);
     callDatosPersonales(rut);
     callDatosMedicos(rut);
 
+    if (setRutBuscado(rut) == "") {
+      document.getElementById("fg").style.display = "none"
+    } else {
+      document.getElementById("fg").style.display = "flex"
+    }
   }
+
 
   return (
     <div >
+
+
       <div className="container-camara rounded" style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%", marginTop: "20px" }}>
         {showWebcam ? (
 
           <QrReader
+            delay={300}
             ref={qrReaderRef}
             videoConstraints={modo}
             onScan={handleQrScan}
@@ -165,23 +165,24 @@ function Muestreo() {
           />
 
         ) : (
-          <button class="btn btn-outline-primary rounded " onClick={handleButtonClick} id="botnCap" style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%", marginTop: "20px" }}><FaQrcode style={{ marginRight: "10px" }} />ESCANEAR QR</button>
+          <button className="btn btn-outline-primary rounded " onClick={handleButtonClick} id="botnCap" style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%", marginTop: "20px" }}><FaQrcode style={{ marginRight: "10px" }} />ESCANEAR QR</button>
         )}
       </div>
-      <div className="container-tabla" style={{ marginTop: "20px", display: "none", height: "100%" }} id="fg" >
 
+
+      <div className="container-tabla" style={{ marginTop: "20px", height: "100%", display: "none" }} id="fg" >
         <div className="card-body">
-          <table class="table" style={{ marginTop: "20px" }}>
+          <table className="table" style={{ marginTop: "20px" }} id="ss">
             <tbody>
 
-              <ul class="list-group" >
-                <li class="list-group-item active" aria-current="true" ><BiUserCircle style={{ marginRight: "10px", fontSize: "20px" }} />Datos Afiliado</li>
-                <li class="list-group-item">Nombre: {datosPersonales.nombres}</li>
-                <li class="list-group-item">Apellidos: {datosPersonales.apellidoPaterno}<span>  </span>{datosPersonales.apellidoMaterno}</li>
-                <li class="list-group-item">Dirección: {datosPersonales.direccionPaciente}</li>
-                <li class="list-group-item">Comuna: {datosPersonales.glosaComuna}</li>
-                <li class="list-group-item">Rut: {rutBuscado}</li>
-                <li class="list-group-item">Sexo: {datosPersonales.sexo}</li>
+              <ul className="list-group" >
+                <li className="list-group-item active" aria-current="true" ><BiUserCircle style={{ marginRight: "10px", fontSize: "20px" }} />Datos Afiliado</li>
+                <li className="list-group-item">Nombre: {datosPersonales.nombres}</li>
+                <li className="list-group-item">Apellidos: {datosPersonales.apellidoPaterno}<span>  </span>{datosPersonales.apellidoMaterno}</li>
+                <li className="list-group-item">Dirección: {datosPersonales.direccionPaciente}</li>
+                <li className="list-group-item">Comuna: {datosPersonales.glosaComuna}</li>
+                <li className="list-group-item">Rut: {rutBuscado}</li>
+                <li className="list-group-item">Sexo: {datosPersonales.sexo}</li>
               </ul>
 
             </tbody>
@@ -191,7 +192,7 @@ function Muestreo() {
 
       <div style={{ overflow: "scroll" }}>
         {casosAUGE && casosAUGE.length > 0 && (
-          < table class="table" style={{ marginTop: "20px" }} id="xsx">
+          < table className="table" style={{ marginTop: "20px" }}>
             <thead >
 
               <tr >
@@ -204,11 +205,11 @@ function Muestreo() {
               </tr>
 
             </thead>
-            <tbody class="table-group-divider">
+            <tbody className="table-group-divider">
               {casosAUGE.map(item => (
 
                 <tr key={item.FechaCreacion}>
-                  <td style={{background:"#b8d7ea"}}> {item.NombrePS}</td>
+                  <td style={{ background: "#b8d7ea" }}> {item.NombrePS}</td>
                   <td style={{ background: item.EstadoCaso === "Caso Cerrado" ? "#d18988" : "#c3e6cb" }}>{item.EstadoCaso}</td>
                   <td> {item.NombreEstablecimiento}</td>
                   <td> {item.Region}</td>

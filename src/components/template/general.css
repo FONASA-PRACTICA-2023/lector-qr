@@ -19,3 +19,58 @@
     color: white !important;
   }
   
+  .modal-contenedor {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal__datos {
+    width: 70%;
+    margin: 0 auto;
+    height: 70%;
+    background-color: #fff;
+    position: relative;
+    border-radius: 5px;
+    padding: 20px;
+  }
+  
+  .modal__encabezado {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #E8E8E8;
+  }
+  
+  .modal__encabezado h3 {
+    font-weight: 500;
+    font-size: 16px;
+    color: #1766DC;
+  }
+  
+  .modal__btn-cerrar {
+    position: absolute;
+    background-color: #fff;
+    top: 20px;
+    right: 20px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    cursor: pointer;
+    transition: .3s ease all;
+    border-radius: 5px;
+    color: #1766DC;
+  }
+  
+  .modal__btn-cerrar:hover {
+    background: #f1f1f1;
+  }  

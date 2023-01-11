@@ -11,6 +11,7 @@ import FormularioServicioIntegracion from "./pages/servicios/FormularioServicioI
 import FormularioRequestResponse from "./pages/servicios/FormularioRequestResponse";
 import ListadoServiciosIntegracion from "./pages/servicios/ListadoServiciosIntegracion";
 import Muestreo from "./pages/analizarQR/Muestreo";
+import { Modal } from "bootstrap";
 
 function AplicacionSnoopy() {
   return (
@@ -31,8 +32,11 @@ function AplicacionSnoopy() {
               element={<FormularioServicioIntegracion />}
             />
             
-
-            
+            <Route
+              path="/odal"
+              element={<Modal/>}
+            />
+          
             <Route
               path="/servicio-editar/:id"
               element={<FormularioServicioIntegracion />}
