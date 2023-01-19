@@ -65,7 +65,7 @@ function Detalle() {
                             <h5 class="card-title">beneficiario</h5>
                         </div>
                     </div>
-                </div>
+             </div>
                 <div class="col">
                     <div class="card h-100 rounded">
                         <div class="card-body">
