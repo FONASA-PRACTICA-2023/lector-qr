@@ -1,9 +1,48 @@
 .container {
     margin-top: 60px;
   }
+  .input-container {
+    position: relative;
+  }
+  
+  
+  .input-container input {
+    padding-right: 30px;
+  }
+  
+  .input-container span {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+  .text-input::after {
+    content: "Texto";
+    position: absolute;
+    top: 0;
+    right: 0;
+  }  
   
   .App {
     font-family: sans-serif;
+  }
+  .line {
+    position: relative;
+    display: inline-block;
+    min-width: 100%;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .h1, h1 {
+    font-family: "Roboto Slab",serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 2.88rem;
+  }
+
+  .font-level-2 {
+    font-size: 1.6875rem;
+    line-height: 1.625rem;
   }
   
   body {

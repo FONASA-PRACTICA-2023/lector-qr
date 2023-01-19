@@ -8226,6 +8226,8 @@ textarea.form-control-lg {
   visibility: hidden !important;
 }
 
+
+
 @media (min-width: 576px) {
   .float-sm-start {
     float: left !important;
@@ -10210,6 +10212,119 @@ textarea.form-control-lg {
     text-align: center !important;
   }
 }
+
+/* ROLES */
+.contenedor-roles {
+  width: 100%;
+  height: calc(100vh - 102px);
+}
+
+.contenedor-usuario {
+  background-color: #f2f2f2;
+  border-radius: 30px;
+}
+
+.datos-usuario {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  padding: 20px 20px;
+  gap: 80px;
+}
+
+.usuario-datos {
+  display: flex;
+  gap: 100px;
+}
+
+.contenedor-tablas {
+  margin-top: 20px;
+  border-radius: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+.btn-group-sm > .btn, .btn-sm {
+  padding: .28rem .8rem;
+  font-size: .875rem;
+  border-radius: .15rem;
+}
+.ReactModal__Content {
+  width: 20%;
+  height: 20%;
+  margin-top: 20px;
+}
+.btn-no-outline {
+  outline: none;
+}
+.btn-success {
+  color: #fff;
+  background-color: #42d29d;
+  border-color: #42d29d;
+}
+.contanedor-tabla--roles-asociadoss   {
+  background-color: #f2f2f2;
+  border-radius: 30px;
+  padding: 50px;
+  width: 100%;
+}
+
+.tableRigth{
+  width: 50%;
+  height: 1829px;
+}
+.tableLeft{
+  width: 50%;
+  
+}
+
+.media{
+  display:flex;
+  gap:50px;
+}
+
+.container-recurses{
+ height: 100%; 
+ width: 100%; 
+ margin-top: 30p;
+}
+
+@media(max-width:955px){
+  .media{gap: 0;flex-direction: column;}
+  .tableRigth,
+.tableLeft{
+  width: 100%;
+}
+
+}
+
+.card .header-title {
+  margin-bottom: .5rem;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  font-size: .9rem;
+  margin-top: 0;
+}
+
+.contanedor-tabla--roles-asociadoss   {
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  width: 48%;
+  margin-top: 20px;
+  
+}
+
+.contanedor-tabla--roles-asociados   {
+  background-color: #f2f2f2;
+  border-radius: 10px;
+
+  width: 48%;
+ 
+}
+
+
+/* FIN ROLES */
+
 @media (min-width: 1400px) {
   .float-xxl-start {
     float: left !important;

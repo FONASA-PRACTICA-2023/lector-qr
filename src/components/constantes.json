@@ -3,8 +3,29 @@
   "login": "/login",
   "logout": "/logout",
   "menu": [
-    
-    { "label": "LectorQR", "path": "/Muestreo" }
-    
+    {
+      "label": "LectorQR",
+      "path": "/"
+    },
+    {
+      "label": "FormularioUsuario",
+      "path": "/servicio-crear"
+    },
+    {
+      "label": "AsignarRoles",
+      "path": "/Roles"
+    },
+    {
+      "label": "RecursosAutorizados",
+      "path": "/RolesAut"
+    },
+    {
+      "label": "Registros",
+      "path": "/RegistrosCredenciales"
+    },
+    {
+      "label": "Encuentro",
+      "path": "/Encuentro:id"
+    }
   ]
 }

@@ -124,7 +124,7 @@ function FormularioRequestResponse(props) {
             <div className="col-md-10">
               <label htmlFor="nombre" className="form-label">
                 Nombre del Servicio
-                <span class="text-danger fw-bold fs-5">*</span>
+                <span className="text-danger fw-bold fs-5">*</span>
               </label>
               <input
                 type="text"
@@ -137,7 +137,7 @@ function FormularioRequestResponse(props) {
                 required
               />
               <div className="invalid-feedback">Debe ingresar un valor</div>
-              <div class="form-text">
+              <div className="form-text">
                 Debe ser un valor único, no se puede repetir.
               </div>
             </div>
@@ -146,7 +146,7 @@ function FormularioRequestResponse(props) {
             <div className="col-md-10">
               <label htmlFor="descripcion" className="form-label">
                 Descripción del Ejemplo
-                <span class="text-danger fw-bold fs-5">*</span>
+                <span className="text-danger fw-bold fs-5">*</span>
               </label>
               <input
                 type="text"
@@ -159,12 +159,12 @@ function FormularioRequestResponse(props) {
                 required
               />
               <div className="invalid-feedback">Debe ingresar un valor</div>
-              <div class="form-text">Descripción del ejemplo</div>
+              <div className="form-text">Descripción del ejemplo</div>
             </div>
             {/* AUTOR_ID */}
             <div className="col-md-2">
               <label htmlFor="autor_id" className="form-label">
-                Autor Id<span class="text-danger fw-bold fs-5">*</span>
+                Autor Id<span className="text-danger fw-bold fs-5">*</span>
               </label>
               <input
                 type="text"

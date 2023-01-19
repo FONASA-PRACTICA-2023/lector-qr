@@ -46,15 +46,15 @@ function MenuSuperior({ user }) {
                   ))}
                 </ul>
 
-                <div class="nav navbar-nav navbar-right hidden-xs text-light">
-                  <span class="pull-left user-top">
-                    <p class="mT10 ng-binding ng-scope">
-                      <span class="fw-semibold">Bienvenido/a, </span>
+                <div className="nav navbar-nav navbar-right hidden-xs text-light">
+                  <span className="pull-left user-top">
+                    <p className="mT10 ng-binding ng-scope">
+                      <span className="fw-semibold">Bienvenido/a, </span>
                       {user.nombre}
                     </p>
 
                     <p>
-                      <span class="fw-semibold">RUN: </span> {user.run}
+                      <span className="fw-semibold">RUN: </span> {user.run}
                     </p>
                     <p>
                       {user.tipo_usuario} {" / "} {user.institucion}

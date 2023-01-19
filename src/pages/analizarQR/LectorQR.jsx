@@ -20,7 +20,7 @@ const videoConstraintsTrasera = {
 
 
 
-function Muestreo() {
+function LectorQR() {
 
 
   const limpiarDatos = () => {
@@ -151,9 +151,10 @@ function Muestreo() {
 
   return (
     <div >
+      
 
 
-      <div className="container-camara rounded" style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%", marginTop: "20px" }}>
+      <div className="container-camara rounded d-print-inline-flex justify-content-center text-center mt-2" style={{ width: "100%"}}>
         {showWebcam ? (
 
           <QrReader
@@ -165,18 +166,20 @@ function Muestreo() {
           />
 
         ) : (
-          <button className="btn btn-outline-primary rounded " onClick={handleButtonClick} id="botnCap" style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%", marginTop: "20px" }}><FaQrcode style={{ marginRight: "10px" }} />ESCANEAR QR</button>
+          <button className="btn btn-outline-primary rounded d-print-inline-flex mt-2 justify-content-center text-center " onClick={handleButtonClick} id="botnCap" style={{width: "100%" }}><FaQrcode className="mr-2"/>ESCANEAR QR</button>
         )}
+
       </div>
+     
 
 
-      <div className="container-tabla" style={{ marginTop: "20px", height: "100%", display: "none" }} id="fg" >
+      <div className="container-tabla d-print-none mt-2" style={{height: "100%"}} id="fg" >
         <div className="card-body">
-          <table className="table" style={{ marginTop: "20px" }} id="ss">
+          <table className="table mt-1"  id="ss">
             <tbody>
 
               <ul className="list-group" >
-                <li className="list-group-item active" aria-current="true" ><BiUserCircle style={{ marginRight: "10px", fontSize: "20px" }} />Datos Afiliado</li>
+                <li className="list-group-item active" aria-current="true" ><BiUserCircle className="mr-1 fs-5"/>Datos Afiliado</li>
                 <li className="list-group-item">Nombre: {datosPersonales.nombres}</li>
                 <li className="list-group-item">Apellidos: {datosPersonales.apellidoPaterno}<span>  </span>{datosPersonales.apellidoMaterno}</li>
                 <li className="list-group-item">Dirección: {datosPersonales.direccionPaciente}</li>
@@ -190,9 +193,9 @@ function Muestreo() {
         </div>
       </div>
 
-      <div style={{ overflow: "scroll" }}>
+      <div>
         {casosAUGE && casosAUGE.length > 0 && (
-          < table className="table" style={{ marginTop: "20px" }}>
+          < table className="table mt-1 overflow-x-auto">
             <thead >
 
               <tr >
@@ -226,5 +229,5 @@ function Muestreo() {
   );
 }
 
-export default Muestreo;
+export default LectorQR;
 
