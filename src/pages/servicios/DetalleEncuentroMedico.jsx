@@ -57,15 +57,13 @@ function Detalle() {
                         </div>
                     </div>
                 </div>
-
-
                 <div class="col">
                     <div class="card h-100 rounded">
                         <div class="card-body">
                             <h5 class="card-title">beneficiario</h5>
                         </div>
                     </div>
-             </div>
+                </div>
                 <div class="col">
                     <div class="card h-100 rounded">
                         <div class="card-body">
@@ -74,66 +72,55 @@ function Detalle() {
                     </div>
                 </div>
             </div>
-
             <div class="row row-cols-1 row-cols-md-3 g-4 mt-2 ">
                 <div class="col">
                     <div class="card h-100 rounded">
                         <div class="card-body">
                             <h5 class="card-title">Encuantro medico</h5>
-                            <table className="table table-sm" >
+                            <table class="table">
                                 <thead>
                                     <tr>
                                         <th scope="col">Atributo</th>
                                         <th scope="col">Valor</th>
                                     </tr>
                                 </thead>
-                                <tbody className="table-group-divider">
-                                    {detalles && detalles.map((item) => (
-                                        <tr key={item.identificador}>
-                                            <tr>
-                                                
-                                                <td>Run</td>
-                                                <td>{item.beneficiario}</td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>creacion</td>
-                                                <td>{item.creacion}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>mto_bonificado</td>
-                                                <td>{item.mto_bonificado}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>mto_total</td>
-                                                <td>{item.mto_total}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>run titular</td>
-                                                <td>{item.titular}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>tramo ingreso</td>
-                                                <td>{item.tramo_ingreso}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>telefono</td>
-                                                <td>{item.telefono}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>email</td>
-                                                <td>{item.email}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>credencial_utilizada</td>
-                                                <td>{item.credencial_utilizada}</td>
-                                            </tr>
-                                            
-
-                                        </tr>
-
-                                    ))}
-
+                                <tbody class="table-group-divider">
+                                    <tr>
+                                        <td>Run:</td>
+                                        <td>205031782</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Creacion:</td>
+                                        <td>Thornton</td>
+                                    </tr>
+                                    <tr>
+                                        <td>mto_bonificado:</td>
+                                        <td>205031782</td>
+                                    </tr>
+                                    <tr>
+                                        <td>mto_total:</td>
+                                        <td>Thornton</td>
+                                    </tr>
+                                    <tr>
+                                        <td>run titular:</td>
+                                        <td>205031782</td>
+                                    </tr>
+                                    <tr>
+                                        <td>tramo ingreso:</td>
+                                        <td>Thornton</td>
+                                    </tr>
+                                    <tr>
+                                        <td>telefono:</td>
+                                        <td>205031782</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email:</td>
+                                        <td>Thornton</td>
+                                    </tr>
+                                    <tr>
+                                        <td>credencial_utilizada:</td>
+                                        <td>Thornton</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -144,18 +131,25 @@ function Detalle() {
                         <div class="card h-100 rounded">
                             <div class="card-body">
                                 <h5 class="card-title">beneficiario</h5>
-                                <table className="table table-sm " >
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th scope="col">Atributo</th>
                                             <th scope="col">Valor</th>
                                         </tr>
                                     </thead>
-                                    <tbody className="table-group-divider">
+                                    <tbody class="table-group-divider">
                                         <tr>
-                                            <tr>Nombre</tr>
-                                            <tr>Fecha de nacimiento</tr>
-                                            <tr>Genero</tr>
+                                            <td>Nombre:</td>
+                                            <td>daaa</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fecha de nacimiento:</td>
+                                            <td>@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Genero:</td>
+                                            <td>@fat</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -168,26 +162,45 @@ function Detalle() {
                     <div class="card h-100 rounded">
                         <div class="card-body">
                             <h5 class="card-title">prestador</h5>
-                            <table className="table table-smle " >
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Atributo</th>
-                                        <th scope="col">Valor</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="table-group-divider">
-                                    <tr>
-                                        <tr>Atributo </tr>
-                                        <tr> Nombre</tr>
-                                        <tr> RUT 	</tr>
-                                        <tr> Sucursal </tr>
-                                        <tr> Nivel Atención </tr>
-                                        <tr> Dirección Atención </tr>
-                                        <tr> Comuna 	</tr>
-                                        <tr> Región</tr>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Atributo</th>
+                                            <th scope="col">Valor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td>Nombre:</td>
+                                            <td>daaa</td>
+                                        </tr>
+                                        <tr>
+                                            <td>RUT:</td>
+                                            <td>@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sucursal:</td>
+                                            <td>@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nivel Atención:</td>
+                                            <td>@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dirección Atención:</td>
+                                            <td>@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Comuna:</td>
+                                            <td>@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Región:</td>
+                                            <td>@fat</td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
                         </div>
                     </div>
                 </div>
@@ -211,7 +224,6 @@ function Detalle() {
                                         </tr>
                                     </thead>
                                     <tbody className="table-group-divider">
-
                                     </tbody>
                                 </table>
                             </div>
