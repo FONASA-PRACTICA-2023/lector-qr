@@ -248,8 +248,8 @@ function FormularioUsuario(props) {
 
           <button
             type="button"
-            className="btn btn-sm btn-primary "
-            style={{ marginLeft: "10px" }}
+            className="btn btn-sm btn-primary ms-1 "
+            
             onClick={() => {
               navigate("/registros");
             }}

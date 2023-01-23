@@ -84,7 +84,7 @@ function Detalle() {
                     <h3>Detalle del Encuentro Médico({params.id})</h3>
                 </div>
             </div>
-            
+
             {detalles && detalles.map(item => (
                 <div className="row row-cols-1 row-cols-md-4 g-4 mt-2 text-center ">
                     <div className="col">
@@ -268,7 +268,7 @@ function Detalle() {
             </div>
             {detalles && detalles.map(itemm => (
                 <div className="row row-cols-1 row-cols-md-2 g-3 mt-3">
-                    <div className="col mt-">
+                    <div className="col mt-3">
                         <div className="col">
                             <div className="card rounded">
                                 <div className="card-body">
@@ -324,7 +324,7 @@ function Detalle() {
                     </div>
                     <div className="col mt-3">
                         <div className="col">
-                            <div className="card rounded">
+                            <div className="card h-100  rounded">
                                 <div className="card-body">
                                     <h5 className="card-title">Acciones ejecutadas</h5>
                                     <table className=" table table-sm" >
