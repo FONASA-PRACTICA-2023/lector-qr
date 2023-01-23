@@ -12,6 +12,8 @@ function Detalle() {
     const [detallesSucursal, setDetallesS] = useState([]);
     const [detallesBitacora, setDetallesB] = useState([]);
     const [detallesAtivacion, setDetallesActivacion] = useState([]);
+    const [detalleBono, setDetallesBono] = useState([]);
+    const [copa, setDetallesCopagos] = useState([]);
     const navigate = useNavigate();
 
     if (params.id) {
@@ -27,14 +29,17 @@ function Detalle() {
         try {
             const response = await fetch(`http://10.8.160.18:8010/multiprestador/encuentro/` + id);
             const data = await response.json();
-            const { registro, paciente, sucursal, bitacora, activacion } = data;
-            let detalles, detallesP, detallesS, detallesB, detallesAtivacion;
+            const { registro, paciente, sucursal, bitacora, activacion, vt_bono, copagos } = data;
+            let detalles, detallesPaciente, detallesSucursal, detallesBitacora, detallesAtivacion, detalleBono, copa;
 
             if (!Array.isArray(registro)) {
                 detalles = [registro];
-                detallesP = [paciente];
-                detallesS = [sucursal];
-                detallesB = bitacora;
+                detallesPaciente = [paciente];
+                detallesSucursal = [sucursal];
+                detallesBitacora = bitacora;
+                copa = copagos
+                detalleBono = [vt_bono];
+
                 if (activacion !== null) {
                     detallesAtivacion = [activacion];
                     swal({
@@ -51,19 +56,22 @@ function Detalle() {
                         text: "No cuenta con activacion de bono"
                     });
                 }
-
-
+                console.log(detalleBono);
             } else {
                 detalles = registro;
-                detallesP = paciente;
-                detallesS = sucursal;
-                detallesB = bitacora;
+                detallesPaciente = paciente;
+                detallesSucursal = sucursal;
+                detallesBitacora = bitacora;
                 detallesAtivacion = activacion;
+                detalleBono = vt_bono;
+                copa = copagos;
             }
             setDetalles(detalles);
-            setDetallesP(detallesP);
-            setDetallesS(detallesS);
-            setDetallesB(detallesB);
+            setDetallesP(detallesPaciente);
+            setDetallesS(detallesSucursal);
+            setDetallesB(detallesBitacora);
+            setDetallesCopagos(copa);
+            setDetallesBono(detalleBono);
             if (detallesAtivacion !== null) {
                 setDetallesActivacion(detallesAtivacion);
             }
@@ -75,8 +83,9 @@ function Detalle() {
         }
     };
     return (
-        <>
-            <div>
+
+        <div className="container-recurses mt-3 ">
+            <div className="encabezado ">
                 <a className="fs-1" onClick={() => {
                     navigate("/RegistrosCredenciales");
                 }}><IoArrowBack /></a>
@@ -84,41 +93,43 @@ function Detalle() {
                     <h3>Detalle del Encuentro Médico({params.id})</h3>
                 </div>
             </div>
-
-            {detalles && detalles.map(item => (
-                <div className="row row-cols-1 row-cols-md-4 g-4 mt-2 text-center ">
+            <div className="row row-cols-1 row-cols-md-4 g-4 mt-2 text-center ">
+                {detalleBono && detalleBono.map(bono => (
                     <div className="col">
-                        <div className="card h-100 rounded">
+                        <div className="card h-100   rounded">
                             <div className="card-body">
-                                <h5 className="card-title">prestador</h5>
+                                <h5 className="card-title">{bono.nomPrestador}</h5><span>prestador</span>
                             </div>
                         </div>
+
                     </div>
+                ))}
+                {detalles && detalles.map(registro => (
                     <div className="col">
                         <div className="card h-100  rounded">
                             <div className="card-body ">
-                                <h5 className="card-title " style={{ color: item.estado === "CREADO" ? "red" : "green" }}>{item.estado}</h5><span>Estado de encuentro</span>
+                                <h5 className="card-title " style={{ color: registro.estado === "CREADO" ? "red" : "green" }}>{registro.estado}</h5><span>Estado de encuentro</span>
                             </div>
                         </div>
-                    </div>
+                    </div>))}
+                {detalles && detalles.map(registro => (
                     <div className="col">
                         <div className="card h-100  rounded">
                             <div className="card-body">
-                                <h5 className="card-title text-primary" >{item.folio_bono}</h5><span>Folio del bono</span>
+                                <h5 className="card-title text-primary" >{registro.folio_bono}</h5><span>Folio del bono</span>
+                            </div>
+                        </div>
+                    </div>))}
+                {detallesAtivacion && detallesAtivacion.map(acivacion => (
+                    <div className="col">
+                        <div className="card h-100   rounded">
+                            <div className="card-body">
+                                <h5 className="card-title">{acivacion.estadoBono}</h5><span>Activacion bono</span>
                             </div>
                         </div>
                     </div>
-                    {detallesAtivacion && detallesAtivacion.map(acivacion => (
-                        <div className="col">
-                            <div className="card h-100   rounded">
-                                <div className="card-body">
-                                    <h5 className="card-title">{acivacion.estadoBono}</h5><span>Activacion bono</span>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            ))}
+                ))}
+            </div>
             <div className="row row-cols-1 row-cols-md-3 g-4 mt-2 ">
                 <div className="col">
                     <div className="card h-100   rounded">
@@ -131,47 +142,47 @@ function Detalle() {
                                         <th scope="col">Valor</th>
                                     </tr>
                                 </thead>
-                                {detalles && detalles.map(item => (
-                                    <tbody className="table-group-divider" key={item.identificador}>
+                                {detalles && detalles.map(registro => (
+                                    <tbody className="table-group-divider" key={registro.identificador}>
                                         <tr>
-                                            <td>Run:</td>
-                                            <td>{item.usuario}</td>
+                                            <td>Run beneficiario:</td>
+                                            <td>{registro.beneficiario}</td>
                                         </tr>
                                         <tr>
                                             <td>Creacion:</td>
-                                            <td>{item.creacion}</td>
+                                            <td>{registro.creacion}</td>
                                         </tr>
                                         <tr>
                                             <td>mto_bonificado:</td>
-                                            <td>${item.mto_bonificado}</td>
+                                            <td>${registro.mto_bonificado}</td>
                                         </tr>
                                         <tr>
                                             <td>mto_copago:</td>
-                                            <td>${item.mto_copago}</td>
+                                            <td>${registro.mto_copago}</td>
                                         </tr>
                                         <tr>
                                             <td>mto_total:</td>
-                                            <td>${item.mto_total}</td>
+                                            <td>${registro.mto_total}</td>
                                         </tr>
                                         <tr>
-                                            <td>run titular:</td>
-                                            <td>{item.titular}</td>
+                                            <td>Run titular:</td>
+                                            <td>{registro.titular}</td>
                                         </tr>
                                         <tr>
                                             <td>tramo ingreso:</td>
-                                            <td>{item.tramo_ingreso}</td>
+                                            <td>{registro.tramo_ingreso}</td>
                                         </tr>
                                         <tr>
                                             <td>telefono:</td>
-                                            <td>{item.telefono}</td>
+                                            <td>{registro.telefono}</td>
                                         </tr>
                                         <tr>
                                             <td>Email:</td>
-                                            <td>{item.email}</td>
+                                            <td>{registro.email}</td>
                                         </tr>
                                         <tr>
                                             <td>credencial_utilizada:</td>
-                                            <td>{item.credencial_utilizada}</td>
+                                            <td>{registro.credencial_utilizada}</td>
                                         </tr>
                                     </tbody>
                                 ))
@@ -192,20 +203,19 @@ function Detalle() {
                                             <th scope="col">Valor</th>
                                         </tr>
                                     </thead>
-                                    {detallesP && detallesP.map(item => (
-
-                                        <tbody className="table-group-divider" key={item.identificador}>
+                                    {detallesP && detallesP.map(persona => (
+                                        <tbody className="table-group-divider" key={persona.identificador}>
                                             <tr>
                                                 <td>Nombre:</td>
-                                                <td>{item.nombreCotizante}</td>
+                                                <td>{persona.nombreCotizante}</td>
                                             </tr>
                                             <tr>
                                                 <td>Fecha de nacimiento:</td>
-                                                <td>{item.fechaNacimiento}</td>
+                                                <td>{persona.fechaNacimiento}</td>
                                             </tr>
                                             <tr>
                                                 <td>Genero:</td>
-                                                <td>{item.sexo}</td>
+                                                <td>{persona.sexo}</td>
                                             </tr>
                                         </tbody>
                                     ))}
@@ -215,10 +225,10 @@ function Detalle() {
                     </div>
                 </div>
                 <div className="col ">
-                    {detallesSucursal && detallesSucursal.map(item => (
-                        <div className="card  rounded">
+                    {detallesSucursal && detallesSucursal.map(sucursal => (
+                        <div className="card h-100 rounded">
                             <div className="card-body">
-                                <h5 className="card-title">prestador</h5>
+                                <h5 className="card-title">Prestador</h5>
                                 <table className="table">
                                     <thead>
                                         <tr>
@@ -226,35 +236,35 @@ function Detalle() {
                                             <th scope="col">Valor</th>
                                         </tr>
                                     </thead>
-                                    {detalles && detalles.map(itemm => (
+                                    {detalles && detalles.map(registro => (
                                         <tbody className="table-group-divider">
                                             <tr>
                                                 <td>Nombre:</td>
-                                                <td>{itemm.credencial_utilizada}</td>
+                                                <td>{registro.credencial_utilizada}</td>
                                             </tr>
                                             <tr>
                                                 <td>RUT:</td>
-                                                <td>{itemm.prestador}</td>
+                                                <td>{registro.prestador}</td>
                                             </tr>
                                             <tr>
                                                 <td>Sucursal:</td>
-                                                <td>{item.codSucursal}</td>
+                                                <td>{sucursal.codSucursal}</td>
                                             </tr>
                                             <tr>
                                                 <td>Nivel Atención:</td>
-                                                <td>{itemm.nivel_atencion}</td>
+                                                <td>{registro.nivel_atencion}</td>
                                             </tr>
                                             <tr>
                                                 <td>Dirección Atención:</td>
-                                                <td>{item.direccion}</td>
+                                                <td>{sucursal.direccion}</td>
                                             </tr>
                                             <tr>
                                                 <td>Comuna:</td>
-                                                <td>{item.comuna}</td>
+                                                <td>{sucursal.comuna}</td>
                                             </tr>
                                             <tr>
                                                 <td>Región:</td>
-                                                <td>{item.region}</td>
+                                                <td>{sucursal.region}</td>
                                             </tr>
                                         </tbody>
                                     ))
@@ -266,11 +276,11 @@ function Detalle() {
                     }
                 </div>
             </div>
-            {detalles && detalles.map(itemm => (
+            {detalles && detalles.map(registro => (
                 <div className="row row-cols-1 row-cols-md-2 g-3 mt-3">
                     <div className="col mt-3">
                         <div className="col">
-                            <div className="card rounded">
+                            <div className="card h-100   rounded">
                                 <div className="card-body">
                                     <h5 className="title">Prestaciones</h5>
                                     <table className="table table-sm" >
@@ -281,19 +291,19 @@ function Detalle() {
                                                 <th scope="col"> Mto. Bonificado</th>
                                                 <th scope="col">Mto. Copago</th>
                                                 <th scope="col">Mto. Total</th>
-                                                <th scope="col">Direccion</th>
+                                                <th scope="col">cantidad</th>
                                             </tr>
                                         </thead>
-                                        {detallesP && detallesP.map(itemn => (
+                                        {detallesP && detallesP.map(persona => (
                                             <tbody className="table-group-divider">
-                                                {detallesBitacora && detallesBitacora.map(item => (
+                                                {detallesBitacora && detallesBitacora.map((item, numero) => (
                                                     <tr>
-                                                        <td>{itemn.codigoCaracterizacion}</td>
+                                                        <td>{persona.codigoCaracterizacion}</td>
                                                         <td>{item.glosa}</td>
-                                                        <td>${itemm.mto_bonificado}</td>
-                                                        <td>${itemm.mto_copago}</td>
-                                                        <td>${itemm.mto_total}</td>
-                                                        <td></td>
+                                                        <td>${registro.mto_bonificado}</td>
+                                                        <td>${registro.mto_copago}</td>
+                                                        <td>${registro.mto_total}</td>
+                                                        <td>{numero + 1}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -304,20 +314,24 @@ function Detalle() {
                         </div>
                         <div className="col mt-2">
                             <div className="col">
-                                <div className="card rounded">
-                                    <div className="card-body">
-                                        <h5 className="card-title">Registros copago</h5>
-                                        <table className="table table-sm">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Correo</th>
-                                                    <th scope="col">Fecha</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="table-group-divider">
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                <div className="card h-100   rounded">
+                                    {copa && copa.map(copago => (
+                                        <div className="card-body">
+                                            <h5 className="card-title">Registros copago</h5>
+                                            <table className="table table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Correo</th>
+                                                        <th scope="col">Fecha</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="table-group-divider">
+                                                    <td>{copago[0]}</td>
+                                                    <td>{copago[1]}</td>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
@@ -337,12 +351,12 @@ function Detalle() {
                                             </tr>
                                         </thead>
                                         <tbody className="table-group-divider">
-                                            {detallesBitacora && detallesBitacora.map(item => (
+                                            {detallesBitacora && detallesBitacora.map(bitacora => (
                                                 <tr>
-                                                    <td>{item.codigo}</td>
-                                                    <td>{item.creacion}</td>
-                                                    <td>{item.glosa}</td>
-                                                    <td>{item.metadata}</td>
+                                                    <td>{bitacora.codigo}</td>
+                                                    <td>{bitacora.creacion}</td>
+                                                    <td>{bitacora.glosa}</td>
+                                                    <td>{bitacora.metadata}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -354,7 +368,7 @@ function Detalle() {
                     </div>
                 </div>
             ))}
-        </ >
+        </div >
     )
 }
 export default Detalle;

@@ -20,7 +20,7 @@ function FormularioUsuario(props) {
 
   let apiSnoopy = useApiSnoopy();
   const navigate = useNavigate();
-  const [mensaje, setMensaje] = useState(null);
+  const [setMensaje] = useState(null);
   const [estoyEditando, setEstoyEditando] = useState(false);
   const [cssFormulario, setCssFormulario] = useState("row g-3 needs-validation");
   const [password, setPassword] = useState(generateRandomPassword());
@@ -44,8 +44,6 @@ function FormularioUsuario(props) {
   const [formularioDesahabilitado, setFormularioDesahabilitado] = useState(
     props.desahabilitado
   );
-
-
 
   function handleClick() {
     setMostrarPassword(!mostrarPassword);
@@ -257,7 +255,6 @@ function FormularioUsuario(props) {
             Cancelar
           </button>
         </div>
-
       </form>
     </div>
   );
