@@ -1,8 +1,6 @@
-import React from 'react';
+import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-
 
 function Recursos() {
     const [encuentross, setEncuentros] = useState([]);
@@ -13,12 +11,10 @@ function Recursos() {
         getData();
     }, []);
 
-
-
     const getData = () => {
         var requestOptions = {
-            method: 'GET',
-            redirect: 'follow'
+            method: "GET",
+            redirect: "follow"
         };
 
         fetch("http://10.8.160.18:8010/multiprestador/encuentros", requestOptions)
@@ -28,68 +24,67 @@ function Recursos() {
 
             })
             .catch(error => {
-                console.log('Error al obtener los usuarios', error);
+                console.log("Error al obtener los usuarios", error);
             });
     }
+    const [searchTerm, setSearchTerm] = useState("");
+
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    }
+
+    const filteredEncuentros = encuentross.filter(encuentro => encuentro.beneficiario.toLowerCase().includes(searchTerm.toLowerCase()));
 
     return (
-        
-        <div className='container-recurses'>
-            <div className='menu'>
-                <div className='w-auto p-3 d-flex justify-content-center'>
-                    <h1 className="mb-3">GESTION DE AUTORIZACIONES</h1>
+        <>
+            <div className="row">
+                <div className="col-12">
+                    <h1 className="mb-3 text-center">Operación canal multiprestador</h1>
+                    
                 </div>
             </div>
             
-
+            <div className="col-sm-2">
+                <div className="card-title">Registros de Credenciales</div>
+                <input type="text" className="form-control" placeholder="Buscar beneficiario" value={searchTerm} onChange={handleSearch} />
+            </div>
             
-                    <div className="  card  rounded overflow-auto heigth-300 overflow-x-auto" style={{height:"800px"}}>
-                        <div >
-                            <h3>REGISTROS DE CREDENCIALES</h3>
-                            <table className="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">creacion</th>
-                                        <th scope="col">prestador</th>
-                                        <th scope="col">beneficiario</th>
-                                        <th scope="col">estado</th>
-                                        <th scope="col">mto_bonificado</th>
-                                        <th scope="col">mto_copago</th>
-                                        <th scope="col">mto_total</th>
-                                        <th scope="col">sucursal</th>
-                                        <th scope="col">folio_bono</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="table-group-divider ">
-
-                                    {encuentross.map((encuentro, index) => (
-                                        <tr key={index}>
-                                            <td className='text-primary' onClick={() => {
-                                                setEn(encuentross[index]);
-                                                navigate(`/Encuentro/`+encuentro.identificador);
-                                            }}>{encuentro.creacion}</td>
-                                            <td>{encuentro.prestador}</td>
-                                            <td>{encuentro.beneficiario}</td>
-                                            <td>{encuentro.estado}</td>
-                                            <td>{encuentro.mto_bonificado}</td>
-                                            <td>{encuentro.mto_copago}</td>
-                                            <td>{encuentro.mto_total}</td>
-                                            <td>{encuentro.sucursal}</td>
-                                            <td>{encuentro.folio_bono}</td>
-                                        </tr>
-                                    ))
-                                    }
-                                </tbody>
-                            </table>
-
-                        </div>
-                    </div>
-                </div>
-          
+            <table className="table border mt-3 mx-auto ">
+                <thead className="bg-light">
+                    <tr>
+                        <th scope="col">creacion</th>
+                        <th scope="col">prestador</th>
+                        <th scope="col">beneficiario</th>
+                        <th scope="col">estado</th>
+                        <th scope="col">mto_bonificado</th>
+                        <th scope="col">mto_copago</th>
+                        <th scope="col">mto_total</th>
+                        <th scope="col">sucursal</th>
+                        <th scope="col">folio_bono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {filteredEncuentros.map((encuentro, index) => (
+                        <tr key={index}>
+                            <td className="text-primary" onClick={() => {
+                                setEn(encuentross[index]);
+                                navigate(`/Encuentro/` + encuentro.identificador);
+                            }}>{encuentro.creacion}</td>
+                            <td>{encuentro.prestador}</td>
+                            <td>{encuentro.beneficiario}</td>
+                            <td>{encuentro.estado}</td>
+                            <td>{encuentro.mto_bonificado}</td>
+                            <td>{encuentro.mto_copago}</td>
+                            <td>{encuentro.mto_total}</td>
+                            <td>{encuentro.sucursal}</td>
+                            <td>{encuentro.folio_bono}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </>
     )
 
 }
-
-
 
 export default Recursos;

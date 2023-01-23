@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 import { useState, useEffect } from "react";
-import swal from 'sweetalert';
-import { BsTrash } from 'react-icons/bs';
+import swal from "sweetalert";
+import { BsTrash } from "react-icons/bs";
 
 function Recursos() {
-    const [formData, setFormData] = useState({ tipo: '', identificador: '' });
+    const [formData, setFormData] = useState({ tipo: "", identificador: "" });
     const [prestadores, setPrestadores] = useState([]);
     const [prestaciones, setPrestaciones] = useState([]);
     const [excepcion, setExcepcion] = useState([]);
@@ -17,7 +17,7 @@ function Recursos() {
             fecha_creacion: new Date().toLocaleString().split(",")[0]
         };
 
-        fetch('http://10.8.160.18:8010/multiprestador/autorizaciones')
+        fetch("http://10.8.160.18:8010/multiprestador/autorizaciones")
             .then(response => response.json())
             .then(data => {
                 setUsers(data);
@@ -29,7 +29,7 @@ function Recursos() {
 
             })
             .catch(error => {
-                console.log('Error al obtener los usuarios', error);
+                console.log("Error al obtener los usuarios", error);
             });
     }
 
@@ -50,12 +50,12 @@ function Recursos() {
             tipo: formData.tipo
         };
 
-        fetch('http://10.8.160.18:8010/multiprestador/crear/autorizaciones', {
+        fetch("http://10.8.160.18:8010/multiprestador/crear/autorizaciones", {
 
-            method: 'POST',
+            method: "POST",
             body: JSON.stringify(nuevoRegistro),
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
 
 
             }
@@ -86,7 +86,6 @@ function Recursos() {
                 } else {
                     swal({
                         buttons: [true],
-                        text: "debe seleccionar una opcion o verificar el identificador",
                         icon: "success",
                         timer: "2000",
                     });
@@ -94,17 +93,17 @@ function Recursos() {
                 getData();
             })
             .catch(error => {
-                console.log('Error al enviar la solicitud', error);
+                console.log("Error al enviar la solicitud", error);
 
             });
     }
 
     function deletePrestador(index) {
         const deletedIdentificador = prestadores[index].autorizacion_id;
-        fetch(`http://10.8.160.18:8010/multiprestador/autorizaciones/${deletedIdentificador}/delete`, {
-            method: 'DELETED',
+        fetch(`https://api.fonasa.cl/SQA/MantenedorApiMP/autorizaciones/${deletedIdentificador}/delete`, {
+            method: "DELETED",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
 
             }
         })
@@ -114,50 +113,46 @@ function Recursos() {
     function deletePrestacion(index) {
         const deletedIdentificador = prestaciones[index].autorizacion_id;
         fetch(`http://10.8.160.18:8010/multiprestador/autorizaciones/${deletedIdentificador}/delete`, {
-            method: 'DELETED',
+            method: "DELETED",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
 
             }
         })
-        setExcepcion(prestaciones.filter((_, i) => i !== index));
+        setPrestaciones(prestaciones.filter((_, i) => i !== index));
     }
 
     function deleteExcepcion(index) {
         const deletedIdentificador = excepcion[index].autorizacion_id;
         fetch(`http://10.8.160.18:8010/multiprestador/autorizaciones/${deletedIdentificador}/delete`, {
-            method: 'DELETED',
+            method: "DELETED",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
 
             }
         })
         setExcepcion(excepcion.filter((_, i) => i !== index));
     }
 
-
     return (
-        <div className='align-self-center'>
-
-            <div className='menu'>
-                <div className='w-auto p-3 d-flex justify-content-center'>
+        <>
+            <div className="menu">
+                <div className="text-center">
                     <h1 className="mb-3">Recursos Autorizados</h1>
                 </div>
-
                 <div className="input-group mb-3" >
-                    <button type="button" className="btn btn-outline-primary " data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={handleReset}>
+                    <button type="button" className="btn btn-outline-primary rounded " data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={handleReset}>
                         Autorizar Item
                     </button></div>
             </div>
+            <div className="row row-cols-md-2 ">
+                <div className="col mt-3">
+                    <div className="col">
 
-            <div class="row row-cols-1 row-cols-md-2 g-3 mt-3">
-                <div class="col mt-3">
-                    <div class="col">
-
-                        <div class="card h-100 rounded">
-                            <div class="card-body">
-                                <h5 class="title">Prestadores Autorizados</h5>
-                                <table className="table">
+                        <div className="card rounded">
+                            <div className="card-body ">
+                                <h5 className="title">Prestadores Autorizados</h5>
+                                <table className="table ">
                                     <thead>
                                         <tr>
                                             <th scope="col">Rut Prestador</th>
@@ -175,21 +170,16 @@ function Recursos() {
                                                 </td>
                                             </tr>
                                         ))}
-
-
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-
-
-                    <div class="col mt-2">
-                        <div class="col">
-
-                            <div class="card h-100 rounded">
-                                <div class="card-body">
-                                    <h5 class="card-title">EXCEPCION_VALIDAR_CONTACTO_BENEFICIARIO</h5>
+                    <div className="col mt-2">
+                        <div className="col">
+                            <div className="card rounded">
+                                <div className="card-body">
+                                    <h5 className="card-title">EXCEPCION_VALIDAR_CONTACTO_BENEFICIARIO</h5>
                                     <table className="table">
                                         <thead>
                                             <tr>
@@ -213,14 +203,13 @@ function Recursos() {
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
-                <div class="col mt-3 ">
-                    <div class="col">
-                        <div class="card h-100 rounded">
-                            <div class="card-body">
-                                <h5 class="card-title">Prestaciones Autorizadas</h5>
+                <div className="col mt-3">
+                    <div className="col">
+                        <div className="card rounded ">
+                            <div className="card-body">
+                                <h5 className="card-title">Prestaciones Autorizadas</h5>
                                 <table className="table " >
                                     <thead>
                                         <tr>
@@ -239,21 +228,13 @@ function Recursos() {
                                                 </td>
                                             </tr>
                                         ))}
-
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-
-
-
-
-
-
             <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -282,11 +263,8 @@ function Recursos() {
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
-
 }
-
-
 
 export default Recursos;

@@ -8,24 +8,21 @@
       "path": "/"
     },
     {
-      "label": "FormularioUsuario",
+      "label": "Crear Usuario",
       "path": "/servicio-crear"
     },
     {
-      "label": "AsignarRoles",
+      "label": "Asignar Roles",
       "path": "/Roles"
     },
     {
-      "label": "RecursosAutorizados",
+      "label": "Recursos Autorizados",
       "path": "/RolesAut"
     },
     {
       "label": "Registros",
       "path": "/RegistrosCredenciales"
-    },
-    {
-      "label": "Encuentro",
-      "path": "/Encuentro:id"
     }
+   
   ]
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { HiOutlineDocumentPlus, HiOutlineDocumentMinus } from 'react-icons/hi2';
 import { useAuth } from "../../hooks/useAuth";
-import MenuSuperior from "../../components/MenuSuperior";
+
 
 
 function Roles() {
@@ -31,7 +31,7 @@ function Roles() {
             });
     };
 
-   
+
     const handleRemover = (rol) => {
         setListadoDeRoles(listadoDeRoles.concat(rol));
         setListadoDeRolesAsociados(listadoDeRolesAsociados.filter(r => r !== rol));
@@ -60,35 +60,22 @@ function Roles() {
     }, []);
     console.log(listadoDeRolesAsociados);
     return (
-        <div style={{ height: "100%", width: "100%", marginTop: "30px" }}>
-            <div className="contenedor-roles">
 
-                <div className="contenedor-usuario">
-                    <div className="datos-usuario">
-                        <div >
-                            <h2 className="mt-1 mb-1">{user.nombre}</h2>
-                            <p>Actualizado</p>
-                        </div>
-                        <div className="usuario-datos">
-                            <div className="usuario-correo">
-                                <p>{user.mail}</p>
-                                <p>correo</p>
-                            </div>
-                            <div className="usuario-alias">
-                                <p>{user.username}</p>
-                                <p>alias</p>
-                            </div>
-                            <div className="usuario-departamento">
-                                <p>staff</p>
-                                <p>departamento</p>
-                            </div>
-                        </div>
+
+
+
+        <div class="row">
+            <div class="card mb-3 rounded mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Datos</h5>
+                        
                     </div>
-                </div>
+            </div>
 
-                <div className="contenedor-tablas">
-                    <div className="contanedor-tabla--roles-asociados">
-                        <h3>Roles Disponibles para Asociar</h3>
+            <div class="col-sm-6  mb-sm-0">
+                <div class="card rounded">
+                    <div class="card-body">
+                        <h5 class="card-title">Roles Disponibles para Asociar</h5>
                         <table className="table">
                             <thead>
                                 <tr>
@@ -115,8 +102,12 @@ function Roles() {
                             </tbody>
                         </table>
                     </div>
-                    <div className="contanedor-tabla--roles-asociados">
-                        <h3>Roles Asociados al Sistema</h3>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card rounded">
+                    <div class="card-body">
+                        <h5 class="card-title">Roles Asociados al Sistema</h5>
                         <table className="table">
                             <thead>
                                 <tr>
@@ -142,6 +133,8 @@ function Roles() {
                 </div>
             </div>
         </div>
+
+
     )
 }
 

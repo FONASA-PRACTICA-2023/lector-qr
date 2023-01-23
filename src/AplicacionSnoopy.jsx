@@ -37,7 +37,6 @@ function AplicacionSnoopy() {
               path="/RegistrosCredenciales"
               element={<Registros />}
             />
-
             <Route
               path="/Encuentro/:id"
               element={<Encuentro />}

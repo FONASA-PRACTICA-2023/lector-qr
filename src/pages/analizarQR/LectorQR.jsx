@@ -151,10 +151,10 @@ function LectorQR() {
 
   return (
     <div >
-      
 
 
-      <div className="container-camara rounded d-print-inline-flex justify-content-center text-center mt-2" style={{ width: "100%"}}>
+
+      <div className="container-camara rounded d-print-inline-flex justify-content-center text-center mt-2" style={{ width: "100%" }}>
         {showWebcam ? (
 
           <QrReader
@@ -166,30 +166,48 @@ function LectorQR() {
           />
 
         ) : (
-          <button className="btn btn-outline-primary rounded d-print-inline-flex mt-2 justify-content-center text-center " onClick={handleButtonClick} id="botnCap" style={{width: "100%" }}><FaQrcode className="mr-2"/>ESCANEAR QR</button>
+          <button className="btn btn-outline-primary rounded d-print-inline-flex mt-2 justify-content-center text-center " onClick={handleButtonClick} id="botnCap" style={{ width: "100%" }}><FaQrcode className="mr-2" />ESCANEAR QR</button>
         )}
 
       </div>
-     
-
-
-      <div className="container-tabla d-print-none mt-2" style={{height: "100%"}} id="fg" >
-        <div className="card-body">
-          <table className="table mt-1"  id="ss">
+      <div class="card mt-3">
+        <h5 class="card-header"><BiUserCircle className="mr-1 fs-5" />Datos Afiliado</h5>
+        <div class="card-body">
+          <table class="table">
             <tbody>
-
-              <ul className="list-group" >
-                <li className="list-group-item active" aria-current="true" ><BiUserCircle className="mr-1 fs-5"/>Datos Afiliado</li>
-                <li className="list-group-item">Nombre: {datosPersonales.nombres}</li>
-                <li className="list-group-item">Apellidos: {datosPersonales.apellidoPaterno}<span>  </span>{datosPersonales.apellidoMaterno}</li>
-                <li className="list-group-item">Dirección: {datosPersonales.direccionPaciente}</li>
-                <li className="list-group-item">Comuna: {datosPersonales.glosaComuna}</li>
-                <li className="list-group-item">Rut: {rutBuscado}</li>
-                <li className="list-group-item">Sexo: {datosPersonales.sexo}</li>
-              </ul>
-
+              <tr>
+                <th scope="row">Nombre:</th>
+                <td>{datosPersonales.nombres}</td>
+              </tr>
+              <tr>
+                <th scope="row">Apellidos:</th>
+                <td>{datosPersonales.apellidoPaterno}<span>  </span>{datosPersonales.apellidoMaterno}</td>
+              </tr>
+              <tr>
+                <th scope="row">Dirección:</th>
+                <td>{datosPersonales.direccionPaciente}</td>
+              </tr>
+              <tr>
+                <th scope="row">Comuna:</th>
+                <td>{datosPersonales.glosaComuna}</td>
+              </tr>
+              <tr>
+                <th scope="row">Rut:</th>
+                <td>{rutBuscado}</td>
+              </tr>
+              <tr>
+                <th scope="row">Sexo:</th>
+                <td>{datosPersonales.sexo}</td>
+              </tr>
             </tbody>
           </table>
+
+        </div>
+      </div>
+      
+      <div className="container-tabla d-print-none mt-2" id="fg" >
+        <div className="card-body">
+
         </div>
       </div>
 
