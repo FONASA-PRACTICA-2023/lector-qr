@@ -64,18 +64,18 @@ function Roles() {
 
 
 
-        <div class="row">
-            <div class="card mb-3 rounded mt-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Datos</h5>
+        <div className="row">
+            <div className="card mb-3 rounded mt-3">
+                    <div className="card-body">
+                        <h5 className="card-title">Datos</h5>
                         
                     </div>
             </div>
 
-            <div class="col-sm-6  mb-sm-0">
-                <div class="card rounded">
-                    <div class="card-body">
-                        <h5 class="card-title">Roles Disponibles para Asociar</h5>
+            <div className="col-sm-6  mb-sm-0">
+                <div className="card rounded">
+                    <div className="card-body">
+                        <h5 className="card-title">Roles Disponibles para Asociar</h5>
                         <table className="table">
                             <thead>
                                 <tr>
@@ -104,10 +104,10 @@ function Roles() {
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="card rounded">
-                    <div class="card-body">
-                        <h5 class="card-title">Roles Asociados al Sistema</h5>
+            <div className="col-sm-6">
+                <div className="card rounded">
+                    <div className="card-body">
+                        <h5 className="card-title">Roles Asociados al Sistema</h5>
                         <table className="table">
                             <thead>
                                 <tr>

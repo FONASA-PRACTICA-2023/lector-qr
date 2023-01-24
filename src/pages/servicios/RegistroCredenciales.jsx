@@ -2,16 +2,18 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+
+
 function Recursos() {
     const [encuentross, setEncuentros] = useState([]);
     const [en, setEn] = useState({});
     const navigate = useNavigate();
 
     useEffect(() => {
-        getData();
+        getDataEncuentros();
     }, []);
 
-    const getData = () => {
+    const getDataEncuentros = () => {
         var requestOptions = {
             method: "GET",
             redirect: "follow"
@@ -27,13 +29,21 @@ function Recursos() {
                 console.log("Error al obtener los usuarios", error);
             });
     }
+
     const [searchTerm, setSearchTerm] = useState("");
+    const [searchTermPrestador, setSearchTermPrestador] = useState("");
 
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
+
+    }
+    const handleSearchPrestador = (event) => {
+        setSearchTermPrestador(event.target.value);
     }
 
-    const filteredEncuentros = encuentross.filter(encuentro => encuentro.beneficiario.toLowerCase().includes(searchTerm.toLowerCase()));
+    const filteredEncuentros = encuentross
+        .filter(encuentro => encuentro.beneficiario.toLowerCase().includes(searchTerm.toLowerCase()))
+        .filter(encuentro => encuentro.prestador.toLowerCase().includes(searchTermPrestador.toLowerCase()));
 
     return (
         <>
@@ -42,10 +52,17 @@ function Recursos() {
                     <h1 className="mb-3 text-center">Operación canal multiprestador</h1>
                 </div>
             </div>
-            <div className="col-sm-2">
-                <div className="card-title">Registros de Credenciales</div>
-                <input type="text" className="form-control" placeholder="Buscar beneficiario" value={searchTerm} onChange={handleSearch} />
-            </div>
+            <div className="card-title text-center">Registros de Credenciales</div>
+            <form >
+                <div className="row w-50 mx-auto">
+                    <div className="col">
+                        <input type="text" className="form-control" placeholder="Buscar beneficiario" value={searchTerm} onChange={handleSearch} />
+                    </div>
+                    <div className="col">
+                        <input type="text" className="form-control" placeholder="Buscar prestador" value={searchTermPrestador} onChange={handleSearchPrestador} />
+                    </div>
+                </div>
+            </form>
             <table className="table border mt-3 mx-auto ">
                 <thead className="bg-light">
                     <tr>

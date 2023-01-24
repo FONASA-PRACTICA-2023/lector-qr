@@ -72,9 +72,8 @@ function Detalle() {
             setDetallesB(detallesBitacora);
             setDetallesCopagos(copa);
             setDetallesBono(detalleBono);
-            if (detallesAtivacion !== null) {
-                setDetallesActivacion(detallesAtivacion);
-            }
+            setDetallesActivacion(detallesAtivacion);
+            
 
 
             console.log(detallesAtivacion);
@@ -96,7 +95,7 @@ function Detalle() {
             <div className="row row-cols-1 row-cols-md-4 g-4 mt-2 text-center ">
                 {detalleBono && detalleBono.map(bono => (
                     <div className="col">
-                        <div className="card h-100   rounded">
+                        <div className="card h-100 rounded-1">
                             <div className="card-body">
                                 <h5 className="card-title">{bono.nomPrestador}</h5><span>prestador</span>
                             </div>
@@ -106,7 +105,7 @@ function Detalle() {
                 ))}
                 {detalles && detalles.map(registro => (
                     <div className="col">
-                        <div className="card h-100  rounded">
+                        <div className="card h-100 rounded-1">
                             <div className="card-body ">
                                 <h5 className="card-title " style={{ color: registro.estado === "CREADO" ? "red" : "green" }}>{registro.estado}</h5><span>Estado de encuentro</span>
                             </div>
@@ -114,25 +113,34 @@ function Detalle() {
                     </div>))}
                 {detalles && detalles.map(registro => (
                     <div className="col">
-                        <div className="card h-100  rounded">
+                        <div className="card h-100 rounded-1">
                             <div className="card-body">
                                 <h5 className="card-title text-primary" >{registro.folio_bono}</h5><span>Folio del bono</span>
                             </div>
                         </div>
                     </div>))}
-                {detallesAtivacion && detallesAtivacion.map(acivacion => (
+                    {detallesAtivacion && detallesAtivacion.map(acivacion => (
                     <div className="col">
-                        <div className="card h-100   rounded">
+                        <div className="card h-100 rounded-1">
                             <div className="card-body">
-                                <h5 className="card-title">{acivacion.estadoBono}</h5><span>Activacion bono</span>
+                                {acivacion.estadoBono !== null ? (
+                                <>
+                                <h5 className="card-title">{acivacion.estadoBono}</h5>
+                                <span>Activacion bono</span>
+                                </>
+                                ) : (
+                                <h5 className="card-title">Sin activacion de bono</h5>
+                                )}
                             </div>
                         </div>
                     </div>
                 ))}
+
+
             </div>
             <div className="row row-cols-1 row-cols-md-3 g-4 mt-2 ">
                 <div className="col">
-                    <div className="card h-100   rounded">
+                    <div className="card h-100 rounded-1">
                         <div className="card-body">
                             <h5 className="card-title">Encuantro medico</h5>
                             <table className="table">
@@ -193,7 +201,7 @@ function Detalle() {
                 </div>
                 <div className="col ">
                     <div className="col">
-                        <div className="card h-100  rounded">
+                        <div className="card h-100 rounded-1">
                             <div className="card-body">
                                 <h5 className="card-title">beneficiario</h5>
                                 <table className="table">
@@ -226,7 +234,7 @@ function Detalle() {
                 </div>
                 <div className="col ">
                     {detallesSucursal && detallesSucursal.map(sucursal => (
-                        <div className="card h-100 rounded">
+                        <div className="card h-100 rounded-1">
                             <div className="card-body">
                                 <h5 className="card-title">Prestador</h5>
                                 <table className="table">
@@ -280,7 +288,7 @@ function Detalle() {
                 <div className="row row-cols-1 row-cols-md-2 g-3 mt-3">
                     <div className="col mt-3">
                         <div className="col">
-                            <div className="card h-100   rounded">
+                            <div className="card h-100 rounded-1">
                                 <div className="card-body">
                                     <h5 className="title">Prestaciones</h5>
                                     <table className="table table-sm" >
@@ -314,7 +322,7 @@ function Detalle() {
                         </div>
                         <div className="col mt-2">
                             <div className="col">
-                                <div className="card h-100   rounded">
+                                <div className="card h-100 rounded-1">
                                     {copa && copa.map(copago => (
                                         <div className="card-body">
                                             <h5 className="card-title">Registros copago</h5>
@@ -338,7 +346,7 @@ function Detalle() {
                     </div>
                     <div className="col mt-3">
                         <div className="col">
-                            <div className="card h-100  rounded">
+                            <div className="card h-100  rounded-1">
                                 <div className="card-body">
                                     <h5 className="card-title">Acciones ejecutadas</h5>
                                     <table className=" table table-sm" >

@@ -170,10 +170,10 @@ function LectorQR() {
         )}
 
       </div>
-      <div class="card mt-3">
-        <h5 class="card-header"><BiUserCircle className="mr-1 fs-5" />Datos Afiliado</h5>
-        <div class="card-body">
-          <table class="table">
+      <div className="card mt-3">
+        <h5 className="card-header"><BiUserCircle className="mr-1 fs-5" />Datos Afiliado</h5>
+        <div className="card-body">
+          <table className="table">
             <tbody>
               <tr>
                 <th scope="row">Nombre:</th>

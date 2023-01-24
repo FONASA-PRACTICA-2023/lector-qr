@@ -2,6 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import swal from "sweetalert";
 import { BsTrash } from "react-icons/bs";
+import { BiSearchAlt } from "react-icons/bi";
+
 
 function Recursos() {
     const [formData, setFormData] = useState({ tipo: "", identificador: "" });
@@ -9,6 +11,13 @@ function Recursos() {
     const [prestaciones, setPrestaciones] = useState([]);
     const [excepcion, setExcepcion] = useState([]);
     const [users, setUsers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    }
+
+    const filteredPrestaciones = prestaciones.filter(presta => presta.identificador.toLowerCase().includes(searchTerm.toLowerCase()));
 
     const getData = () => {
 
@@ -98,40 +107,28 @@ function Recursos() {
             });
     }
 
-    function deletePrestador(index) {
-        const deletedIdentificador = prestadores[index].autorizacion_id;
-        fetch(`https://api.fonasa.cl/SQA/MantenedorApiMP/autorizaciones/${deletedIdentificador}/delete`, {
-            method: "DELETED",
-            headers: {
-                "Content-Type": "application/json",
-
-            }
-        })
-        setPrestadores(prestadores.filter((_, i) => i !== index));
-    }
-
-    function deletePrestacion(index) {
-        const deletedIdentificador = prestaciones[index].autorizacion_id;
+    function deleteElement(array, index, deleteFunc) {
+        const deletedIdentificador = array[index].autorizacion_id;
         fetch(`http://10.8.160.18:8010/multiprestador/autorizaciones/${deletedIdentificador}/delete`, {
-            method: "DELETED",
+            method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
-
             }
         })
-        setPrestaciones(prestaciones.filter((_, i) => i !== index));
-    }
-
-    function deleteExcepcion(index) {
-        const deletedIdentificador = excepcion[index].autorizacion_id;
-        fetch(`http://10.8.160.18:8010/multiprestador/autorizaciones/${deletedIdentificador}/delete`, {
-            method: "DELETED",
-            headers: {
-                "Content-Type": "application/json",
-
-            }
-        })
-        setExcepcion(excepcion.filter((_, i) => i !== index));
+        switch (array) {
+            case prestadores:
+                setPrestadores(prestadores.filter((_, i) => i !== index));
+                break;
+            case prestaciones:
+                setPrestaciones(prestaciones.filter((_, i) => i !== index));
+                break;
+            case excepcion:
+                setExcepcion(excepcion.filter((_, i) => i !== index));
+                break;
+            default:
+                console.log("error");
+        }
+        deleteFunc(deletedIdentificador);
     }
 
     return (
@@ -143,7 +140,9 @@ function Recursos() {
                 <div className="input-group mb-3" >
                     <button type="button" className="btn btn-outline-primary rounded " data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={handleReset}>
                         Autorizar Item
-                    </button></div>
+                    </button >
+
+                </div>
             </div>
             <div className="row row-cols-md-2 ">
                 <div className="col mt-3">
@@ -161,12 +160,12 @@ function Recursos() {
                                         </tr>
                                     </thead>
                                     <tbody className="table-group-divider" >
-                                        {prestadores.map((ss, index) => (
+                                        {prestadores.map((prestador, index) => (
                                             <tr key={index}>
-                                                <td>{ss.identificador}</td>
-                                                <td>{ss.fecha_creacion}</td>
+                                                <td>{prestador.identificador}</td>
+                                                <td>{prestador.fecha_creacion}</td>
                                                 <td>
-                                                    <button className="btn btn-sm  rounded" onClick={() => deletePrestador(index)}>< BsTrash style={{ color: "red", fontSize: "20px" }} /></button>
+                                                    <button className="btn btn-sm  rounded" onClick={() => deleteElement(prestadores,index)}>< BsTrash style={{ color: "red", fontSize: "20px" }} /></button>
                                                 </td>
                                             </tr>
                                         ))}
@@ -194,7 +193,7 @@ function Recursos() {
                                                     <td>{sss.identificador}</td>
                                                     <td>{sss.fecha_creacion}</td>
                                                     <td>
-                                                        <button className="btn btn-sm  rounded" onClick={() => deleteExcepcion(index)} ><BsTrash style={{ color: "red", fontSize: "20px" }} /></button>
+                                                        <button className="btn btn-sm  rounded" onClick={() => deleteElement(excepcion,index)} ><BsTrash style={{ color: "red", fontSize: "20px" }} /></button>
                                                     </td>
                                                 </tr>
                                             ))}
@@ -210,6 +209,7 @@ function Recursos() {
                         <div className="card rounded ">
                             <div className="card-body">
                                 <h5 className="card-title">Prestaciones Autorizadas</h5>
+                                <input type="text" className="form-control" id="de" placeholder="Buscar prestación" value={searchTerm} onChange={handleSearch} />
                                 <table className="table " >
                                     <thead>
                                         <tr>
@@ -219,12 +219,12 @@ function Recursos() {
                                         </tr>
                                     </thead>
                                     <tbody className="table-group-divider">
-                                        {prestaciones.map((s, index) => (
+                                        {filteredPrestaciones.map((presta, index) => (
                                             <tr key={index}>
-                                                <td>{s.identificador}</td>
-                                                <td>{s.fecha_creacion}</td>
+                                                <td>{presta.identificador}</td>
+                                                <td>{presta.fecha_creacion}</td>
                                                 <td>
-                                                    <button className="btn btn-sm  rounded" onClick={() => deletePrestacion(index)}><BsTrash style={{ color: "red", fontSize: "20px" }} /></button>
+                                                    <button className="btn btn-sm  rounded" onClick={() => deleteElement(prestaciones, index)}><BsTrash style={{ color: "red", fontSize: "20px" }} /></button>
                                                 </td>
                                             </tr>
                                         ))}
