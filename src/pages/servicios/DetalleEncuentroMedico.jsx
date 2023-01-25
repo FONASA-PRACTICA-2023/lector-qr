@@ -22,6 +22,7 @@ function Detalle() {
 
     useEffect(() => {
         getDetalles(params.id);
+
     }, []);
 
     const getDetalles = async (id) => {
@@ -73,7 +74,7 @@ function Detalle() {
             setDetallesCopagos(copa);
             setDetallesBono(detalleBono);
             setDetallesActivacion(detallesAtivacion);
-            
+
 
 
             console.log(detallesAtivacion);
@@ -88,9 +89,8 @@ function Detalle() {
                 <a className="fs-1" onClick={() => {
                     navigate("/RegistrosCredenciales");
                 }}><IoArrowBack /></a>
-                <div>
-                    <h3>Detalle del Encuentro Médico({params.id})</h3>
-                </div>
+
+                <h3>Detalle del Encuentro Médico({params.id})</h3>
             </div>
             <div className="row row-cols-1 row-cols-md-4 g-4 mt-2 text-center ">
                 {detalleBono && detalleBono.map(bono => (
@@ -119,17 +119,17 @@ function Detalle() {
                             </div>
                         </div>
                     </div>))}
-                    {detallesAtivacion && detallesAtivacion.map(acivacion => (
+                {detallesAtivacion && detallesAtivacion.map(acivacion => (
                     <div className="col">
                         <div className="card h-100 rounded-1">
                             <div className="card-body">
                                 {acivacion.estadoBono !== null ? (
-                                <>
-                                <h5 className="card-title">{acivacion.estadoBono}</h5>
-                                <span>Activacion bono</span>
-                                </>
+                                    <>
+                                        <h5 className="card-title">{acivacion.estadoBono}</h5>
+                                        <span>Activacion bono</span>
+                                    </>
                                 ) : (
-                                <h5 className="card-title">Sin activacion de bono</h5>
+                                    <h5 className="card-title">Sin activacion de bono</h5>
                                 )}
                             </div>
                         </div>
@@ -138,7 +138,7 @@ function Detalle() {
 
 
             </div>
-            <div className="row row-cols-1 row-cols-md-3 g-4 mt-2 ">
+            <div className="card-group mt-3 pd-1">
                 <div className="col">
                     <div className="card h-100 rounded-1">
                         <div className="card-body">
@@ -286,7 +286,7 @@ function Detalle() {
             </div>
             {detalles && detalles.map(registro => (
                 <div className="row row-cols-1 row-cols-md-2 g-3 mt-3">
-                    <div className="col mt-3">
+                    <div >
                         <div className="col">
                             <div className="card h-100 rounded-1">
                                 <div className="card-body">

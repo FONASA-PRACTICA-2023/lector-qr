@@ -2,38 +2,32 @@ import React from "react";
 import { useState, useEffect } from "react";
 import swal from "sweetalert";
 import { BsTrash } from "react-icons/bs";
-import { BiSearchAlt } from "react-icons/bi";
-
 
 function Recursos() {
-    const [formData, setFormData] = useState({ tipo: "", identificador: "" });
     const [prestadores, setPrestadores] = useState([]);
     const [prestaciones, setPrestaciones] = useState([]);
     const [excepcion, setExcepcion] = useState([]);
     const [users, setUsers] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const filteredPrestaciones = prestaciones.filter(presta => presta.identificador.toLowerCase().includes(searchTerm.toLowerCase()));
+    const [formData, setFormData] = useState({ tipo: "seleccione una opcion", identificador: "" });
+
+    const handleReset = () => {
+        setFormData({ tipo: "seleccione una opcion", identificador: "" });
+    }
 
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
     }
 
-    const filteredPrestaciones = prestaciones.filter(presta => presta.identificador.toLowerCase().includes(searchTerm.toLowerCase()));
-
-    const getData = () => {
-
-        const nuevoRegistro = {
-            identificador: formData.identificador,
-            fecha_creacion: new Date().toLocaleString().split(",")[0]
-        };
-
+    const getDataRecursosAutorizados = () => {
         fetch("http://10.8.160.18:8010/multiprestador/autorizaciones")
             .then(response => response.json())
             .then(data => {
                 setUsers(data);
-                setPrestadores([...data.prestadores, nuevoRegistro]);
-                setPrestaciones([...data.prestaciones, nuevoRegistro]);
-                setExcepcion([...data.excepciones_contacto, nuevoRegistro]);
-
+                setPrestadores([...data.prestadores]);
+                setPrestaciones([...data.prestaciones]);
+                setExcepcion([...data.excepciones_contacto]);
                 console.log(data);
 
             })
@@ -41,15 +35,8 @@ function Recursos() {
                 console.log("Error al obtener los usuarios", error);
             });
     }
-
-
-    const handleReset = () => {
-        setFormData({ tipo: "seleccione una opcion", identificador: "" });
-    }
-
     useEffect(() => {
-        console.log(formData);
-        getData();
+        getDataRecursosAutorizados();
     }, []);
 
     const handleSave = () => {
@@ -58,29 +45,31 @@ function Recursos() {
             fecha_creacion: new Date().toLocaleString().split(",")[0],
             tipo: formData.tipo
         };
-
         fetch("http://10.8.160.18:8010/multiprestador/crear/autorizaciones", {
 
             method: "POST",
             body: JSON.stringify(nuevoRegistro),
             headers: {
                 "Content-Type": "application/json",
-
-
             }
 
         })
             .then(response => response.json())
             .then(data => {
+
+
                 switch (data.tipo) {
                     case "PRESTADOR":
                         setPrestadores([...prestadores, nuevoRegistro]);
+
                         break;
                     case "PRESTACION":
                         setPrestaciones([...prestaciones, nuevoRegistro]);
+
                         break;
                     case "EXCEPCION_VALIDAR_CONTACTO_BENEFICIARIO":
                         setExcepcion([...excepcion, nuevoRegistro]);
+
                         break;
                     default:
                         console.log(data)
@@ -88,47 +77,76 @@ function Recursos() {
                 if (formData.tipo === "seleccione una opcion" || formData.identificador === "") {
                     swal({
                         buttons: [false],
-                        text: "debe seleccionar una opcion o verificar el identificador",
-                        icon: "error",
+                        title: "Debe ingresar una opcion valida",
+                        text: "Debe seleccionar una opcion o verificar el identificador",
+                        icon: "warning",
                         timer: "2000",
                     });
                 } else {
                     swal({
-                        buttons: [true],
+                        buttons: [false],
+                        title: "Recurso agregado exitosamente",
+                        text:"El elemento fue guardado con exito",
                         icon: "success",
                         timer: "2000",
                     });
                 }
-                getData();
+                handleReset();
+                getDataRecursosAutorizados();
             })
             .catch(error => {
                 console.log("Error al enviar la solicitud", error);
-
             });
     }
 
     function deleteElement(array, index, deleteFunc) {
-        const deletedIdentificador = array[index].autorizacion_id;
-        fetch(`http://10.8.160.18:8010/multiprestador/autorizaciones/${deletedIdentificador}/delete`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            }
+        swal({
+            title: "¿Estás seguro de eliminar este elemento?",
+            text: "Una vez eliminado, no podrás recuperarlo.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
         })
-        switch (array) {
-            case prestadores:
-                setPrestadores(prestadores.filter((_, i) => i !== index));
-                break;
-            case prestaciones:
-                setPrestaciones(prestaciones.filter((_, i) => i !== index));
-                break;
-            case excepcion:
-                setExcepcion(excepcion.filter((_, i) => i !== index));
-                break;
-            default:
-                console.log("error");
-        }
-        deleteFunc(deletedIdentificador);
+            .then((willDelete) => {
+                if (willDelete) {
+                    const deletedIdentificador = array[index].autorizacion_id;
+                    fetch(`http://10.8.160.18:8010/multiprestador/autorizaciones/${deletedIdentificador}/delete`, {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json",
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            swal({
+                                buttons: [true],
+                                icon: "success",
+                                title:"Eliminado",
+                                timer: "2000",
+                            });
+                            switch (array) {
+                                case prestadores:
+                                    setPrestadores(prestadores.filter((_, i) => i !== index));
+                                    break;
+                                case prestaciones:
+                                    setPrestaciones(prestaciones.filter((_, i) => i !== index));
+                                    break;
+                                case excepcion:
+                                    setExcepcion(excepcion.filter((_, i) => i !== index));
+                                    break;
+                                default:
+                                    console.log("error");
+                            }
+                            deleteFunc(deletedIdentificador);
+                            getDataRecursosAutorizados();
+                        })
+                        .catch(error => {
+                            console.log("Error al eliminar el elemento", error);
+                        });
+                } else {
+                    swal("El elemento no ha sido eliminado.");
+                }
+            });
     }
 
     return (
@@ -141,13 +159,11 @@ function Recursos() {
                     <button type="button" className="btn btn-outline-primary rounded " data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={handleReset}>
                         Autorizar Item
                     </button >
-
                 </div>
             </div>
             <div className="row row-cols-md-2 ">
                 <div className="col mt-3">
                     <div className="col">
-
                         <div className="card rounded">
                             <div className="card-body ">
                                 <h5 className="title">Prestadores Autorizados</h5>
@@ -165,10 +181,9 @@ function Recursos() {
                                                 <td>{prestador.identificador}</td>
                                                 <td>{prestador.fecha_creacion}</td>
                                                 <td>
-                                                    <button className="btn btn-sm  rounded" onClick={() => deleteElement(prestadores,index)}>< BsTrash style={{ color: "red", fontSize: "20px" }} /></button>
+                                                    <button className="btn btn-sm  rounded" onClick={() => deleteElement(prestadores, index)}>< BsTrash style={{ color: "red", fontSize: "20px" }} /></button>
                                                 </td>
-                                            </tr>
-                                        ))}
+                                            </tr>))}
                                     </tbody>
                                 </table>
                             </div>
@@ -193,10 +208,9 @@ function Recursos() {
                                                     <td>{sss.identificador}</td>
                                                     <td>{sss.fecha_creacion}</td>
                                                     <td>
-                                                        <button className="btn btn-sm  rounded" onClick={() => deleteElement(excepcion,index)} ><BsTrash style={{ color: "red", fontSize: "20px" }} /></button>
+                                                        <button className="btn btn-sm  rounded" onClick={() => deleteElement(excepcion, index)} ><BsTrash style={{ color: "red", fontSize: "20px" }} /></button>
                                                     </td>
-                                                </tr>
-                                            ))}
+                                                </tr>))}
                                         </tbody>
                                     </table>
                                 </div>
@@ -219,12 +233,12 @@ function Recursos() {
                                         </tr>
                                     </thead>
                                     <tbody className="table-group-divider">
-                                        {filteredPrestaciones.map((presta, index) => (
+                                        {filteredPrestaciones.map((prestacion, index) => (
                                             <tr key={index}>
-                                                <td>{presta.identificador}</td>
-                                                <td>{presta.fecha_creacion}</td>
+                                                <td>{prestacion.identificador}</td>
+                                                <td>{prestacion.fecha_creacion}</td>
                                                 <td>
-                                                    <button className="btn btn-sm  rounded" onClick={() => deleteElement(prestaciones, index)}><BsTrash style={{ color: "red", fontSize: "20px" }} /></button>
+                                                    <BsTrash style={{ color: "red", fontSize: "20px" }} onClick={() => deleteElement(filteredPrestaciones, index, getDataRecursosAutorizados)} />
                                                 </td>
                                             </tr>
                                         ))}
@@ -246,7 +260,7 @@ function Recursos() {
                             <div className="mb-3">
                                 <label for="disabledSelect" className="form-text">TIPO</label>
                                 <select id="disabledSelect" className="form-select" onChange={(e) => setFormData({ ...formData, tipo: e.target.value })}>
-                                    <option value="seleccione una opcion" selected={formData.tipo === ""}>seleccione una opcion</option>
+                                    <option value="seleccione una opcion" selected={formData.tipo === "seleccione una opcion"}>seleccione una opcion</option>
                                     <option className="form-text">PRESTACION</option>
                                     <option className="form-text">PRESTADOR</option>
                                     <option className="form-text">EXCEPCION_VALIDAR_CONTACTO_BENEFICIARIO</option>
