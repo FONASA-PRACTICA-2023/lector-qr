@@ -48,7 +48,7 @@ div.modal-header {
   background-color: #0f69b4 !important;
   color: white;
   font-weight: 400;
-  font-size: 1.5rem;
+  font-size: 1rem;
   background-image: linear-gradient(#0f69b4, #001c41);
 }
 
@@ -128,7 +128,7 @@ nav.navbar-dark {
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   --bs-body-font-family: var(--bs-font-sans-serif);
-  --bs-body-font-size: 1rem;
+  --bs-body-font-size: 0.9rem;
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.5;
   --bs-body-color: #212529;

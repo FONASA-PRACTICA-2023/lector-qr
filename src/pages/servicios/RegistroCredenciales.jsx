@@ -8,6 +8,8 @@ function Recursos() {
     const [encuentross, setEncuentros] = useState([]);
     const [en, setEn] = useState({});
     const navigate = useNavigate();
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchTermPrestador, setSearchTermPrestador] = useState("");
 
     useEffect(() => {
         getDataEncuentros();
@@ -30,9 +32,6 @@ function Recursos() {
             });
     }
 
-    const [searchTerm, setSearchTerm] = useState("");
-    const [searchTermPrestador, setSearchTermPrestador] = useState("");
-
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
 
@@ -42,8 +41,9 @@ function Recursos() {
     }
 
     const filteredEncuentros = encuentross
-        .filter(encuentro => encuentro.beneficiario.toLowerCase().includes(searchTerm.toLowerCase()))
-        .filter(encuentro => encuentro.prestador.toLowerCase().includes(searchTermPrestador.toLowerCase()));
+    
+        .filter(encuentro => encuentro.beneficiario.toLowerCase().startsWith(searchTerm.toLowerCase()))
+        .filter(encuentro => encuentro.prestador.toLowerCase().startsWith(searchTermPrestador.toLowerCase()));
 
     return (
         <>
@@ -52,7 +52,7 @@ function Recursos() {
                     <h1 className="mb-3 text-center">Operación canal multiprestador</h1>
                 </div>
             </div>
-            <div className="card-title text-center">Registros de Credenciales</div>
+            <h3 className="card-title text-center mb-2">Registros de Credenciales</h3>
             <form >
                 <div className="row w-50 mx-auto">
                     <div className="col">

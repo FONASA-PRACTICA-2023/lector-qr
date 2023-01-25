@@ -9,7 +9,7 @@ function Recursos() {
     const [excepcion, setExcepcion] = useState([]);
     const [users, setUsers] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const filteredPrestaciones = prestaciones.filter(presta => presta.identificador.toLowerCase().includes(searchTerm.toLowerCase()));
+    const filteredPrestaciones = prestaciones.filter(presta => presta.identificador.toLowerCase().startsWith(searchTerm.toLowerCase()));
     const [formData, setFormData] = useState({ tipo: "seleccione una opcion", identificador: "" });
 
     const handleReset = () => {
@@ -86,7 +86,7 @@ function Recursos() {
                     swal({
                         buttons: [false],
                         title: "Recurso agregado exitosamente",
-                        text:"El elemento fue guardado con exito",
+                        text: "El elemento fue guardado con exito",
                         icon: "success",
                         timer: "2000",
                     });
@@ -121,7 +121,7 @@ function Recursos() {
                             swal({
                                 buttons: [true],
                                 icon: "success",
-                                title:"Eliminado",
+                                title: "Eliminado",
                                 timer: "2000",
                             });
                             switch (array) {
@@ -266,10 +266,10 @@ function Recursos() {
                                     <option className="form-text">EXCEPCION_VALIDAR_CONTACTO_BENEFICIARIO</option>
                                 </select>
                             </div>
-                            <div className="mb-3">
-                                <label for="exampleInputEmail1" className="form-text" >Identificador</label>
-                                <input type="text" className="form-control" value={formData.identificador} onChange={(e) => setFormData({ ...formData, identificador: e.target.value })} />
-                            </div>
+                                <div >
+                                    <label for="disabledSelect" className="form-text">IDENTIFICADOR</label>
+                                    <input type="text" className="form-control" placeholder="Ingresar identificador" value={formData.identificador} onChange={(e) => setFormData({ ...formData, identificador: e.target.value })} />
+                                </div>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-primary rounded" data-bs-dismiss="modal" onClick={handleSave}>GUARDAR</button>

@@ -75,8 +75,6 @@ function Detalle() {
             setDetallesBono(detalleBono);
             setDetallesActivacion(detallesAtivacion);
 
-
-
             console.log(detallesAtivacion);
         } catch (error) {
             console.log("Error al obtener detalles: ", error);
@@ -84,7 +82,7 @@ function Detalle() {
     };
     return (
 
-        <div className="container-recurses mt-3 ">
+        <div className="container">
             <div className="encabezado ">
                 <a className="fs-1" onClick={() => {
                     navigate("/RegistrosCredenciales");
@@ -92,12 +90,12 @@ function Detalle() {
 
                 <h3>Detalle del Encuentro Médico({params.id})</h3>
             </div>
-            <div className="row row-cols-1 row-cols-md-4 g-4 mt-2 text-center ">
+            <div className="row row-cols-1 row-cols-md-4 g-2 mt-2 text-center ">
                 {detalleBono && detalleBono.map(bono => (
                     <div className="col">
                         <div className="card h-100 rounded-1">
                             <div className="card-body">
-                                <h5 className="card-title">{bono.nomPrestador}</h5><span>prestador</span>
+                                <h5 className="card-title fs-6 ">{bono.nomPrestador}</h5><span>prestador</span>
                             </div>
                         </div>
 
@@ -107,7 +105,7 @@ function Detalle() {
                     <div className="col">
                         <div className="card h-100 rounded-1">
                             <div className="card-body ">
-                                <h5 className="card-title " style={{ color: registro.estado === "CREADO" ? "red" : "green" }}>{registro.estado}</h5><span>Estado de encuentro</span>
+                                <h5 className="card-title fs-6 " style={{ color: registro.estado === "CREADO" ? "red" : "green" }}>{registro.estado}</h5><span>Estado de encuentro</span>
                             </div>
                         </div>
                     </div>))}
@@ -138,12 +136,12 @@ function Detalle() {
 
 
             </div>
-            <div className="card-group mt-3 pd-1">
+            <div className="row row-cols-1 row-cols-md-3 mt-2 g-2">
                 <div className="col">
                     <div className="card h-100 rounded-1">
                         <div className="card-body">
                             <h5 className="card-title">Encuantro medico</h5>
-                            <table className="table">
+                            <table className="table ">
                                 <thead>
                                     <tr>
                                         <th scope="col">Atributo</th>
@@ -285,13 +283,13 @@ function Detalle() {
                 </div>
             </div>
             {detalles && detalles.map(registro => (
-                <div className="row row-cols-1 row-cols-md-2 g-3 mt-3">
+                <div className="row row-cols-1 row-cols-md-2 g-2 mt-2">
                     <div >
                         <div className="col">
                             <div className="card h-100 rounded-1">
                                 <div className="card-body">
                                     <h5 className="title">Prestaciones</h5>
-                                    <table className="table table-sm" >
+                                    <table className="table" >
                                         <thead>
                                             <tr>
                                                 <th scope="col">Código</th>
@@ -344,12 +342,14 @@ function Detalle() {
                             </div>
                         </div>
                     </div>
-                    <div className="col mt-3">
+                    <div className="col">
                         <div className="col">
-                            <div className="card h-100  rounded-1">
+                            <div className="card h-100 rounded-1 ">
                                 <div className="card-body">
                                     <h5 className="card-title">Acciones ejecutadas</h5>
-                                    <table className=" table table-sm" >
+
+                                    <div className="card-text ">
+                                        <table className=" table table-sm" >
                                         <thead>
                                             <tr>
                                                 <th scope="col">Paso </th>
@@ -365,10 +365,13 @@ function Detalle() {
                                                     <td>{bitacora.creacion}</td>
                                                     <td>{bitacora.glosa}</td>
                                                     <td>{bitacora.metadata}</td>
+                                                   
                                                 </tr>
                                             ))}
                                         </tbody>
                                     </table>
+                                    </div>
+                                        
                                 </div>
                             </div>
                         </div>
