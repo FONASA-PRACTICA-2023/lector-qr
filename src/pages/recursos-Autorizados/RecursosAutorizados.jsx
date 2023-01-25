@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import swal from "sweetalert";
 import { BsTrash } from "react-icons/bs";
+import { BiSearchAlt } from "react-icons/bi";
 
 function Recursos() {
     const [prestadores, setPrestadores] = useState([]);
@@ -156,17 +157,19 @@ function Recursos() {
                     <h1 className="mb-3">Recursos Autorizados</h1>
                 </div>
                 <div className="input-group mb-3" >
-                    <button type="button" className="btn btn-outline-primary rounded " data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={handleReset}>
+                    <button type="button" className="btn btn-primary rounded " data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={handleReset}>
                         Autorizar Item
                     </button >
                 </div>
             </div>
             <div className="row row-cols-md-2 ">
-                <div className="col mt-3">
+                <div className="col mt-3 ">
                     <div className="col">
                         <div className="card rounded">
-                            <div className="card-body ">
-                                <h5 className="title">Prestadores Autorizados</h5>
+                            <div className="card-header">
+                            <h3>Prestadores Autorizados</h3> 
+                            </div>
+                            <div className="card-body">
                                 <table className="table ">
                                     <thead>
                                         <tr>
@@ -189,11 +192,13 @@ function Recursos() {
                             </div>
                         </div>
                     </div>
-                    <div className="col mt-2">
+                    <div className="col mt-2 rounded">
                         <div className="col">
                             <div className="card rounded">
+                                <div className="card-header">
+                                    <h4>EXCEPCION_VALIDAR_CONTACTO_BENEFICIARIO</h4>
+                                </div>
                                 <div className="card-body">
-                                    <h5 className="card-title">EXCEPCION_VALIDAR_CONTACTO_BENEFICIARIO</h5>
                                     <table className="table">
                                         <thead>
                                             <tr>
@@ -220,10 +225,18 @@ function Recursos() {
                 </div>
                 <div className="col mt-3">
                     <div className="col">
-                        <div className="card rounded ">
-                            <div className="card-body">
-                                <h5 className="card-title">Prestaciones Autorizadas</h5>
-                                <input type="text" className="form-control" id="de" placeholder="Buscar prestación" value={searchTerm} onChange={handleSearch} />
+                        <div className="card rounded">
+                            <div className="card-header">
+                                <h3>Prestaciones Autorizadas</h3>
+                                <input type="text" 
+                                className="form-control" 
+                                id="de"  
+                                placeholder="Buscar prestación" 
+                                value={searchTerm} 
+                                onChange={handleSearch} />
+
+                            </div>
+                            <div className="card-body overflow-auto" style={{ height:"763px"}}>
                                 <table className="table " >
                                     <thead>
                                         <tr>
@@ -266,10 +279,10 @@ function Recursos() {
                                     <option className="form-text">EXCEPCION_VALIDAR_CONTACTO_BENEFICIARIO</option>
                                 </select>
                             </div>
-                                <div >
-                                    <label for="disabledSelect" className="form-text">IDENTIFICADOR</label>
-                                    <input type="text" className="form-control" placeholder="Ingresar identificador" value={formData.identificador} onChange={(e) => setFormData({ ...formData, identificador: e.target.value })} />
-                                </div>
+                            <div >
+                                <label for="disabledSelect" className="form-text">IDENTIFICADOR</label>
+                                <input type="text" className="form-control" placeholder="Ingresar identificador" value={formData.identificador} onChange={(e) => setFormData({ ...formData, identificador: e.target.value })} />
+                            </div>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-primary rounded" data-bs-dismiss="modal" onClick={handleSave}>GUARDAR</button>

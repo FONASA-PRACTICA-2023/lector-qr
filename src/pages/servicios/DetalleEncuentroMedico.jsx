@@ -4,6 +4,11 @@ import { useState, useEffect } from "react";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
+import Box from '@mui/material/Box';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+
 
 function Detalle() {
     const params = useParams();
@@ -19,6 +24,14 @@ function Detalle() {
     if (params.id) {
         console.log("params", params);
     }
+
+    const steps = [
+        'Creado',
+        'Valorizado',
+        'Emitido (copago)',
+        'Entregado',
+    ];
+
 
     useEffect(() => {
         getDetalles(params.id);
@@ -87,7 +100,17 @@ function Detalle() {
                 <a className="fs-1" onClick={() => {
                     navigate("/RegistrosCredenciales");
                 }}><IoArrowBack /></a>
-
+                {detalles && detalles.map(registro => (
+                    <Box className="mx-auto mb-2">
+                        <Stepper activeStep={registro.estado === "COPAGO_RECEPCIONADO" ? 3 : registro.estado === "CONFIRMA_ATENCION" ? 4 : registro.estado === "CREADO" ? 1 : registro.estado === "VALORIZADO" ? 2 : registro.estado === "NO_ADMITIDO" ? 0 : 0} alternativeLabel>
+                            {steps.map((label) => (
+                                <Step key={label}>
+                                    <StepLabel>{label}</StepLabel>
+                                </Step>
+                            ))}
+                        </Stepper>
+                    </Box>
+                ))}
                 <h3>Detalle del Encuentro Médico({params.id})</h3>
             </div>
             <div className="row row-cols-1 row-cols-md-4 g-2 mt-2 text-center ">
@@ -133,8 +156,6 @@ function Detalle() {
                         </div>
                     </div>
                 ))}
-
-
             </div>
             <div className="row row-cols-1 row-cols-md-3 mt-2 g-2">
                 <div className="col">
@@ -191,8 +212,7 @@ function Detalle() {
                                             <td>{registro.credencial_utilizada}</td>
                                         </tr>
                                     </tbody>
-                                ))
-                                }
+                                ))}
                             </table>
                         </div>
                     </div>
@@ -350,28 +370,28 @@ function Detalle() {
 
                                     <div className="card-text ">
                                         <table className=" table table-sm" >
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Paso </th>
-                                                <th scope="col">Creacion </th>
-                                                <th scope="col">Glosa </th>
-                                                <th scope="col">Metadata</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="table-group-divider">
-                                            {detallesBitacora && detallesBitacora.map(bitacora => (
+                                            <thead>
                                                 <tr>
-                                                    <td>{bitacora.codigo}</td>
-                                                    <td>{bitacora.creacion}</td>
-                                                    <td>{bitacora.glosa}</td>
-                                                    <td>{bitacora.metadata}</td>
-                                                   
+                                                    <th scope="col">Paso </th>
+                                                    <th scope="col">Creacion </th>
+                                                    <th scope="col">Glosa </th>
+                                                    <th scope="col">Metadata</th>
                                                 </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody className="table-group-divider">
+                                                {detallesBitacora && detallesBitacora.map(bitacora => (
+                                                    <tr>
+                                                        <td>{bitacora.codigo}</td>
+                                                        <td>{bitacora.creacion}</td>
+                                                        <td>{bitacora.glosa}</td>
+                                                        <td>{bitacora.metadata}</td>
+
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
                                     </div>
-                                        
+
                                 </div>
                             </div>
                         </div>

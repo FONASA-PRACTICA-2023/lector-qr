@@ -61,17 +61,12 @@ function Roles() {
     console.log(listadoDeRolesAsociados);
     return (
 
-
-
-
         <div className="row">
             <div className="card mb-3 rounded mt-3">
-                    <div className="card-body">
-                        <h5 className="card-title">Datos</h5>
-                        
-                    </div>
+                <div className="card-body">
+                    <h5 className="card-title">Datos</h5>
+                </div>
             </div>
-
             <div className="col-sm-6  mb-sm-0">
                 <div className="card rounded">
                     <div className="card-body">

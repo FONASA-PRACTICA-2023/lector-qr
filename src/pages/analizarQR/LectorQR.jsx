@@ -151,9 +151,6 @@ function LectorQR() {
 
   return (
     <div >
-
-
-
       <div className="container-camara rounded d-print-inline-flex justify-content-center text-center mt-2" style={{ width: "100%" }}>
         {showWebcam ? (
 
@@ -204,7 +201,7 @@ function LectorQR() {
 
         </div>
       </div>
-      
+
       <div className="container-tabla d-print-none mt-2" id="fg" >
         <div className="card-body">
 
@@ -237,7 +234,6 @@ function LectorQR() {
                   <td> {item.FechaCreacion}</td>
                   <td>{item.FechaCierre}</td>
                 </tr>
-
               ))}
             </tbody>
           </table>
