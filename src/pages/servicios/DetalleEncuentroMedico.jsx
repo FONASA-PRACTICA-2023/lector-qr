@@ -9,7 +9,6 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 
-
 function Detalle() {
     const params = useParams();
     const [detalles, setDetalles] = useState([]);
@@ -32,19 +31,18 @@ function Detalle() {
         'Entregado',
     ];
 
-
     useEffect(() => {
         getDetalles(params.id);
 
     }, []);
 
     const getDetalles = async (id) => {
-
         try {
             const response = await fetch(`http://10.8.160.18:8010/multiprestador/encuentro/` + id);
             const data = await response.json();
             const { registro, paciente, sucursal, bitacora, activacion, vt_bono, copagos } = data;
             let detalles, detallesPaciente, detallesSucursal, detallesBitacora, detallesAtivacion, detalleBono, copa;
+            
 
             if (!Array.isArray(registro)) {
                 detalles = [registro];
@@ -87,7 +85,7 @@ function Detalle() {
             setDetallesCopagos(copa);
             setDetallesBono(detalleBono);
             setDetallesActivacion(detallesAtivacion);
-
+            
             console.log(detallesAtivacion);
         } catch (error) {
             console.log("Error al obtener detalles: ", error);
@@ -95,7 +93,7 @@ function Detalle() {
     };
     return (
 
-        <div className="container">
+        <div className="container p-5">
             <div className="encabezado ">
                 <a className="fs-1" onClick={() => {
                     navigate("/RegistrosCredenciales");
@@ -121,7 +119,6 @@ function Detalle() {
                                 <h5 className="card-title fs-6 ">{bono.nomPrestador}</h5><span>prestador</span>
                             </div>
                         </div>
-
                     </div>
                 ))}
                 {detalles && detalles.map(registro => (
@@ -159,14 +156,15 @@ function Detalle() {
             </div>
             <div className="row row-cols-1 row-cols-md-3 mt-2 g-2">
                 <div className="col">
-                    <div className="card h-100 rounded-1">
+                    <div className="card h-100 rounded-1 table-responsive">
                         <div className="card-body">
-                            <h5 className="card-title">Encuantro medico</h5>
+                            <h5 className="card-title">Encuentro medico</h5>
                             <table className="table ">
                                 <thead>
                                     <tr>
                                         <th scope="col">Atributo</th>
                                         <th scope="col">Valor</th>
+                                        
                                     </tr>
                                 </thead>
                                 {detalles && detalles.map(registro => (
@@ -306,7 +304,7 @@ function Detalle() {
                 <div className="row row-cols-1 row-cols-md-2 g-2 mt-2">
                     <div >
                         <div className="col">
-                            <div className="card h-100 rounded-1">
+                            <div className="card h-100 rounded-1 table-responsive ">
                                 <div className="card-body">
                                     <h5 className="title">Prestaciones</h5>
                                     <table className="table" >
@@ -364,10 +362,9 @@ function Detalle() {
                     </div>
                     <div className="col">
                         <div className="col">
-                            <div className="card h-100 rounded-1 ">
+                            <div className="card h-100 rounded-1 table-responsive ">
                                 <div className="card-body">
                                     <h5 className="card-title">Acciones ejecutadas</h5>
-
                                     <div className="card-text ">
                                         <table className=" table table-sm" >
                                             <thead>
@@ -385,17 +382,14 @@ function Detalle() {
                                                         <td>{bitacora.creacion}</td>
                                                         <td>{bitacora.glosa}</td>
                                                         <td>{bitacora.metadata}</td>
-
                                                     </tr>
                                                 ))}
                                             </tbody>
                                         </table>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             ))}

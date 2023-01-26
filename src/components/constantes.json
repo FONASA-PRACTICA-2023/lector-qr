@@ -16,13 +16,15 @@
       "path": "/Roles"
     },
     {
-      "label": "Recursos Autorizados",
+      "label": "Autorizaciones",
       "path": "/RolesAut"
     },
     {
-      "label": "Registros",
+      "label": "Multiprestador",
       "path": "/RegistrosCredenciales"
+
     }
+   
    
   ]
 }

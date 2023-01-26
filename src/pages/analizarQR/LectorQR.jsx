@@ -4,12 +4,6 @@ import { FaQrcode } from 'react-icons/fa';
 import { BiUserCircle } from 'react-icons/bi';
 import swal from 'sweetalert';
 
-const videoConstraintsFrontal = {
-  width: 350,
-  height: 350,
-  facingMode: "user",
-  frameRate: 60,
-};
 const videoConstraintsTrasera = {
   width: 350,
   height: 350,
@@ -18,10 +12,7 @@ const videoConstraintsTrasera = {
   frameRate: 60,
 };
 
-
-
 function LectorQR() {
-
 
   const limpiarDatos = () => {
 
@@ -121,14 +112,12 @@ function LectorQR() {
       });
   };
 
-
   const handleButtonClick = () => {
     setShowWebcam(true);
     setInterval(true)
     limpiarDatos();
     document.getElementById("fg").style.display = "none"
   };
-
 
   function handleQrScan(result) {
     if (result) {
@@ -148,12 +137,10 @@ function LectorQR() {
     }
   }
 
-
   return (
     <div >
       <div className="container-camara rounded d-print-inline-flex justify-content-center text-center mt-2" style={{ width: "100%" }}>
         {showWebcam ? (
-
           <QrReader
             delay={300}
             ref={qrReaderRef}
@@ -161,11 +148,9 @@ function LectorQR() {
             onScan={handleQrScan}
             style={{ width: "100%", height: "100%" }}
           />
-
         ) : (
           <button className="btn btn-outline-primary rounded d-print-inline-flex mt-2 justify-content-center text-center " onClick={handleButtonClick} id="botnCap" style={{ width: "100%" }}><FaQrcode className="mr-2" />ESCANEAR QR</button>
         )}
-
       </div>
       <div className="card mt-3">
         <h5 className="card-header"><BiUserCircle className="mr-1 fs-5" />Datos Afiliado</h5>
@@ -198,10 +183,8 @@ function LectorQR() {
               </tr>
             </tbody>
           </table>
-
         </div>
       </div>
-
       <div className="container-tabla d-print-none mt-2" id="fg" >
         <div className="card-body">
 
@@ -212,7 +195,6 @@ function LectorQR() {
         {casosAUGE && casosAUGE.length > 0 && (
           < table className="table mt-1 overflow-x-auto">
             <thead >
-
               <tr >
                 <td scope="row">Problema de salud</td>
                 <td scope="row" >Estado</td>
@@ -221,11 +203,9 @@ function LectorQR() {
                 <td scope="row">Fecha de inicio</td>
                 <td scope="row">Fecha de termino</td>
               </tr>
-
             </thead>
             <tbody className="table-group-divider">
               {casosAUGE.map(item => (
-
                 <tr key={item.FechaCreacion}>
                   <td style={{ background: "#b8d7ea" }}> {item.NombrePS}</td>
                   <td style={{ background: item.EstadoCaso === "Caso Cerrado" ? "#d18988" : "#c3e6cb" }}>{item.EstadoCaso}</td>

@@ -10,9 +10,9 @@ import ListadoServiciosIntegracion from "./pages/servicios/ListadoServiciosInteg
 import { Modal } from "bootstrap";
 import LectorQR from "./pages/analizarQR/LectorQR";
 import Roles from "./pages/servicios/RolesUsuario";
-import RecursosAutorizados from "./pages/recursos-Autorizados/RecursosAutorizados"
-import Registros from "./pages/servicios/RegistroCredenciales"
-import Encuentro from "./pages/servicios/DetalleEncuentroMedico"
+import RecursosAutorizados from "./pages/recursos-Autorizados/RecursosAutorizados";
+import Registros from "./pages/servicios/RegistroCredenciales";
+import Encuentro from "./pages/servicios/DetalleEncuentroMedico";
 
 function AplicacionSnoopy() {
   return (
@@ -37,6 +37,7 @@ function AplicacionSnoopy() {
               path="/RegistrosCredenciales"
               element={<Registros />}
             />
+           
             <Route
               path="/Encuentro/:id"
               element={<Encuentro />}

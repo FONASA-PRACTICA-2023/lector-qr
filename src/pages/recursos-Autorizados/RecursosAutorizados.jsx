@@ -2,7 +2,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 import swal from "sweetalert";
 import { BsTrash } from "react-icons/bs";
-import { BiSearchAlt } from "react-icons/bi";
 
 function Recursos() {
     const [prestadores, setPrestadores] = useState([]);
@@ -30,7 +29,7 @@ function Recursos() {
                 setPrestaciones([...data.prestaciones]);
                 setExcepcion([...data.excepciones_contacto]);
                 console.log(data);
-
+                
             })
             .catch(error => {
                 console.log("Error al obtener los usuarios", error);
@@ -57,20 +56,15 @@ function Recursos() {
         })
             .then(response => response.json())
             .then(data => {
-
-
                 switch (data.tipo) {
                     case "PRESTADOR":
                         setPrestadores([...prestadores, nuevoRegistro]);
-
                         break;
                     case "PRESTACION":
                         setPrestaciones([...prestaciones, nuevoRegistro]);
-
                         break;
                     case "EXCEPCION_VALIDAR_CONTACTO_BENEFICIARIO":
                         setExcepcion([...excepcion, nuevoRegistro]);
-
                         break;
                     default:
                         console.log(data)
@@ -151,7 +145,7 @@ function Recursos() {
     }
 
     return (
-        <>
+        <div className="p-5">
             <div className="menu">
                 <div className="text-center">
                     <h1 className="mb-3">Recursos Autorizados</h1>
@@ -167,7 +161,7 @@ function Recursos() {
                     <div className="col">
                         <div className="card rounded">
                             <div className="card-header">
-                            <h3>Prestadores Autorizados</h3> 
+                                <h3>Prestadores Autorizados</h3>
                             </div>
                             <div className="card-body">
                                 <table className="table ">
@@ -228,15 +222,9 @@ function Recursos() {
                         <div className="card rounded">
                             <div className="card-header">
                                 <h3>Prestaciones Autorizadas</h3>
-                                <input type="text" 
-                                className="form-control" 
-                                id="de"  
-                                placeholder="Buscar prestación" 
-                                value={searchTerm} 
-                                onChange={handleSearch} />
-
+                                <input type="text" className="form-control" id="de" placeholder="Buscar prestación" value={searchTerm} onChange={handleSearch} />
                             </div>
-                            <div className="card-body overflow-auto" style={{ height:"763px"}}>
+                            <div className="card-body overflow-auto" style={{ height: "763px" }}>
                                 <table className="table " >
                                     <thead>
                                         <tr>
@@ -290,7 +278,7 @@ function Recursos() {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 
