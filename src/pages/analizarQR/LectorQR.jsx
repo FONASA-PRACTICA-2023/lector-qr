@@ -3,7 +3,14 @@ import QrReader from "react-web-qr-reader";
 import { FaQrcode } from 'react-icons/fa';
 import { BiUserCircle } from 'react-icons/bi';
 import swal from 'sweetalert';
+import { useEffect } from "react";
 
+const videoConstraintsFrontal = {
+  width: 350,
+  height: 350,
+  facingMode: "user",
+  frameRate: 60,
+};
 const videoConstraintsTrasera = {
   width: 350,
   height: 350,
@@ -12,7 +19,10 @@ const videoConstraintsTrasera = {
   frameRate: 60,
 };
 
+
+
 function LectorQR() {
+
 
   const limpiarDatos = () => {
 
@@ -47,6 +57,10 @@ function LectorQR() {
   const url = "https://api.fonasa.cl/FONASACertificacionTrabajadorREST/"
   const urlsigges = "https://api.fonasa.cl/FonasaConsultaSigges"
 
+  useEffect(() => {
+    document.getElementById("fg").style.display = "none"
+
+  }, []);
 
   const callDatosPersonales = (rut) => {
     setLoading(true);
@@ -112,12 +126,14 @@ function LectorQR() {
       });
   };
 
+
   const handleButtonClick = () => {
     setShowWebcam(true);
     setInterval(true)
     limpiarDatos();
     document.getElementById("fg").style.display = "none"
   };
+
 
   function handleQrScan(result) {
     if (result) {
@@ -152,48 +168,26 @@ function LectorQR() {
           <button className="btn btn-outline-primary rounded d-print-inline-flex mt-2 justify-content-center text-center " onClick={handleButtonClick} id="botnCap" style={{ width: "100%" }}><FaQrcode className="mr-2" />ESCANEAR QR</button>
         )}
       </div>
-      <div className="card mt-3">
-        <h5 className="card-header"><BiUserCircle className="mr-1 fs-5" />Datos Afiliado</h5>
+      <div className="container-tabla d-print-none mt-2" style={{ height: "100%" }} id="fg" >
         <div className="card-body">
-          <table className="table">
+          <table className="table mt-1" id="ss">
             <tbody>
-              <tr>
-                <th scope="row">Nombre:</th>
-                <td>{datosPersonales.nombres}</td>
-              </tr>
-              <tr>
-                <th scope="row">Apellidos:</th>
-                <td>{datosPersonales.apellidoPaterno}<span>  </span>{datosPersonales.apellidoMaterno}</td>
-              </tr>
-              <tr>
-                <th scope="row">Dirección:</th>
-                <td>{datosPersonales.direccionPaciente}</td>
-              </tr>
-              <tr>
-                <th scope="row">Comuna:</th>
-                <td>{datosPersonales.glosaComuna}</td>
-              </tr>
-              <tr>
-                <th scope="row">Rut:</th>
-                <td>{rutBuscado}</td>
-              </tr>
-              <tr>
-                <th scope="row">Sexo:</th>
-                <td>{datosPersonales.sexo}</td>
-              </tr>
+              <ul className="list-group" >
+                <li className="list-group-item active" aria-current="true" ><BiUserCircle className="mr-1 fs-5" />Datos Afiliado</li>
+                <li className="list-group-item">Nombre: {datosPersonales.nombres}</li>
+                <li className="list-group-item">Apellidos: {datosPersonales.apellidoPaterno}<span>  </span>{datosPersonales.apellidoMaterno}</li>
+                <li className="list-group-item">Dirección: {datosPersonales.direccionPaciente}</li>
+                <li className="list-group-item">Comuna: {datosPersonales.glosaComuna}</li>
+                <li className="list-group-item">Rut: {rutBuscado}</li>
+                <li className="list-group-item">Sexo: {datosPersonales.sexo}</li>
+              </ul>
             </tbody>
           </table>
         </div>
       </div>
-      <div className="container-tabla d-print-none mt-2" id="fg" >
-        <div className="card-body">
-
-        </div>
-      </div>
-
-      <div>
+      <div className="table-responsive">
         {casosAUGE && casosAUGE.length > 0 && (
-          < table className="table mt-1 overflow-x-auto">
+          < table className="table mt-1">
             <thead >
               <tr >
                 <td scope="row">Problema de salud</td>

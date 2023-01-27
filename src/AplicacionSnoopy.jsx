@@ -13,7 +13,7 @@ import Roles from "./pages/servicios/RolesUsuario";
 import RecursosAutorizados from "./pages/recursos-Autorizados/RecursosAutorizados";
 import Registros from "./pages/servicios/RegistroCredenciales";
 import Encuentro from "./pages/servicios/DetalleEncuentroMedico";
-
+import P from "./pages/servicios/Prueba";
 function AplicacionSnoopy() {
   return (
     <BrowserRouter>
@@ -32,6 +32,10 @@ function AplicacionSnoopy() {
             <Route
               path="/Roles"
               element={<Roles />}
+            />
+            <Route
+              path="/Prueba"
+              element={<P />}
             />
             <Route
               path="/RegistrosCredenciales"

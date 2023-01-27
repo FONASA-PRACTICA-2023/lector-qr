@@ -23,6 +23,11 @@
       "label": "Multiprestador",
       "path": "/RegistrosCredenciales"
 
+    },
+    {
+      "label": "Prueba",
+      "path": "/Prueba"
+
     }
    
    

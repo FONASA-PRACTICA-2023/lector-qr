@@ -11,7 +11,7 @@ function Recursos() {
     }, []);
 
     const getDataEncuentros = () => {
-        let url = "http://10.8.160.18:8010/multiprestador/encuentros";
+        let url = "https://api.fonasa.cl/SQA/MantenedorApiMP/encuentros";
 
         fetch(url)
             .then((response) => response.json())
@@ -41,8 +41,8 @@ function Recursos() {
                 </div>
             </div>
             <div className="card rounded w-100 mx-auto" >
-                <h5 className="card-header">
-                    Registros de Credenciales
+                <h5 className="card-header bg-primary-subtle">
+                    <h4>Registro de credenciales</h4>
                     <input
                         type="text"
                         className="form-control mt-2"

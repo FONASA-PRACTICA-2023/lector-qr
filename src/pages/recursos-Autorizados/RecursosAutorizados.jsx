@@ -21,7 +21,7 @@ function Recursos() {
     }
 
     const getDataRecursosAutorizados = () => {
-        fetch("http://10.8.160.18:8010/multiprestador/autorizaciones")
+        fetch("https://api.fonasa.cl/SQA/MantenedorApiMP/autorizaciones")
             .then(response => response.json())
             .then(data => {
                 setUsers(data);
@@ -45,7 +45,7 @@ function Recursos() {
             fecha_creacion: new Date().toLocaleString().split(",")[0],
             tipo: formData.tipo
         };
-        fetch("http://10.8.160.18:8010/multiprestador/crear/autorizaciones", {
+        fetch("https://api.fonasa.cl/SQA/MantenedorApiMP/crear/autorizaciones", {
 
             method: "POST",
             body: JSON.stringify(nuevoRegistro),
@@ -105,7 +105,7 @@ function Recursos() {
             .then((willDelete) => {
                 if (willDelete) {
                     const deletedIdentificador = array[index].autorizacion_id;
-                    fetch(`http://10.8.160.18:8010/multiprestador/autorizaciones/${deletedIdentificador}/delete`, {
+                    fetch(`https://api.fonasa.cl/SQA/MantenedorApiMP/autorizaciones/${deletedIdentificador}/delete`, {
                         method: "DELETE",
                         headers: {
                             "Content-Type": "application/json",
