@@ -1,23 +1,55 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import dayjs from 'dayjs';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+
 
 function Recursos() {
     const [encuentros, setEncuentros] = useState([]);
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState("");
+    const [value, setValue] = React.useState(dayjs(""));
+    const [fecha, setFecha] = useState([]);
+    const [fechaFiltro, setFechaFiltro] = useState(null);
+
+
+
+    const handleChange = async (newValue) => {
+        setFechaFiltro(dayjs(newValue.$d).format("YYYY-MM-DD"))
+        await fetch(`https://api.fonasa.cl/SQA/MantenedorApiMP/encuentros/`+dayjs(newValue.$d).format("YYYY-MM-DD"))
+        .then((response) => response.json())
+
+        .then((res) => {
+            setFecha(res.encuentros);
+            console.log(res.encuentros);
+        })
+
+        .catch((error) => {
+            console.log("Error al obtener los usuarios", error);
+        });
+    };
+
 
     useEffect(() => {
         getDataEncuentros();
     }, []);
+
+    
 
     const getDataEncuentros = () => {
         let url = "https://api.fonasa.cl/SQA/MantenedorApiMP/encuentros";
 
         fetch(url)
             .then((response) => response.json())
+
             .then((res) => {
                 setEncuentros(res.encuentros);
             })
+
             .catch((error) => {
                 console.log("Error al obtener los usuarios", error);
             });
@@ -26,6 +58,7 @@ function Recursos() {
     const filteredEncuentros = encuentros.filter((encuentro) =>
         encuentro.beneficiario.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
         encuentro.prestador.toLowerCase().startsWith(searchTerm.toLowerCase())
+
     );
 
     const handleSearch = (event) => {
@@ -36,27 +69,41 @@ function Recursos() {
         <div className="w-100 p-5" >
             <div className="row">
                 <div className="col-12">
-                    
                     <h1 className="mb-3 text-center">Operación canal multiprestador</h1>
                 </div>
             </div>
-            <div className="card rounded w-100 mx-auto" >
-                <h5 className="card-header bg-primary-subtle">
-                    <h4>Registro de credenciales</h4>
-                    <input
-                        type="text"
-                        className="form-control mt-2"
-                        style={{width:"300px"}}
-                        placeholder="Buscar por rut"
-                        value={searchTerm}
-                        onChange={handleSearch}
-                    />
-                </h5>
+            <div className="card rounded w-100 mx-auto  " >
+                <div className="card-header bg-primary-subtle d-flex justify-content-between">
+                    <div>
+                        <h4>Registro de credenciales</h4>
+                        <input
+                            type="text"
+                            className="form-control mt-2"
+                            style={{ width: "300px" }}
+                            placeholder="Filtrar"
+                            value={searchTerm}
+                            onChange={handleSearch}
+                        />
+                    </div>
+                    <div className="mt-2 ">
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <Stack spacing={3}>
+                                <DesktopDatePicker
+                                    label="Filtrar por fecha"
+                                    inputFormat="YYYY-MM-DD"
+                                    value={fechaFiltro}
+                                    onChange={handleChange}
+                                    renderInput={(params) => <TextField {...params} />}
+                                />
+                            </Stack>
+                        </LocalizationProvider>
+
+                    </div>
+                </div>
                 <div className="card-body w-100">
                     <div className="table-responsive w-100 " >
-                        <table className="table w-100" 
 
-                        >
+                        <table className="table w-100">
                             <thead>
                                 <tr>
                                     <th scope="col">creacion</th>
@@ -71,7 +118,24 @@ function Recursos() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredEncuentros.map((encuentro, index) => (
+                                {fechaFiltro ? fecha.map((fecha,index) => (
+                                    <tr key={index}>
+                                        <td
+                                            className="text-primary"
+                                            onClick={() => {
+                                                navigate(`/Encuentro/` + fecha.identificador);
+                                            }}
+                                        >{fecha.creacion}</td>
+                                        <td>{fecha.prestador}</td>
+                                        <td>{fecha.beneficiario}</td>
+                                        <td>{fecha.estado}</td>
+                                        <td>{fecha.mto_bonificado}</td>
+                                        <td>{fecha.mto_copago}</td>
+                                        <td>{fecha.mto_total}</td>
+                                        <td>{fecha.sucursal}</td>
+                                        <td>{fecha.folio_bono}</td>
+                                    </tr>
+                                )) : filteredEncuentros.map((encuentro,index) => (
                                     <tr key={index}>
                                         <td
                                             className="text-primary"
@@ -87,15 +151,15 @@ function Recursos() {
                                         <td>{encuentro.mto_total}</td>
                                         <td>{encuentro.sucursal}</td>
                                         <td>{encuentro.folio_bono}</td>
-                                    </tr>
-                                ))}
+                                    </tr>))}
+
                             </tbody>
                         </table>
                     </div>
                 </div>
-            </div>
+            </div >
 
-        </div>
+        </div >
     )
 }
 
