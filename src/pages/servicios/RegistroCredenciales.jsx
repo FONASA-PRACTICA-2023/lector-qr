@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { TfiReload } from 'react-icons/tfi';
 
 
 function Recursos() {
@@ -16,21 +17,25 @@ function Recursos() {
     const [fecha, setFecha] = useState([]);
     const [fechaFiltro, setFechaFiltro] = useState(null);
 
+    const handleReset = () => {
+        setFechaFiltro(null);
+        getDataEncuentros();
+    }
 
 
     const handleChange = async (newValue) => {
         setFechaFiltro(dayjs(newValue.$d).format("YYYY-MM-DD"))
-        await fetch(`https://api.fonasa.cl/SQA/MantenedorApiMP/encuentros/`+dayjs(newValue.$d).format("YYYY-MM-DD"))
-        .then((response) => response.json())
+        await fetch(`https://api.fonasa.cl/SQA/MantenedorApiMP/encuentros/` + dayjs(newValue.$d).format("YYYY-MM-DD"))
+            .then((response) => response.json())
 
-        .then((res) => {
-            setFecha(res.encuentros);
-            console.log(res.encuentros);
-        })
+            .then((res) => {
+                setFecha(res.encuentros);
+                console.log(res.encuentros);
+            })
 
-        .catch((error) => {
-            console.log("Error al obtener los usuarios", error);
-        });
+            .catch((error) => {
+                console.log("Error al obtener los usuarios", error);
+            });
     };
 
 
@@ -38,7 +43,7 @@ function Recursos() {
         getDataEncuentros();
     }, []);
 
-    
+
 
     const getDataEncuentros = () => {
         let url = "https://api.fonasa.cl/SQA/MantenedorApiMP/encuentros";
@@ -75,7 +80,8 @@ function Recursos() {
             <div className="card rounded w-100 mx-auto  " >
                 <div className="card-header bg-primary-subtle d-flex justify-content-between">
                     <div>
-                        <h4>Registro de credenciales</h4>
+                        <h4><button className="btn btn-primary" onClick={handleReset}><TfiReload/></button> Registro de credenciales
+                        </h4>
                         <input
                             type="text"
                             className="form-control mt-2"
@@ -84,6 +90,7 @@ function Recursos() {
                             value={searchTerm}
                             onChange={handleSearch}
                         />
+
                     </div>
                     <div className="mt-2 ">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -97,8 +104,10 @@ function Recursos() {
                                 />
                             </Stack>
                         </LocalizationProvider>
-
+                        <div>
+                        </div>
                     </div>
+
                 </div>
                 <div className="card-body w-100">
                     <div className="table-responsive w-100 " >
@@ -118,7 +127,7 @@ function Recursos() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {fechaFiltro ? fecha.map((fecha,index) => (
+                                {fechaFiltro ? fecha.map((fecha, index) => (
                                     <tr key={index}>
                                         <td
                                             className="text-primary"
@@ -135,7 +144,7 @@ function Recursos() {
                                         <td>{fecha.sucursal}</td>
                                         <td>{fecha.folio_bono}</td>
                                     </tr>
-                                )) : filteredEncuentros.map((encuentro,index) => (
+                                )) : filteredEncuentros.map((encuentro, index) => (
                                     <tr key={index}>
                                         <td
                                             className="text-primary"
