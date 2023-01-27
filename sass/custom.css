@@ -53,7 +53,7 @@ div.modal-header {
   background-color: #0f69b4 !important;
   color: white;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 1.5rem;
   background-image: linear-gradient(#0f69b4, #001c41);
 }
 
@@ -703,7 +703,7 @@ container
   color: #6c757d;
 }
 
-/* .container,
+ .container,
 .container-fluid,
 .container-xxl,
 .container-xl,
@@ -717,9 +717,9 @@ container
   padding-left: calc(var(--bs-gutter-x) * 0.5);
   margin-right: auto;
   margin-left: auto;
-} */
+} 
 
-/* @media (min-width: 576px) {
+ @media (min-width: 576px) {
   .container-sm, .container {
     max-width: 800px;
   }
@@ -743,7 +743,7 @@ container
   .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
     max-width: 1320px;
   }
-} */
+} 
 .row {
   --bs-gutter-x: 1.5rem;
   --bs-gutter-y: 0;
