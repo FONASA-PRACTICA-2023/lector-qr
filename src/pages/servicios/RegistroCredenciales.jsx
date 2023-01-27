@@ -86,7 +86,7 @@ function Recursos() {
                             type="text"
                             className="form-control mt-2"
                             style={{ width: "300px" }}
-                            placeholder="Filtrar"
+                            placeholder="Filtrar por run"
                             value={searchTerm}
                             onChange={handleSearch}
                         />
