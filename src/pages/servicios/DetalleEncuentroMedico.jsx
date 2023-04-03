@@ -38,7 +38,7 @@ function Detalle() {
 
     const getDetalles = async (id) => {
         try {
-            const response = await fetch(`http://10.8.160.18:8010/multiprestador/encuentro/` + id);
+            const response = await fetch(`https://api.fonasa.cl/SQA/MantenedorApiMP/encuentro/` + id);
             const data = await response.json();
             const { registro, paciente, sucursal, bitacora, activacion, vt_bono, copagos } = data;
             let detalles, detallesPaciente, detallesSucursal, detallesBitacora, detallesAtivacion, detalleBono, copa;
@@ -156,8 +156,8 @@ function Detalle() {
             </div>
             <div className="row row-cols-1 row-cols-md-3 mt-2 g-2">
                 <div className="col">
-                    <div className="card h-100 rounded-1 table-responsive">
-                        <div className="card-body">
+                    <div className="card h-100 rounded-1 table-responsive ">
+                        <div className="card-body ">
                             <h5 className="card-title">Encuentro medico</h5>
                             <table className="table ">
                                 <thead>

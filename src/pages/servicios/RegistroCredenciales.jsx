@@ -25,12 +25,11 @@ function Recursos() {
 
     const handleChange = async (newValue) => {
         setFechaFiltro(dayjs(newValue.$d).format("YYYY-MM-DD"))
-        await fetch(`https://api.fonasa.cl/SQA/MantenedorApiMP/encuentros/` + dayjs(newValue.$d).format("YYYY-MM-DD"))
+        await fetch(`` + dayjs(newValue.$d).format("YYYY-MM-DD"))
             .then((response) => response.json())
 
             .then((res) => {
                 setFecha(res.encuentros);
-                console.log(res.encuentros);
             })
 
             .catch((error) => {
@@ -46,13 +45,13 @@ function Recursos() {
 
 
     const getDataEncuentros = () => {
-        let url = "https://api.fonasa.cl/SQA/MantenedorApiMP/encuentros";
 
-        fetch(url)
+        fetch("https://api.fonasa.cl/SQA/MantenedorApiMP/encuentros")
             .then((response) => response.json())
 
             .then((res) => {
                 setEncuentros(res.encuentros);
+                console.log(encuentros);
             })
 
             .catch((error) => {
@@ -90,7 +89,6 @@ function Recursos() {
                             value={searchTerm}
                             onChange={handleSearch}
                         />
-
                     </div>
                     <div className="mt-2 ">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -107,9 +105,8 @@ function Recursos() {
                         <div>
                         </div>
                     </div>
-
                 </div>
-                <div className="card-body w-100">
+                <div className="card-body w-100 shadow">
                     <div className="table-responsive w-100 " >
 
                         <table className="table w-100">
