@@ -5,20 +5,6 @@ import { BiUserCircle } from 'react-icons/bi';
 import swal from 'sweetalert';
 import { useEffect } from "react";
 
-const videoConstraintsFrontal = {
-  width: 350,
-  height: 350,
-  facingMode: "user",
-  frameRate: 60,
-};
-const videoConstraintsTrasera = {
-  width: 350,
-  height: 350,
-  facingMode: { exact: "environment" },
-  focusMode: "continuous",
-  frameRate: 60,
-};
-
 function LectorQR() {
   const limpiarDatos = () => {
 
@@ -38,7 +24,6 @@ function LectorQR() {
   const [loading, setLoading] = useState(false);
   const [porcentaje, setPorcentaje] = useState("");
   const [etiqueta, setEtiqueta] = useState("");
-  const [modo, setModo] = useState(videoConstraintsTrasera);
   const [labels, setLabels] = useState([]);
   const [estado, setEstado] = useState("");
   const [datosPersonales, setDatosPersonales] = useState({});
@@ -46,7 +31,6 @@ function LectorQR() {
   const [showWebcam, setShowWebcam] = useState(false);
   const [antecedentesSigges, setAntecedentesSigges] = useState({});
   const [casosAUGE, setCasosAUGE] = useState([]);
-  const [camara, setCamara] = useState("TRASERA");
   const qrReaderRef = useRef(null);
   const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5vbWJyZSI6Ik1pZ3VlbCBIZXJuXHUwMGUxbmRleiBHb256XHUwMGUxbGV6IiwicnVuIjoiTkEiLCJtYWlsIjoibWlndWVsLmhlcm5hbmRlekBmb25hc2EuZ292LmNsIiwidXNlcm5hbWUiOiJtaWd1ZWwuaGVybmFuZGV6IiwidGlwb191c3VhcmlvIjoiTkEiLCJydXRfcHJlc3RhZG9yIjoiIiwiaW5zdGl0dWNpb24iOiIiLCJyb2xlcyI6W119LCJpYXQiOjE2NzIzMjc0NjAsImV4cCI6MTY3MjMzMTA2MCwiaXNzIjoiRm9uZG8gTmFjaW9uYWwgZGUgU2FsdWQifQ.WKq6_MvycrMMd_I3gyvkjW0JeNV52IBEbIdaD2Kb5vA"
   const url = "https://api.fonasa.cl/prd/wtc/ws-certificacion-trabajador/v2/certificacion-trabajador/"
@@ -67,7 +51,7 @@ function LectorQR() {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log({ response });
+        // console.log({ response });
         setDatosPersonales(response);
         setLoading(false);
       })
@@ -123,7 +107,6 @@ function LectorQR() {
   const handleButtonClick = () => {
     setShowWebcam(true);
     setInterval(true)
-    limpiarDatos();
     document.getElementById("fg").style.display = "none"
   };
 
@@ -143,7 +126,7 @@ function LectorQR() {
       document.getElementById("fg").style.display = "flex"
     }
   }
-  
+
   const handleError = (error) => {
     console.log(error);
   };
@@ -154,7 +137,7 @@ function LectorQR() {
           <QrReader
             delay={300}
             ref={qrReaderRef}
-            videoConstraints={modo}
+            facingMode="environment"
             onError={handleError}
             onScan={handleQrScan}
             style={{ width: "100%", height: "100%" }}
@@ -168,9 +151,6 @@ function LectorQR() {
               <button className="btn btn-outline-danger rounded d-print-inline-flex mt-2 justify-content-center text-center " onClick={() => { setShowWebcam(false); limpiarDatos(); document.getElementById("fg").style.display = "none" }} id="botnCap3">
                 Cancelar
               </button>
-              <button className="btn btn-outline-primary rounded d-print-inline-flex mt-2 justify-content-center text-center " id="btn" >
-                Girar cámara
-              </button>
             </div>
           )}
       </div>
@@ -179,15 +159,18 @@ function LectorQR() {
           <table className="table mt-1" id="ss">
             <tbody>
               <tr>
-                <ul className="list-group" >
-                  <li className="list-group-item active" aria-current="true" ><BiUserCircle className="mr-1 fs-5" />Datos Afiliado</li>
-                  <li className="list-group-item">Nombre: {datosPersonales.nombres}</li>
-                  <li className="list-group-item">Apellidos: {datosPersonales.apellidoPaterno}<span>  </span>{datosPersonales.apellidoMaterno}</li>
-                  <li className="list-group-item">Dirección: {datosPersonales.direccionPaciente}</li>
-                  <li className="list-group-item">Comuna: {datosPersonales.glosaComuna}</li>
-                  <li className="list-group-item">Rut: {rutBuscado}</li>
-                  <li className="list-group-item">Sexo: {datosPersonales.sexo}</li>
-                </ul>
+                <td>
+                  <ul className="list-group" >
+                    <li className="list-group-item active" aria-current="true" ><BiUserCircle className="mr-1 fs-5" />Datos Afiliado</li>
+                    <li className="list-group-item">Nombre: {datosPersonales.nombres}</li>
+                    <li className="list-group-item">Apellidos: {datosPersonales.apellidoPaterno}<span>  </span>{datosPersonales.apellidoMaterno}</li>
+                    <li className="list-group-item">Dirección: {datosPersonales.direccionPaciente}</li>
+                    <li className="list-group-item">Comuna: {datosPersonales.glosaComuna}</li>
+                    <li className="list-group-item">Rut: {rutBuscado}</li>
+                    <li className="list-group-item">Sexo: {datosPersonales.sexo}</li>
+                  </ul>
+                </td>
+
               </tr>
             </tbody>
           </table>
