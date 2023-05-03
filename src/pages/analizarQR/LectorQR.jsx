@@ -41,7 +41,6 @@ function LectorQR() {
   const [porcentaje, setPorcentaje] = useState("");
   const [etiqueta, setEtiqueta] = useState("");
   const [modo, setModo] = useState(videoConstraintsTrasera);
-  const payload = { imagen: captura, file_name: "foto_evaluando.jpg" };
   const [labels, setLabels] = useState([]);
   const [estado, setEstado] = useState("");
   const [datosPersonales, setDatosPersonales] = useState({});
@@ -49,6 +48,7 @@ function LectorQR() {
   const [showWebcam, setShowWebcam] = useState(false);
   const [antecedentesSigges, setAntecedentesSigges] = useState({});
   const [casosAUGE, setCasosAUGE] = useState([]);
+  const [camara, setCamara] = useState("TRASERA");
   const qrReaderRef = useRef(null);
   const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5vbWJyZSI6Ik1pZ3VlbCBIZXJuXHUwMGUxbmRleiBHb256XHUwMGUxbGV6IiwicnVuIjoiTkEiLCJtYWlsIjoibWlndWVsLmhlcm5hbmRlekBmb25hc2EuZ292LmNsIiwidXNlcm5hbWUiOiJtaWd1ZWwuaGVybmFuZGV6IiwidGlwb191c3VhcmlvIjoiTkEiLCJydXRfcHJlc3RhZG9yIjoiIiwiaW5zdGl0dWNpb24iOiIiLCJyb2xlcyI6W119LCJpYXQiOjE2NzIzMjc0NjAsImV4cCI6MTY3MjMzMTA2MCwiaXNzIjoiRm9uZG8gTmFjaW9uYWwgZGUgU2FsdWQifQ.WKq6_MvycrMMd_I3gyvkjW0JeNV52IBEbIdaD2Kb5vA"
   const url = "https://api.fonasa.cl/prd/wtc/ws-certificacion-trabajador/v2/certificacion-trabajador/"
@@ -149,10 +149,12 @@ function LectorQR() {
   }
 
   const cambiarCamara = () => {
-    if(modo.facingMode == "user"){
-      setModo(videoConstraintsTrasera)
-    }else{
-      setModo(videoConstraintsFrontal)
+    if (camara === "TRASERA") {
+      setCamara("FRONTAL");
+      setModo(videoConstraintsFrontal);
+    } else {
+      setCamara("TRASERA");
+      setModo(videoConstraintsTrasera);
     }
   }
 
@@ -177,7 +179,7 @@ function LectorQR() {
               <button className="btn btn-outline-danger rounded d-print-inline-flex mt-2 justify-content-center text-center " onClick={() => { setShowWebcam(false); limpiarDatos(); document.getElementById("fg").style.display = "none" }} id="botnCap3">
                 Cancelar
               </button>
-              <button className="btn btn-outline-primary rounded d-print-inline-flex mt-2 justify-content-center text-center " id="btn" onClick={cambiarCamara()}>
+              <button className="btn btn-outline-primary rounded d-print-inline-flex mt-2 justify-content-center text-center " id="btn" onClick={cambiarCamara}>
                 Cambiar cámara
               </button>
             </div>
