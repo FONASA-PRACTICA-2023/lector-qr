@@ -51,6 +51,7 @@ function LectorQR() {
   const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5vbWJyZSI6Ik1pZ3VlbCBIZXJuXHUwMGUxbmRleiBHb256XHUwMGUxbGV6IiwicnVuIjoiTkEiLCJtYWlsIjoibWlndWVsLmhlcm5hbmRlekBmb25hc2EuZ292LmNsIiwidXNlcm5hbWUiOiJtaWd1ZWwuaGVybmFuZGV6IiwidGlwb191c3VhcmlvIjoiTkEiLCJydXRfcHJlc3RhZG9yIjoiIiwiaW5zdGl0dWNpb24iOiIiLCJyb2xlcyI6W119LCJpYXQiOjE2NzIzMjc0NjAsImV4cCI6MTY3MjMzMTA2MCwiaXNzIjoiRm9uZG8gTmFjaW9uYWwgZGUgU2FsdWQifQ.WKq6_MvycrMMd_I3gyvkjW0JeNV52IBEbIdaD2Kb5vA"
   const url = "https://api.fonasa.cl/prd/wtc/ws-certificacion-trabajador/v2/certificacion-trabajador/"
   const urlsigges = "https://api.fonasa.cl/prd/osb/FrontInt_OSB_ServiciosExternos/RS_ConsultaSigges"
+  const [facingMode, setFacingMode] = useState("environment");
 
   useEffect(() => {
     document.getElementById("fg").style.display = "none"
@@ -76,6 +77,10 @@ function LectorQR() {
         setLoading(false);
       });
   };
+
+  const toggleCamera = () => {
+    setFacingMode(facingMode === "environment" ? "user" : "environment");
+  }
 
   const callDatosMedicos = (rut) => {
     setLoading(true);
@@ -144,13 +149,9 @@ function LectorQR() {
     }
   }
   const cambiarCamara = () => {
-    if (modo === "TRASERA") {
-      setCamara("FRONTAL");
-      setModo(videoConstraintsFrontal);
-    } else {
-      setCamara("TRASERA");
-      setModo(videoConstraintsTrasera);
-    }
+    setModo()
+      setFacingMode(modo === "videoConstraintsFrontal" ? "videoConstraintsTrasera" : "videoConstraintsFrontal");
+    
   };
 
   const handleError = (error) => {
@@ -161,13 +162,14 @@ function LectorQR() {
       <div className="container-camara rounded d-print-inline-flex justify-content-center text-center mt-2" style={{ width: "100%" }}>
         {showWebcam ? (
           <QrReader
-            delay={300}
-            ref={qrReaderRef}
-            videoConstraints={modo}
-            onError={handleError}
-            onScan={handleQrScan}
-            style={{ width: "100%", height: "100%" }}
-          />
+          ref={qrReaderRef}
+          delay={500}
+          style={{ width: '100%' }}
+          videoConstraints={modo}
+          onError={handleError}
+          onScan={handleQrScan}
+          facingMode={facingMode}
+        />
         ) : (
           <button className="btn btn-outline-primary rounded d-print-inline-flex mt-2 justify-content-center text-center " onClick={handleButtonClick} id="botnCap" style={{ width: "100%" }}><FaQrcode className="mr-2" />ESCANEAR QR</button>
         )}
@@ -177,9 +179,9 @@ function LectorQR() {
               <button className="btn btn-outline-danger rounded d-print-inline-flex mt-2 justify-content-center text-center " onClick={() => { setShowWebcam(false); limpiarDatos(); document.getElementById("fg").style.display = "none" }} id="botnCap3">
                 Cancelar
               </button>
-              {/* <button className="btn btn-outline-primary rounded d-print-inline-flex mt-2 justify-content-center text-center " id="btn" onClick={cambiarCamara}>
+              <button className="btn btn-outline-primary rounded d-print-inline-flex mt-2 justify-content-center text-center " id="btn" onClick={cambiarCamara}>
                 Girar cámara
-              </button> */}
+              </button>
             </div>
           )}
       </div>
