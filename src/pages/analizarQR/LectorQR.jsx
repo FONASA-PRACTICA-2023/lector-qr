@@ -4,7 +4,6 @@ import { FaQrcode } from 'react-icons/fa';
 import { BiUserCircle } from 'react-icons/bi';
 import swal from 'sweetalert';
 import { useEffect } from "react";
-import { FaSyncAlt } from 'react-icons/fa';
 
 const videoConstraintsFrontal = {
   width: 350,
@@ -52,12 +51,23 @@ function LectorQR() {
   const [casosAUGE, setCasosAUGE] = useState([]);
   const qrReaderRef = useRef(null);
   const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5vbWJyZSI6Ik1pZ3VlbCBIZXJuXHUwMGUxbmRleiBHb256XHUwMGUxbGV6IiwicnVuIjoiTkEiLCJtYWlsIjoibWlndWVsLmhlcm5hbmRlekBmb25hc2EuZ292LmNsIiwidXNlcm5hbWUiOiJtaWd1ZWwuaGVybmFuZGV6IiwidGlwb191c3VhcmlvIjoiTkEiLCJydXRfcHJlc3RhZG9yIjoiIiwiaW5zdGl0dWNpb24iOiIiLCJyb2xlcyI6W119LCJpYXQiOjE2NzIzMjc0NjAsImV4cCI6MTY3MjMzMTA2MCwiaXNzIjoiRm9uZG8gTmFjaW9uYWwgZGUgU2FsdWQifQ.WKq6_MvycrMMd_I3gyvkjW0JeNV52IBEbIdaD2Kb5vA"
-  const url = "https://api.fonasa.cl/FONASACertificacionTrabajadorREST/"
-  const urlsigges = "https://api.fonasa.cl/FonasaConsultaSigges"
+  const url = "https://api.fonasa.cl/prd/wtc/ws-certificacion-trabajador/v2/certificacion-trabajador/"
+  const urlsigges = "https://api.fonasa.cl/prd/osb/FrontInt_OSB_ServiciosExternos/RS_ConsultaSigges"
+  const [cameraActive, setCameraActive] = useState(false);
 
   useEffect(() => {
+    if (qrReaderRef.current) {
+      qrReaderRef.current
+        .scan()
+        .then((result) => {
+          setCameraActive(true);
+        })
+        .catch((err) => {
+          setCameraActive(false);
+        });
+    }
     document.getElementById("fg").style.display = "none"
-  }, []);
+  }, [qrReaderRef]);
 
   const callDatosPersonales = (rut) => {
     setLoading(true);
@@ -128,6 +138,7 @@ function LectorQR() {
     setInterval(true)
     limpiarDatos();
     document.getElementById("fg").style.display = "none"
+
   };
 
   function handleQrScan(result) {
@@ -162,11 +173,20 @@ function LectorQR() {
         ) : (
           <button className="btn btn-outline-primary rounded d-print-inline-flex mt-2 justify-content-center text-center " onClick={handleButtonClick} id="botnCap" style={{ width: "100%" }}><FaQrcode className="mr-2" />ESCANEAR QR</button>
         )}
-        <button onClick={() => setModo(modo === videoConstraintsTrasera ? videoConstraintsFrontal : videoConstraintsTrasera)}>
-          Cambiar cámara
-        </button>
+        {showWebcam &&
+          (
+            <div>
+              <button className="btn btn-outline-danger rounded d-print-inline-flex mt-2 justify-content-center text-center " onClick={() => { setShowWebcam(false); limpiarDatos(); document.getElementById("fg").style.display = "none" }} id="botnCap3">
+                Cancelar
+              </button>
+              <button className="btn btn-outline-primary rounded d-print-inline-flex mt-2 justify-content-center text-center " id="btn" onClick={() => setModo(modo === videoConstraintsTrasera ? videoConstraintsFrontal : videoConstraintsTrasera)}>
+                Cambiar cámara
+              </button>
+            </div>
+          )}
 
       </div>
+
 
       <div className="container-tabla d-print-none mt-2" style={{ height: "100%" }} id="fg" >
         <div className="card-body">
