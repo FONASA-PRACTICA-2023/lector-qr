@@ -1,35 +1,11 @@
 {
-  "inicial": "/registros",
+  "inicial": "/",
   "login": "/login",
   "logout": "/logout",
   "menu": [
     {
       "label": "LectorQR",
       "path": "/"
-    },
-    {
-      "label": "Crear Usuario",
-      "path": "/servicio-crear"
-    },
-    {
-      "label": "Asignar Roles",
-      "path": "/Roles"
-    },
-    {
-      "label": "Autorizaciones",
-      "path": "/RolesAut"
-    },
-    {
-      "label": "Multiprestador",
-      "path": "/RegistrosCredenciales"
-
-    },
-    {
-      "label": "Prueba",
-      "path": "/Prueba"
-
     }
-   
-   
   ]
 }
