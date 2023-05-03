@@ -135,7 +135,6 @@ function LectorQR() {
       setCaptura(result);
       setShowWebcam(false);
     }
-
     let rut = result.data.split("?")[1].split("&")[0].split("=")[1]
     setRutBuscado(rut);
     callDatosPersonales(rut);
@@ -147,18 +146,15 @@ function LectorQR() {
       document.getElementById("fg").style.display = "flex"
     }
   }
-
   const cambiarCamara = () => {
-    if (camara === "TRASERA") {
+    if (modo === "TRASERA") {
       setCamara("FRONTAL");
       setModo(videoConstraintsFrontal);
     } else {
       setCamara("TRASERA");
       setModo(videoConstraintsTrasera);
     }
-  }
-
-
+  };
   return (
     <div >
       <div className="container-camara rounded d-print-inline-flex justify-content-center text-center mt-2" style={{ width: "100%" }}>
@@ -179,15 +175,12 @@ function LectorQR() {
               <button className="btn btn-outline-danger rounded d-print-inline-flex mt-2 justify-content-center text-center " onClick={() => { setShowWebcam(false); limpiarDatos(); document.getElementById("fg").style.display = "none" }} id="botnCap3">
                 Cancelar
               </button>
-              <button className="btn btn-outline-primary rounded d-print-inline-flex mt-2 justify-content-center text-center " id="btn" onClick={cambiarCamara}>
-                Cambiar cámara
-              </button>
+              {/* <button className="btn btn-outline-primary rounded d-print-inline-flex mt-2 justify-content-center text-center " id="btn" onClick={cambiarCamara}>
+                Girar cámara
+              </button> */}
             </div>
           )}
-
       </div>
-
-
       <div className="container-tabla d-print-none mt-2" style={{ height: "100%" }} id="fg" >
         <div className="card-body">
           <table className="table mt-1" id="ss">
