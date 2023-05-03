@@ -20,8 +20,6 @@ const videoConstraintsTrasera = {
   frameRate: 60,
 };
 
-
-
 function LectorQR() {
 
 
@@ -38,14 +36,12 @@ function LectorQR() {
     setRutBuscado("");
     setCasosAUGE([]);
   }
-  const [camara, setCamara] = useState("TRASERA");
   const [usuarios, setUsuarios] = useState([]);
   const [captura, setCaptura] = useState("");
   const [loading, setLoading] = useState(false);
   const [porcentaje, setPorcentaje] = useState("");
   const [etiqueta, setEtiqueta] = useState("");
   const [modo, setModo] = useState(videoConstraintsTrasera);
-  const [frontal, setModoFrontal] = useState(videoConstraintsFrontal);
   const payload = { imagen: captura, file_name: "foto_evaluando.jpg" };
   const [labels, setLabels] = useState([]);
   const [estado, setEstado] = useState("");
@@ -56,13 +52,11 @@ function LectorQR() {
   const [casosAUGE, setCasosAUGE] = useState([]);
   const qrReaderRef = useRef(null);
   const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5vbWJyZSI6Ik1pZ3VlbCBIZXJuXHUwMGUxbmRleiBHb256XHUwMGUxbGV6IiwicnVuIjoiTkEiLCJtYWlsIjoibWlndWVsLmhlcm5hbmRlekBmb25hc2EuZ292LmNsIiwidXNlcm5hbWUiOiJtaWd1ZWwuaGVybmFuZGV6IiwidGlwb191c3VhcmlvIjoiTkEiLCJydXRfcHJlc3RhZG9yIjoiIiwiaW5zdGl0dWNpb24iOiIiLCJyb2xlcyI6W119LCJpYXQiOjE2NzIzMjc0NjAsImV4cCI6MTY3MjMzMTA2MCwiaXNzIjoiRm9uZG8gTmFjaW9uYWwgZGUgU2FsdWQifQ.WKq6_MvycrMMd_I3gyvkjW0JeNV52IBEbIdaD2Kb5vA"
-  const url = "https://api.fonasa.cl/prd/wtc/ws-certificacion-trabajador/v2/certificacion-trabajador/"
-  const urlsigges = "https://api.fonasa.cl/prd/osb/FrontInt_OSB_ServiciosExternos/RS_ConsultaSigges"
+  const url = "https://api.fonasa.cl/FONASACertificacionTrabajadorREST/"
+  const urlsigges = "https://api.fonasa.cl/FonasaConsultaSigges"
 
   useEffect(() => {
     document.getElementById("fg").style.display = "none"
-    document.getElementById("botnCap2").style.display = "none"
-
   }, []);
 
   const callDatosPersonales = (rut) => {
@@ -134,7 +128,6 @@ function LectorQR() {
     setInterval(true)
     limpiarDatos();
     document.getElementById("fg").style.display = "none"
-    document.getElementById("botnCap2").style.display = "flex"
   };
 
   function handleQrScan(result) {
@@ -155,15 +148,6 @@ function LectorQR() {
     }
   }
 
-  const cambiarCamara = () => {
-    if (modo == videoConstraintsTrasera) {
-      setModo(frontal);
-    } else {
-      setModo(videoConstraintsTrasera);
-    }
-  };
-
- 
   return (
     <div >
       <div className="container-camara rounded d-print-inline-flex justify-content-center text-center mt-2" style={{ width: "100%" }}>
@@ -178,23 +162,27 @@ function LectorQR() {
         ) : (
           <button className="btn btn-outline-primary rounded d-print-inline-flex mt-2 justify-content-center text-center " onClick={handleButtonClick} id="botnCap" style={{ width: "100%" }}><FaQrcode className="mr-2" />ESCANEAR QR</button>
         )}
-        {/* boton para cambiar camara */}
-        <button className="btn btn-outline-primary rounded d-print-inline-flex mt-2 justify-content-center text-center " onClick={cambiarCamara} id="botnCap2" style={{ width: "100%" }} ><FaSyncAlt className="mr-2" />CAMBIAR CAMARA</button>
+        <button onClick={() => setModo(modo === videoConstraintsTrasera ? videoConstraintsFrontal : videoConstraintsTrasera)}>
+          Cambiar cámara
+        </button>
+
       </div>
 
       <div className="container-tabla d-print-none mt-2" style={{ height: "100%" }} id="fg" >
         <div className="card-body">
           <table className="table mt-1" id="ss">
             <tbody>
-              <ul className="list-group" >
-                <li className="list-group-item active" aria-current="true" ><BiUserCircle className="mr-1 fs-5" />Datos Afiliado</li>
-                <li className="list-group-item">Nombre: {datosPersonales.nombres}</li>
-                <li className="list-group-item">Apellidos: {datosPersonales.apellidoPaterno}<span>  </span>{datosPersonales.apellidoMaterno}</li>
-                <li className="list-group-item">Dirección: {datosPersonales.direccionPaciente}</li>
-                <li className="list-group-item">Comuna: {datosPersonales.glosaComuna}</li>
-                <li className="list-group-item">Rut: {rutBuscado}</li>
-                <li className="list-group-item">Sexo: {datosPersonales.sexo}</li>
-              </ul>
+              <tr>
+                <ul className="list-group" >
+                  <li className="list-group-item active" aria-current="true" ><BiUserCircle className="mr-1 fs-5" />Datos Afiliado</li>
+                  <li className="list-group-item">Nombre: {datosPersonales.nombres}</li>
+                  <li className="list-group-item">Apellidos: {datosPersonales.apellidoPaterno}<span>  </span>{datosPersonales.apellidoMaterno}</li>
+                  <li className="list-group-item">Dirección: {datosPersonales.direccionPaciente}</li>
+                  <li className="list-group-item">Comuna: {datosPersonales.glosaComuna}</li>
+                  <li className="list-group-item">Rut: {rutBuscado}</li>
+                  <li className="list-group-item">Sexo: {datosPersonales.sexo}</li>
+                </ul>
+              </tr>
             </tbody>
           </table>
         </div>
