@@ -3,6 +3,7 @@ import LayoutFonasa from "./components/LayoutFonasa";
 import LayoutPublico from "./components/LayoutPublico";
 import { AuthProvider } from "./hooks/useAuth";
 import LectorQR from "./pages/analizarQR/LectorQR";
+import Prueba from "./pages/analizarQR/prueba";
 function AplicacionSnoopy() {
   return (
     <BrowserRouter>
@@ -12,6 +13,10 @@ function AplicacionSnoopy() {
           <Route
               path="/"
               element={<LectorQR />}
+            />
+            <Route
+              path="/prueba"
+              element={<Prueba />}
             />
           </Route>
           <Route element={<LayoutFonasa />}>
