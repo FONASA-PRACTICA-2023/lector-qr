@@ -20,8 +20,6 @@ const videoConstraintsTrasera = {
 };
 
 function LectorQR() {
-
-
   const limpiarDatos = () => {
 
     setUsuarios([]);
@@ -127,7 +125,6 @@ function LectorQR() {
     setInterval(true)
     limpiarDatos();
     document.getElementById("fg").style.display = "none"
-
   };
 
   function handleQrScan(result) {
@@ -155,6 +152,10 @@ function LectorQR() {
       setModo(videoConstraintsTrasera);
     }
   };
+
+  const handleError = (error) => {
+    console.log(error);
+  };
   return (
     <div >
       <div className="container-camara rounded d-print-inline-flex justify-content-center text-center mt-2" style={{ width: "100%" }}>
@@ -163,6 +164,7 @@ function LectorQR() {
             delay={300}
             ref={qrReaderRef}
             videoConstraints={modo}
+            onError={handleError}
             onScan={handleQrScan}
             style={{ width: "100%", height: "100%" }}
           />
