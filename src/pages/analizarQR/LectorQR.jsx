@@ -168,6 +168,8 @@ function LectorQR() {
                     <li className="list-group-item">Comuna: {datosPersonales.glosaComuna}</li>
                     <li className="list-group-item">Rut: {rutBuscado}</li>
                     <li className="list-group-item">Sexo: {datosPersonales.sexo}</li>
+                    <li className="list-group-item">Tramo: {datosPersonales.grupoIngreso}</li>
+                    <li className="list-group-item">Glosa: {datosPersonales.glosa}</li>
                   </ul>
                 </td>
 
