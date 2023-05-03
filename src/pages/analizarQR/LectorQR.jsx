@@ -53,21 +53,10 @@ function LectorQR() {
   const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Im5vbWJyZSI6Ik1pZ3VlbCBIZXJuXHUwMGUxbmRleiBHb256XHUwMGUxbGV6IiwicnVuIjoiTkEiLCJtYWlsIjoibWlndWVsLmhlcm5hbmRlekBmb25hc2EuZ292LmNsIiwidXNlcm5hbWUiOiJtaWd1ZWwuaGVybmFuZGV6IiwidGlwb191c3VhcmlvIjoiTkEiLCJydXRfcHJlc3RhZG9yIjoiIiwiaW5zdGl0dWNpb24iOiIiLCJyb2xlcyI6W119LCJpYXQiOjE2NzIzMjc0NjAsImV4cCI6MTY3MjMzMTA2MCwiaXNzIjoiRm9uZG8gTmFjaW9uYWwgZGUgU2FsdWQifQ.WKq6_MvycrMMd_I3gyvkjW0JeNV52IBEbIdaD2Kb5vA"
   const url = "https://api.fonasa.cl/prd/wtc/ws-certificacion-trabajador/v2/certificacion-trabajador/"
   const urlsigges = "https://api.fonasa.cl/prd/osb/FrontInt_OSB_ServiciosExternos/RS_ConsultaSigges"
-  const [cameraActive, setCameraActive] = useState(false);
 
   useEffect(() => {
-    if (qrReaderRef.current) {
-      qrReaderRef.current
-        .scan()
-        .then((result) => {
-          setCameraActive(true);
-        })
-        .catch((err) => {
-          setCameraActive(false);
-        });
-    }
     document.getElementById("fg").style.display = "none"
-  }, [qrReaderRef]);
+  }, []);
 
   const callDatosPersonales = (rut) => {
     setLoading(true);
@@ -159,6 +148,15 @@ function LectorQR() {
     }
   }
 
+  const cambiarCamara = () => {
+    if(modo.facingMode == "user"){
+      setModo(videoConstraintsTrasera)
+    }else{
+      setModo(videoConstraintsFrontal)
+    }
+  }
+
+
   return (
     <div >
       <div className="container-camara rounded d-print-inline-flex justify-content-center text-center mt-2" style={{ width: "100%" }}>
@@ -179,7 +177,7 @@ function LectorQR() {
               <button className="btn btn-outline-danger rounded d-print-inline-flex mt-2 justify-content-center text-center " onClick={() => { setShowWebcam(false); limpiarDatos(); document.getElementById("fg").style.display = "none" }} id="botnCap3">
                 Cancelar
               </button>
-              <button className="btn btn-outline-primary rounded d-print-inline-flex mt-2 justify-content-center text-center " id="btn" onClick={() => setModo(modo === videoConstraintsTrasera ? videoConstraintsFrontal : videoConstraintsTrasera)}>
+              <button className="btn btn-outline-primary rounded d-print-inline-flex mt-2 justify-content-center text-center " id="btn" onClick={cambiarCamara()}>
                 Cambiar cámara
               </button>
             </div>
