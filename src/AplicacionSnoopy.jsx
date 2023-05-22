@@ -5,6 +5,7 @@ import { AuthProvider } from "./hooks/useAuth";
 import LectorQR from "./pages/analizarQR/LectorQR";
 import Logout from "./pages/Logout";
 import FormularioLogin from "./pages/login/FormularioLogin";
+import Lector from "./pages/analizarQR/Lector2";
 function AplicacionSnoopy() {
   return (
     <BrowserRouter>
@@ -12,6 +13,10 @@ function AplicacionSnoopy() {
         <Routes>
           <Route element={<LayoutPublico />}>
             <Route path="/login" element={<FormularioLogin />} />
+            <Route
+              path="/lector2"
+              element={<Lector />}
+            />
 
             <Route path="/logout" element={<Logout />} />
 
