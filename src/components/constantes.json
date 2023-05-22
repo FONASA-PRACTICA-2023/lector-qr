@@ -1,5 +1,7 @@
 {
-  "inicial": "/",
+  "inicial": "/lector",
+  "login": "/login",
+  "logout": "/logout",
   "menu": [
     {
       "label": "LectorQR",

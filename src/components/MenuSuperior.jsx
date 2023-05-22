@@ -5,9 +5,9 @@ import logoFonasa from "../assets/logo-fonasa.svg";
 import constantes from "./constantes.json";
 function MenuSuperior({ user }) {
   return (
-    <header className="sticky-top" >
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark" >
-        <div className="container" >
+    <header className="sticky-top">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div className="container">
           <Link className="navbar-brand" to="/">
             <img
               src={logoFonasa}
@@ -39,7 +39,7 @@ function MenuSuperior({ user }) {
                         to={item.path}
                         replace={true}
                         className="nav-link"
-                      >
+                        >
                         {item.label}
                       </NavLink>
                     </li>
@@ -47,7 +47,7 @@ function MenuSuperior({ user }) {
                 </ul>
 
                 <div className="nav navbar-nav navbar-right hidden-xs text-light">
-                  <span className="pull-left user-top">
+                  <span className ="pull-left user-top">
                     <p className="mT10 ng-binding ng-scope">
                       <span className="fw-semibold">Bienvenido/a, </span>
                       {user.nombre}

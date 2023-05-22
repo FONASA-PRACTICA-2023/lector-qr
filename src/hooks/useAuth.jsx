@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     var decoded = await jwt_decode(usuarioLogeadoData.token);
     console.log("LEYENDO TOKEN");
     await setUser(decoded.payload);
-    navigate("/registros", { replace: true });
+    navigate("/lector", { replace: true });
   };
 
   const usuario_jwt = () => {

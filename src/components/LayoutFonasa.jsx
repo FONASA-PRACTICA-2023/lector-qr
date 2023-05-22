@@ -8,8 +8,7 @@ import constantes from "./constantes.json";
 function LayoutFonasa() {
   const outlet = useOutlet();
   const { usuario_jwt } = useAuth();
-  // console.log("decodificado", usuario_jwt());
-  
+  console.log("decodificado", usuario_jwt());
 
   if (!usuario_jwt()) {
     return <Navigate to={constantes.logout} />;
@@ -19,7 +18,7 @@ function LayoutFonasa() {
     <>
       <MenuSuperior user={usuario_jwt()} />
 
-      <main className="container h-100" >{outlet}</main>
+      <main className="container h-100">{outlet}</main>
     </>
   );
 }
